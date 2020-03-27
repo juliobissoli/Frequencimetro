@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Frequencimetro from '../views/Frequencimetro'
+// import Frequencimetro from '../views/Frequencimetro'
 import FrequencimetroRouter from './frequencimetro'
+import Login from '../views/Lgin'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Frequencimetro
+    name: 'Login',
+    component: Login
   }
 ]
 routes.push(FrequencimetroRouter)

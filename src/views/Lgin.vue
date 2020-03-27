@@ -1,28 +1,30 @@
 <template>
-  <div class="container-fluid login-page">
-    <div class="row">
-      <div class="col-md-9 bg-conceptho"></div>
-      <div class="col-md-3 login-container d-flex align-items-center">
-        <div class="login-form">
+  <div class="login-page">
+    <div class="d-flex align-items-center justify-content-center">
+      <div class="col-md-3 login-container">
+        <div class="row logo mb-3">
+          <i class="col-12 far fa-clock text-center"></i>
+          <span class="col-12 text-center">Frequncimetro</span>
+        </div>
+        <div class="login-form p-4">
           <form>
             <div class="form-group">
               <label for="input-email">E-mail</label>
-              <input type="email" v-model="email" class="form-control" id="input-email" aria-describedby="emailHelp">
-              <small id="emailHelp" class="form-text text-danger d-none">Aqui pode aparecer uma mensagem de erro de login</small>
+              <input
+                type="email"
+                v-model="email"
+                class="form-control"
+                id="input-email"
+                aria-describedby="emailHelp"
+              />
             </div>
             <div class="form-group">
-              <label for="input-password">Password</label>
-              <input type="password"  v-model='password' class="form-control" id="input-password">
+              <label for="input-password">Senha</label>
+              <input type="password" v-model="password" class="form-control" id="input-password" />
             </div>
-            <div class="form-group form-check">
-              <input type="checkbox" class="form-check-input" id="input-check-keep-logged">
-              <label class="form-check-label" for="input-check-keep-logged">Manter conectado</label>
-            </div>
-            <button  @click.prevent="login" class="btn btn-secondary btn-block">Entrar</button>
+            <button @click.prevent="login" class="btn btn-secondary btn-block">Entrar</button>
           </form>
-          <div v-show="mensagemError" class="alert alert-danger mt-3" role="alert">
-            Falha no login!!
-          </div>
+          <div v-show="mensagemError" class="alert alert-danger mt-3" role="alert">{{mensagemError}}</div>
         </div>
       </div>
     </div>
@@ -30,65 +32,83 @@
 </template>
 <script>
 // import auth from '../utils/auth'
-
 export default {
-  data () {
+  data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       isLogged: false,
-      mensagemError: false
-    }
+      mensagemError: ''
+    };
   },
   methods: {
-      login(){
-          console.log('clico')
+    login() {
+      const validateEmail = require('validate-email-node-js');
+      if(validateEmail.validate(this.email)){
+        console.log( 'vai')
       }
-//     async login () {
-//       this.isLogged = await auth.login(this.email, this.password)
-//       if (this.isLogged) {
-//         if (this.$route.query && this.$route.query.redirect) {
-//           this.$router.push(this.$route.query.redirect)
-//         } else {
-//           this.$router.push({ name: 'Campaign' })
-//         }
-//       } else this.mensagemError = true
-//     }
-//   }
-}
+      else {
+        this.mensagemError = 'E-mail invalido'
+      }
+    }
+  }
+  //     async login () {
+  //       this.isLogged = await auth.login(this.email, this.password)
+  //       if (this.isLogged) {
+  //         if (this.$route.query && this.$route.query.redirect) {
+  //           this.$router.push(this.$route.query.redirect)
+  //         } else {
+  //           this.$router.push({ name: 'Campaign' })
+  //         }
+  //       } else this.mensagemError = true
+  //     }
+  //   }
+};
 </script>
 <style lang="scss">
 // @import "../assets/styles/bootstrap";
 .login-page {
-  background-color: #f7f7f7;
-}
-.bg-conceptho {
-//   background-image: url("../assets/img/bg-conceptho.jpg");
-  background-size: cover;
-  background-position: center center;
+  background-color: #f8f9fa;
   height: 100vh;
-  filter: grayscale(25%) blur(0);
-  transition: filter 3s;
-  &:hover {
-    filter: grayscale(100%) blur(3px);
+}
+.logo {
+  i {
+    font-size: 35px;
   }
+  span {
+    font-size: 20px;
+  }
+  color: #666;
+  font-family: -apple-system, Roboto, BlinkMacSystemFont, "Segoe UI", Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
+// .bg-conceptho {
+// //   background-image: url("../assets/img/bg-conceptho.jpg");
+//   background-size: cover;
+//   background-position: center center;
+//   height: 100vh;
+//   filter: grayscale(25%) blur(0);
+//   transition: filter 3s;
+//   &:hover {
+//     filter: grayscale(100%) blur(3px);
+//   }
+// }
 .login-container {
-  height: 100vh;
+  margin-top: 20vh;
 }
 .login-form {
-  @extend .p-4;
   width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
   label {
-    @extend .text-muted;
   }
   input {
     border-radius: 0;
     background-color: rgba(255, 255, 255, 0);
   }
   button {
-    &[type=submit] {
-      @extend .px-5;
+    &[type="submit"] {
     }
   }
 }
