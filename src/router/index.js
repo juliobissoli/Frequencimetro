@@ -1,63 +1,41 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Auth from "../utils/auth";
 // import Frequencimetro from '../views/Frequencimetro'
-import FrequencimetroRouter from './frequencimetro'
-import Login from '../views/Lgin'
+import FrequencimetroRouter from "./frequencimetro";
+import Login from "../views/Login";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Login',
+    path: "/",
+    name: "Login",
     component: Login
   }
-]
-routes.push(FrequencimetroRouter)
+];
+routes.push(FrequencimetroRouter);
 const router = new VueRouter({
   routes
-})
-
-export default router
-
-
-
-// import Vue from 'vue'
-// import VueRouter from 'vue-router'
-// import Auth from '../utils/auth'
-// import Login from '../views/Login'
-// import FrequencimetroRouter from './frequencimetro'
-
-
-// Vue.use(VueRouter)
-
-// const routes = [
-//   {
-//     path: '/login',
-//     name: 'Login',
-//     component: Login
-//   }
-// ]
-// routes.push(FrequencimetroRouter)
-
-// const router = new VueRouter({
-//   mode: 'history',
-//   base: process.env.BASE_URL,
-//   linkExactActiveClass: 'active',
-//   routes
-// })
+});
 
 // router.beforeEach((to, from, next) => {
+//   console.log("ta aquiiiiii->", Auth.loggedIn())
 //   if (to.matched.some(record => record.meta.requiresAuth) && !Auth.loggedIn()) {
+//     console.log('era pra voltar pro login')
 //     next({
-//       path: '/login',
+//       path: '/',
 //       query: { redirect: to.fullPath }
 //     })
 //   } else if (to.matched.some(record => record.name === 'Login') && Auth.loggedIn()) {
-//     next({ name: 'Campaign' })
+//     console.log("ta errado")
+//     next({ name: 'Users' })
 //   } else {
 //     next()
 //   }
 // })
-
-// export default router
+router.beforeEach((to, from, next) => {
+  if (to.name !== "Login" && !Auth.loggedIn()) next({ name: "Login" });
+  else next();
+});
+export default router;

@@ -20,49 +20,56 @@
             </div>
             <div class="form-group">
               <label for="input-password">Senha</label>
-              <input type="password" v-model="password" class="form-control" id="input-password" />
+              <input
+                type="password"
+                v-model="password"
+                class="form-control"
+                id="input-password"
+              />
             </div>
-            <button @click.prevent="login" class="btn btn-secondary btn-block">Entrar</button>
+            <button @click.prevent="login" class="btn btn-secondary btn-block">
+              Entrar
+            </button>
           </form>
-          <div v-show="mensagemError" class="alert alert-danger mt-3" role="alert">{{mensagemError}}</div>
+          <div
+            v-show="mensagemError"
+            class="alert alert-danger mt-3"
+            role="alert"
+          >
+            {{ mensagemError }}
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-// import auth from '../utils/auth'
+import auth from "../utils/auth";
 export default {
   data() {
     return {
       email: "",
       password: "",
       isLogged: false,
-      mensagemError: ''
+      mensagemError: ""
     };
   },
+
   methods: {
-    login() {
-      const validateEmail = require('validate-email-node-js');
-      if(validateEmail.validate(this.email)){
-        console.log( 'vai')
-      }
-      else {
-        this.mensagemError = 'E-mail invalido'
+    async login() {
+      console.log(auth.loggedIn())
+      const isLogeed = await auth.login(this.email, this.password);
+      if (isLogeed) {
+        if (this.$route.query && this.$route.query.redirect) {
+          this.$router.push(this.$route.query.redirect);
+        } else {
+          this.$router.push({ name: "Users" });
+        }
+      } else {
+        this.mensagemError = "Erro na altenticação :(";
       }
     }
   }
-  //     async login () {
-  //       this.isLogged = await auth.login(this.email, this.password)
-  //       if (this.isLogged) {
-  //         if (this.$route.query && this.$route.query.redirect) {
-  //           this.$router.push(this.$route.query.redirect)
-  //         } else {
-  //           this.$router.push({ name: 'Campaign' })
-  //         }
-  //       } else this.mensagemError = true
-  //     }
-  //   }
 };
 </script>
 <style lang="scss">
