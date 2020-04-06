@@ -1,15 +1,25 @@
 <template>
-  <div class="bar_top">
-    <h3>Alunos</h3>
-    <div class="search-input">
+  <div class="bar_top ">
+    <h3 v-show="title" >{{title}}</h3>
+    <div v-show="input" class="search-input mb-1">
       <input type="text" placeholder="Buscar..." class="form-control" />
     </div>
+    <button v-show="btn" @click="btnClicked()" class="btn mb-1" :class="btn.class">
+      {{btn.label}}
+    </button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "BarTop"
+  name: "BarTop",
+  props: ['title', 'input', 'btn'],
+  methods: {
+    btnClicked (){
+      console.log("cnascouinsacin")
+      this.$emit('button-clicked')
+    }
+  }
 };
 </script>
 
@@ -29,6 +39,7 @@ export default {
 
   .search-input {
     position: relative;
+    margin-bottom: 5px;
     input {
       //   border: none;
       //   height: 30px;
@@ -36,7 +47,7 @@ export default {
       //   color: #f1f1f1f1;
       border: 1px;
       border-bottom: 1px solid #ccc;
-      background: #f8f9fa;
+      background: transparent;
       width: 25vw;
       height: 30px;
       font-size: 18px;

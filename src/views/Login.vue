@@ -6,7 +6,7 @@
           <img src="../assets/logo.svg" class="logo_img" />
           <span class="col-12 text-center">Frequencimetro</span>
         </div>
-        <div class="login-form p-4">
+        <div class="login-form p-3">
           <form>
             <div class="form-group">
               <label for="input-email">E-mail</label>
@@ -27,7 +27,7 @@
                 id="input-password"
               />
             </div>
-            <button @click.prevent="login" class="btn btn-secondary btn-block">
+            <button @click.prevent="login" class="btn btn-success btn-block">
               Entrar
             </button>
           </form>
