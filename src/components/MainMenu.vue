@@ -2,8 +2,8 @@
   <div class="menu">
     <div class="header">
       <div class="logo mb-4 mt-2">
-        <i class="fas fa-stopwatch" style="font-size: 34px"></i>
-        <h6 class="mt-1">Frequencimetro</h6>
+      <img src='../assets/logo.svg' class="logo_img">
+        <span class="mt-1">Frequencimetro</span>
       </div>
 
       <div class="side_bar">
@@ -42,7 +42,6 @@
 <script>
 // import Avatar from "./Avatar";
 import auth from "../utils/auth";
-
 export default {
   name: "MainMenu",
   // components: { Avatar },
@@ -71,6 +70,10 @@ export default {
   flex-direction: column;
   align-content: stretch;
 }
+.logo_img{
+  height: 8vh;
+  width: 8vw;
+}
 .logo {
   display: flex;
   width: 100%;
@@ -80,6 +83,8 @@ export default {
   font-weight: 100;
   padding: 5px;
   color: #ffff;
+  font-size: 15px;
+
 }
 .header {
   width: 100%;

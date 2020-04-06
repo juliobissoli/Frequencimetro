@@ -1,10 +1,10 @@
 <template>
   <div class="login-page">
     <div class="d-flex align-items-center justify-content-center">
-      <div class="col-md-3 login-container">
+      <div class="col-md-3 login-container p-0">
         <div class="row logo mb-3">
-          <i class="col-12 far fa-clock text-center"></i>
-          <span class="col-12 text-center">Frequncimetro</span>
+          <img src="../assets/logo.svg" class="logo_img" />
+          <span class="col-12 text-center">Frequencimetro</span>
         </div>
         <div class="login-form p-4">
           <form>
@@ -57,7 +57,7 @@ export default {
 
   methods: {
     async login() {
-      console.log(auth.loggedIn())
+      console.log(auth.loggedIn());
       const isLogeed = await auth.login(this.email, this.password);
       if (isLogeed) {
         if (this.$route.query && this.$route.query.redirect) {
@@ -72,46 +72,45 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 // @import "../assets/styles/bootstrap";
 .login-page {
-  background-color: #f8f9fa;
+  // background-color: #f8f9fa;
   height: 100vh;
+  background-color: #282733;
+
 }
 .logo {
-  i {
-    font-size: 35px;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  font-weight: 100;
+  img {
+    margin-top: 10px;
+    height: 100px;
+    width: 100px;
   }
   span {
     font-size: 20px;
   }
-  color: #666;
-  font-family: -apple-system, Roboto, BlinkMacSystemFont, "Segoe UI", Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
-// .bg-conceptho {
-// //   background-image: url("../assets/img/bg-conceptho.jpg");
-//   background-size: cover;
-//   background-position: center center;
-//   height: 100vh;
-//   filter: grayscale(25%) blur(0);
-//   transition: filter 3s;
-//   &:hover {
-//     filter: grayscale(100%) blur(3px);
-//   }
-// }
+
 .login-container {
-  margin-top: 20vh;
+  margin-top: 5vh;
+  background-color: #282733;
+   border-radius: 0.25rem;
+   border: 1px solid #6AD943;
 }
 .login-form {
   width: 100%;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
+  // background-color: #fff;
+  
   label {
+    color: #fff;
   }
   input {
     border-radius: 0;
+    color: #fff;
     background-color: rgba(255, 255, 255, 0);
   }
   button {
