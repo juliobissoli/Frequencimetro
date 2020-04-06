@@ -22,7 +22,7 @@
 <script>
 import MainMenu from '../components/MainMenu'
 export default {
-    name: 'Frequncimentro',
+    name: 'Frequencimentro',
 components: {MainMenu}
 }
 </script>
@@ -38,7 +38,8 @@ components: {MainMenu}
 .menu {
   width: 10vw;
   height: 100vh;
-  background-color:#eef1f3;
+  // background-color:#eef1f3;
+  // background-color: #69237a
   border-right: 1px solid #f1f1f1;
 //   -webkit-box-shadow: -1px 11px 46px -21px rgba(87, 87, 87, 1);
 //   -moz-box-shadow: -1px 11px 46px -21px rgba(87, 87, 87, 1);
