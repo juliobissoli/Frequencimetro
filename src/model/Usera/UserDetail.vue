@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ModalDelete v-show="modalDeleteVisible" :item="student" @close="modalDeleteVisible = false" />
     <BarTop
       class="mb-2"
       :title="'Aluno: ' + student.name"
@@ -178,7 +179,7 @@
           </div>
           <div v-show="isEdtiMode" class="row">
             <div class="col-12 d-flex justify-content-between">
-              <button class="btn btn-outline-danger btn-sm">
+              <button class="btn btn-outline-danger btn-sm" @click="modalDeleteVisible = true">
                 Remover aluno
               </button>
               <button class="btn btn-primary btn-sm" @click="updateStudent()">
@@ -196,13 +197,15 @@
 import Multiselect from "vue-multiselect";
 import api from "../../services/api";
 import BarTop from "../../components/BarTop";
+import ModalDelete from '../../components/Student/ModalDelit'
 
 export default {
   name: "UserDetail",
   props: ["item"],
-  components: { Multiselect, BarTop },
+  components: { Multiselect, BarTop, ModalDelete },
   data() {
     return {
+      modalDeleteVisible: false,
       isEdtiMode: false,
       mensageError: "",
       student: {
@@ -265,7 +268,9 @@ export default {
           return a + ", " + b;
         });
     },
+    deleteStudent(){
 
+    },
     async putStudent(body) {
       console.log(body);
       try {
