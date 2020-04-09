@@ -63,7 +63,7 @@ export default {
         if (this.$route.query && this.$route.query.redirect) {
           this.$router.push(this.$route.query.redirect);
         } else {
-          this.$router.push({ name: "Users" });
+          this.$router.push({ name: "Students" });
         }
       } else {
         this.mensagemError = "Erro na altenticação :(";

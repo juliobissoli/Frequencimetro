@@ -1,11 +1,6 @@
 import Frequencimetro from '../views/Frequencimetro'
-import usersRouter from './users' 
+import studentRouter from './student' 
 import balanceRouter from './balance'
-// import constructionRoutr from './construction'
-// import calendarRouter from './calendar'
-// import balanceRouter from './balance'
-// import deshboardRouter from './deshboard'
-
 
 const FrequencimetroRouter = {
   path: '/',
@@ -14,13 +9,9 @@ const FrequencimetroRouter = {
   children: []
 }
 
-FrequencimetroRouter.children.push(usersRouter)
+FrequencimetroRouter.children.push(studentRouter)
 FrequencimetroRouter.children.push(balanceRouter)
 
-
-// BackofficeRouter.children.push(calendarRouter)
-// BackofficeRouter.children.push(balanceRouter)
-// BackofficeRouter.children.push(deshboardRouter)
 
 
 export default FrequencimetroRouter

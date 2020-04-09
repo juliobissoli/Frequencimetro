@@ -1,30 +1,22 @@
 <template>
   <div class="app">
     <div class="menu">
-        <MainMenu />
+      <MainMenu />
     </div>
-    <div class="main bg-light">
-      <!-- <div class="bar_top p-2">
-        <input type="text" placeholder="Buscar" />
-        <div class="m-2 bg-light">
-          <span>Marcelo Frerreira</span>
-         <i class="ml-2 far fa-user-circle" style="font-size:24px"></i>
-        </div>
-      
-      </div> -->
-      <div class="p-4 activitie-area">
-        <router-view class="" />
+    <div class="main bg-light activitie-area">
+      <div class="p-4 ">
+        <router-view />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import MainMenu from '../components/MainMenu'
+import MainMenu from "../components/MainMenu";
 export default {
-    name: 'Frequencimentro',
-components: {MainMenu}
-}
+  name: "Frequencimentro",
+  components: { MainMenu },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -40,7 +32,7 @@ components: {MainMenu}
   height: 100vh;
   border-right: 1px solid #f1f1f1;
 }
-.activitie-area{
+.activitie-area {
   overflow-x: auto;
 }
 </style>

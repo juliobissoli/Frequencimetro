@@ -2,7 +2,7 @@
   <div class="bar_top ">
     <h3 v-show="title" >{{title}}</h3>
     <div v-show="input" class="search-input mb-1">
-      <input type="text" placeholder="Buscar..." class="form-control" />
+      <input type="text" :placeholder="placeholder" class="form-control" />
     </div>
     <button v-show="btn" @click="btnClicked()" class="btn mb-1" :class="btn.class">
       {{btn.label}}
@@ -13,7 +13,7 @@
 <script>
 export default {
   name: "BarTop",
-  props: ['title', 'input', 'btn'],
+  props: ['title', 'input', 'btn', 'placeholder'],
   methods: {
     btnClicked (){
       console.log("cnascouinsacin")
@@ -45,12 +45,12 @@ export default {
       //   height: 30px;
       //   padding-right: 25px;
       //   color: #f1f1f1f1;
-      border: 1px;
-      border-bottom: 1px solid #ccc;
+      border-radius: 1rem;
+      border: 1px solid #ccc;
       background: transparent;
       width: 25vw;
       height: 30px;
-      font-size: 18px;
+      font-size: 15px;
       border-radius: 0;
       padding-left: 10px;
     }
@@ -62,7 +62,7 @@ export default {
       font-family: "Font Awesome 5 Free";
       content: "\f002";
       font-weight: 900;
-      right: 10px;
+      right: 13px;
       top: 3px;
       color: #555;
     }

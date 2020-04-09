@@ -7,7 +7,7 @@
       </div>
 
       <div class="side_bar">
-        <router-link :to="{ name: 'Users' }" class="side_bar_item">
+        <router-link :to="{ name: 'Students' }" class="side_bar_item">
           <i class="fas fa-users mr-2"></i>
           <span>Usuarios</span>
         </router-link>
