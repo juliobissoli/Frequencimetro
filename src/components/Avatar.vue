@@ -11,10 +11,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 45px;
-    width: 45px;
+    height: 30px;
+    width: 30px;
     color: #aaa;
-    font-size: 24px;
+    font-size: 18px;
     border: 2px solid #ccc 
 }
 </style>
