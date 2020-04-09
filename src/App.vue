@@ -6,7 +6,6 @@
 
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Karla|Lato&display=swap");
-
 body {
   margin: 0;
   padding: 0;

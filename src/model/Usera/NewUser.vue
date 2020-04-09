@@ -27,14 +27,22 @@
                 <div class="form-group col-md-8">
                   <label>Nome</label>
                   <div class="input-group input-group">
-                    <input class="form-control" placeholder="Nome do aluno" />
+                    <input
+                      v-model="student.name"
+                      class="form-control"
+                      placeholder="Nome do aluno"
+                    />
                   </div>
                 </div>
 
                 <div class="form-group col-md-4">
                   <label>CPF</label>
                   <div class="input-group input-group">
-                    <input class="form-control" placeholder="CPF" />
+                    <input
+                      v-model="student.cpf"
+                      class="form-control"
+                      placeholder="CPF"
+                    />
                   </div>
                 </div>
               </div>
@@ -42,30 +50,40 @@
                 <div class="form-group col-md-8">
                   <label>Email</label>
                   <div class="input-group input-group">
-                    <input class="form-control" placeholder="emial" />
+                    <input
+                      v-model="student.email"
+                      class="form-control"
+                      placeholder="emial"
+                    />
                   </div>
                 </div>
 
                 <div class="col-md-4 form-group">
                   <label>Telefone</label>
                   <div class="input-group input-group">
-                    <input class="form-control" placeholder="(99)99999999" />
+                    <input
+                      v-model="student.telephone"
+                      class="form-control"
+                      placeholder="(99)99999999"
+                    />
                   </div>
                 </div>
               </div>
               <div class="row">
-                <div class="form-group col-md-6">
-                  <label>Mpdalidade</label>
-                  <select class="form-control">
-                    <option>Musculação</option>
-                    <option>Pilates</option>
-                    <option>Funcional</option>
-                  </select>
+                <div class="form-group col-md-8">
+                  <label>Endereço</label>
+                  <div class="input-group input-group">
+                    <input
+                      v-model="student.address"
+                      class="form-control"
+                      placeholder=""
+                    />
+                  </div>
                 </div>
 
-                <div class="col-md-6 form-group">
+                <div class="col-md-4 form-group">
                   <label>Situação</label>
-                  <select class="form-control">
+                  <select v-model="student.situation" class="form-control">
                     <option>Aluno</option>
                     <option>Professor</option>
                     <option>Servidor</option>
@@ -73,59 +91,69 @@
                 </div>
               </div>
 
-              <legend>
-                <span>Horario da Atividade</span>
-              </legend>
+              <h5>
+                Atividade:
+              </h5>
               <div class="row">
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-4">
                   <label>Hora</label>
                   <div class="input-group input-group">
-                    <input class="form-control" placeholder="Nome do Banco" />
+                    <input
+                      v-model="student.hour"
+                      type="number"
+                      min="0"
+                      max="23"
+                      class="form-control"
+                      placeholder="Ex: 8"
+                    />
                   </div>
                 </div>
-                <div class="col-md-10 ">
-                    <label>Dias</label>
-                  <div class="row bg-light ronded border border-light">
-                    <div class="col-2">
-                      <span class="col-12">feira</span>
-                      <div class="col-12">
-                        <input type="checkbox" :value="days[1-1]" />
-                      </div>
-                    </div>
-                    <div class="col-2">
-                      <span class="col-12">feira</span>
-                      <div class="col-12">
-                        <input type="checkbox" :value="days[2-1]" />
-                      </div>
-                    </div>
-                    <div class="col-2">
-                      <span class="col-12">feira</span>
-                      <div class="col-12">
-                        <input type="checkbox" :value="days[3-1]" />
-                      </div>
-                    </div>
-                    <div class="col-2">
-                      <span class="col-12">feira</span>
-                      <div class="col-12">
-                        <input type="checkbox" :value="days[4-1]" />
-                      </div>
-                    </div>
-                    <div class="col-2">
-                      <span class="col-12">feira</span>
-                      <div class="col-12">
-                        <input type="checkbox" :value="days[5-1]" />
-                      </div>
-                    </div>
-                    <div class="col-2">
-                      <span class="col-12">feira</span>
-                      <div class="col-12">
-                        <input type="checkbox" :value="days[6-1]" />
-                      </div>
-                    </div>
+                <div class="col-md-8">
+                  <div>
+                    <label class="typo_label">Dias</label>
+                    <multiselect
+                      v-model="student.daysActvities"
+                      :options="options"
+                      :multiple="true"
+                      group-values="libs"
+                      group-label="days"
+                      :close-on-select="false"
+                      :group-select="true"
+                      placeholder="Selecione os dias de atividades"
+                      track-by="name"
+                      label="name"
+                    >
+                      <span slot="noResult"> </span>
+                    </multiselect>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Modalidade</label>
+                  <select v-model="student.modality" class="form-control">
+                    <option>Musculação</option>
+                    <option>Pilates</option>
+                    <option>Funcional</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Mensalidade</label>
+                  <div class="input-group input-group">
+                    <input
+                      v-model="student.payment"
+                      class="form-control"
+                      type="number"
+                      min="0"
+                      placeholder=""
+                    />
                   </div>
                 </div>
               </div>
             </form>
+            <div v-show="mensageError" class="alert alert-danger" role="alert">
+              {{ mensageError }}
+            </div>
           </slot>
         </section>
         <footer class="modal-footer">
@@ -133,8 +161,8 @@
             <router-link :to="{ name: 'Users' }">
               <button
                 type="button"
-                class="btn-gold"
-                @click="close"
+                class="btn btn-sm btn-primary"
+                @click="newStudent"
                 aria-label="Close modal"
               >
                 Cadastrar
@@ -148,11 +176,39 @@
 </template>
 
 <script>
+import Multiselect from "vue-multiselect";
+import api from "../../services/api";
+
 export default {
   name: "NewUser",
+  components: { Multiselect },
   data() {
     return {
-      days: [false, false, false, false, false],
+      mensageError: "",
+      student: {
+        name: "",
+        cpf: "",
+        email: "",
+        address: "",
+        telephone: "",
+        modality: "",
+        situation: "",
+        hour: "",
+        daysActvities: [],
+      },
+      options: [
+        {
+          days: "Todos os dias",
+          libs: [
+            { name: "Segunda" },
+            { name: "Terça" },
+            { name: "Quarta" },
+            { name: "Quinta" },
+            { name: "Sexta" },
+          ],
+        },
+      ],
+      value: [],
     };
   },
   methods: {
@@ -161,14 +217,59 @@ export default {
       this.amount = "";
       this.$emit("close");
     },
+    newStudent() {
+      if (this.student) {
+        const validator = require("email-validator");
+        const validarCpf = require("validar-cpf");
+
+        if (!validator.validate(this.student.email))
+          return (this.mensageError = "Emai-l errado");
+        if (!validarCpf(this.student.cpf))
+          return (this.mensageError = "CPF errado");
+        if (this.student.hour < 6 || this.student.hour > 21)
+          return (this.mensageError = "Horario deve esta entre 7 e 20 horas");
+        if (
+          !this.student.name ||
+          !this.student.daysActvities ||
+          !this.student.situation ||
+          !this.student.modality ||
+          !this.student.telephone
+        ) {
+          this.mensageError = "Preecha todos os campos";
+        } else {
+          const body = {
+            ...this.student,
+            days: this.montDays(this.student.daysActvities),
+          };
+          this.createStudent(body);
+        }
+      }
+    },
+    montDays(days) {
+      if (!days) return " ";
+      if (days.length === 5) return "Segunda a sexta";
+      return days
+        .map((el) => el.name)
+        .reduce((a, b) => {
+          return a + " " + b;
+        });
+    },
+    async createStudent(body) {
+      try {
+        await api.post("/students", body);
+        this.close();
+      } catch (e) {
+        return e;
+      }
+    },
   },
 };
 </script>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss" scoped>
-
 .modal-backdrop {
   position: fixed;
+  background: #9bda84;
   top: 0;
   bottom: 0;
   left: 0;
@@ -186,11 +287,11 @@ export default {
   display: flex;
   flex-direction: column;
   width: 650px;
-  max-height: 670px;
+  max-height: 700px;
   border-radius: 4px;
   left: auto;
   top: auto;
-  overflow-x: auto;
+  overflow: auto;
 }
 
 .modal-header,

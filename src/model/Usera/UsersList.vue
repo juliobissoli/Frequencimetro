@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NewStudent v-show="isModalVisible"  @close="isModalVisible = false" />
+    <NewStudent v-show="isModalVisible" @close="isModalVisible = false" />
     <BarTop class="mb-2" title="Alunos" :input="false" :btn="false" />
     <div class="row">
       <div class="col-md-8 shadow p-3 mb-5 bg-white rounded">
@@ -9,31 +9,16 @@
             class="mb-2"
             @button-clicked="isModalVisible = !isModalVisible"
             :input="true"
-            :btn="{ class: 'btn-outline-success', label: 'Novo Aluno' }"
+            :btn="{ class: 'btn-outline-dark btn-sm', label: 'Cadastrar Aluno' }"
           />
         </div>
         <div class="">
           <div
             v-for="(item, index) in students"
             :key="index"
-            class="shadow-sm p-2 mb-2 bg-light rounded-3 line"
+            class="shadow-sm py-1 px-2 mb-2 bg-light rounded-3 line"
           >
-            <router-link :to="{ name: 'UserDetail', params: { item } }">
-              <div class="row d-flex align-items-center ">
-                <div class="col-md-1">
-                  <Avatar />
-                </div>
-                <div class="col-md-4">{{ item.name }}</div>
-                <div class="col-md-4">
-                  {{ item.schedules }}
-                </div>
-                <div class="col-md-3 d-flex justify-content-end">
-                  <button class="btn btn-sm btn-outline-primary">
-                    Marcar Presença
-                  </button>
-                </div>
-              </div>
-            </router-link>
+          <StudentItem :item="item" />
           </div>
         </div>
       </div>
@@ -45,14 +30,15 @@
 </template>
 
 <script>
-import Avatar from "../../components/Avatar";
+
 import BarTop from "../../components/BarTop";
-import api from "../..//services/api"
-import NewStudent from '../Usera/NewUser';
+import api from "../..//services/api";
+import NewStudent from "../Usera/NewUser";
+import StudentItem from '../../components/Student/StudentItem'
 
 export default {
   name: "UserList",
-  components: { Avatar, BarTop, NewStudent },
+  components: { BarTop, NewStudent, StudentItem},
   data() {
     return {
       students: [],
@@ -69,7 +55,6 @@ export default {
       });
     },
     newStudent() {
-      console.log("clico");
       this.$router.push({ name: "UserDetail" });
     },
   },
@@ -78,21 +63,25 @@ export default {
 
 <style lang="scss" scoped>
 .line {
-  font-size: 18px;
+  // font-size: 18px;
   color: #444;
   border-radius: 0.3rem;
-outline : none;
+  outline: none;
   cursor: pointer;
   div {
+    a{
+      color: #444;
+    }
     color: #444;
     text-decoration: none;
     :hover {
+      // color: #004085
       text-decoration: none;
     }
   }
 }
 .line:hover {
-  border: 1px solid #6ad943;
-  outline : none;
+  // border: 1px solid #6ad943;
+  outline: none;
 }
 </style>
