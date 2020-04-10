@@ -2,8 +2,6 @@
   <router-view />
 </template>
 
-
-
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Karla|Lato&display=swap");
 body {
@@ -27,6 +25,9 @@ body {
     padding: 0;
     margin: 0;
     margin-bottom: 0;
+    font-family:  "Avenir Next W01","Lato", "Karla" ,"Proxima Nova W01", "Rubik",
+      -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+      Arial, sans-serif;
   }
   .f_primary {
     font-weight: 300;

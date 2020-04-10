@@ -26,7 +26,7 @@
             <div
               v-for="(item, index) in students"
               :key="index"
-              class="shadow-sm py-1 px-2 mb-2 bg-light rounded-3 line"
+              class="shadow-sm py-1 px-2 mb-2 bg-light line"
             >
               <StudentItem :item="item" />
             </div>
@@ -68,3 +68,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.line{
+  border-radius: 0.5rem;
+  // background-color: #f5faff;
+  font-family: "Lato", "Karla", "Avenir Next W01", "Proxima Nova W01", "Rubik",
+      -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+      Arial, sans-serif;
+  }
+</style>

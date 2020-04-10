@@ -1,10 +1,10 @@
 <template>
   <div class="bar_top ">
     <h3 v-show="title" >{{title}}</h3>
-    <div v-show="input" class="search-input mb-1">
-      <input type="text" :placeholder="placeholder" class="form-control" />
+    <div v-show="input" class="search-input mb-3">
+      <input type="text" placeholder="placeholder" class="form-control" />
     </div>
-    <button v-show="btn" @click="btnClicked()" class="btn mb-1" :class="btn.class">
+    <button v-show="btn" @click="btnClicked()" class="btn mb-3" :class="btn.class">
       {{btn.label}}
     </button>
   </div>
@@ -41,21 +41,21 @@ export default {
     position: relative;
     margin-bottom: 5px;
     input {
-      //   border: none;
+        border: none;
       //   height: 30px;
       //   padding-right: 25px;
       //   color: #f1f1f1f1;
-      border-radius: 1rem;
-      border: 1px solid #ccc;
-      background: transparent;
+      // background-color: rgba(33, 37, 41, 0.1);
+      background-color: #e1ebf7;
+      border-radius: 0.4rem;
+      // border: 1px solid #ccc;
       width: 25vw;
       height: 30px;
       font-size: 15px;
-      border-radius: 0;
       padding-left: 10px;
     }
     ::placeholder {
-      color: #555;
+      color: #7794cc;
     }
     &:after {
       position: absolute;
@@ -64,7 +64,7 @@ export default {
       font-weight: 900;
       right: 13px;
       top: 3px;
-      color: #555;
+      color: #7794cc;
     }
   }
 }

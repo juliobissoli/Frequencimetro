@@ -5,7 +5,7 @@
       :to="{ name: 'StudentDetail', params: { item } }"
     >
       <div class="row">
-        <div class="col-md-1" style="color:#6ad943;">#{{ item.id }}</div>
+        <div class="col-md-1" style="color:#7794cc;">#{{ item.id }}</div>
         <div class="col-md-6">
           {{ item.name }}
         </div>
@@ -15,7 +15,7 @@
       </div>
     </router-link>
     <div class="col-md-1 d-flex justify-content-end">
-      <button class="btn btn-sm btn-primary">
+      <button class="btn btn-sm btn-outline-primary">
         <i class="fas fa-heartbeat"></i>
       </button>
     </div>
