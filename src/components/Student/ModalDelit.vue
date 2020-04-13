@@ -77,7 +77,7 @@ export default {
       console.log("vaideletar o-> ", this.item.id);
         try {
           await api.delete("/students/" + this.item.id);
-          this.$router.push({ name: "Users" });
+          this.$router.push({ name: "Students" });
         } catch (e) {
           return e;
         }
