@@ -16,7 +16,7 @@
               @click="close"
               aria-label="Close modal"
             >
-              x
+              <i class="fas fa-times"></i>
             </button>
           </slot>
         </header>
@@ -74,8 +74,6 @@ export default {
   },
   methods: {
     close() {
-      this.reserve = {};
-      this.amount = "";
       this.$emit("close");
     },
     isValidate() {
@@ -137,7 +135,8 @@ export default {
         await api.post("/students", body);
         // this.close();
         console.log('passa por aqui!!!')
-        this.close
+        this.$emit('updateApi')
+        this.close()
       } catch (e) {
         return e;
       }

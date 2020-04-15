@@ -7,8 +7,14 @@
 body {
   margin: 0;
   padding: 0;
+  font-family: "Avenir Next W01", "Lato", "Karla", "Proxima Nova W01", "Rubik",
+    -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+    Arial, sans-serif;
 }
 
+.rounded{
+  border-radius:0.8rem !important;
+}
 .title_primary {
   border-bottom: 1px solid #cdd2d8;
   width: 100%;

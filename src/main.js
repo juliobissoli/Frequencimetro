@@ -6,7 +6,10 @@ import App from './App.vue'
 import router from './router'
 import '@/assets/fonts/all.css'
 import ToggleButton from 'vue-js-toggle-button'
+import moment from 'moment'
 
+
+moment.locale('pt-br')
 Vue.config.productionTip = false
 Vue.use(ToggleButton)
 
