@@ -3,10 +3,10 @@
     <h3 v-show="title" >{{title}}</h3>
     <div v-show="input" class="search-input mb-3">
       <input 
+        v-debounce:500ms="serach"
         type="text"
         :placeholder="placeholder"
         class="form-control"
-        @input="serach()"
         v-model="serachTocken"
        />
     </div>
@@ -17,8 +17,10 @@
 </template>
 
 <script>
+
 export default {
   name: "BarTop",
+
   props: ['title', 'input', 'btn', 'placeholder'],
   data(){
     return {
@@ -31,8 +33,6 @@ export default {
       this.$emit('button-clicked')
     },
     serach(){
-
-      console.log('pesquisa', this.serachTocken)
       this.$emit('get-search', this.serachTocken )
     }
   }

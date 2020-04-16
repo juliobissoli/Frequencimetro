@@ -98,6 +98,7 @@ export default {
       perPage: 3,
       currentPage: 1,
       totalData: 1,
+      searchEntrys: '',
       students: [],
       attendances: [],
       isModalVisible: false,
@@ -111,7 +112,7 @@ export default {
     getStudents() {
       api
         .get("/students", {
-          params: { perPage: this.perPage, currentPage: this.currentPage },
+          params: { perPage: this.perPage, currentPage: this.currentPage, search: this.searchEntrys },
         })
         .then((res) => {
           this.totalData = res.data.total;
@@ -128,7 +129,11 @@ export default {
       this.getStudents();
     },
     getSearch(token){
+      this.searchEntrys = token
+      this.currentPage = 1
       console.log(token)
+      this.getStudents();
+
     }
   },
 };
