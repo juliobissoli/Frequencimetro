@@ -74,7 +74,6 @@ export default {
     },
 
     async deletStudent() {
-      console.log("vaideletar o-> ", this.item.id);
         try {
           await api.delete("/students/" + this.item.id);
           this.$router.push({ name: "Students" });

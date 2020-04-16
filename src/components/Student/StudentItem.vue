@@ -10,7 +10,7 @@
           {{ item.name }}
         </div>
         <div class="col-md-5">
-          {{ (item.hour * 1).toFixed(0) }}h , {{ item.days }}
+          {{ (item.hour * 1).toFixed(0) }}h , {{printDays(item.days) }}
         </div>
       </div>
     </router-link>
@@ -44,7 +44,7 @@
             </div>
 
             <button
-            @click='deletAttendace(item.attendances[0].id)'
+              @click="deletAttendace(item.attendances[0].id)"
               style="width:100%"
               class="col-12 btn btn-sm btn-outline-secondary"
             >
@@ -75,21 +75,29 @@ export default {
       try {
         await api.post("/attendances", body);
         console.log("new attendance");
-        this.$emit("updateApi")
+        this.$emit("updateApi");
       } catch (e) {
         return e;
       }
     },
-    async deletAttendace(id){
-      console.log('vai remover')
+    async deletAttendace(id) {
+      console.log("vai remover");
       try {
-        await api.delete('/attendances/' + id)
-        this.$emit("updateApi")
-        this.dropdown = false
+        await api.delete("/attendances/" + id);
+        this.$emit("updateApi");
+        this.dropdown = false;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
+    },
+    printDays(days) {
+      const vetDays = days.split(" ");
+      var str = ""
+      vetDays.length === 5
+        ? (str += "Segunda a sexta")
+        : (str += days);
+      return str;
+    },
   },
 };
 </script>

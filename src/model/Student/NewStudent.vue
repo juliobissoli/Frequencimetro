@@ -123,7 +123,6 @@ export default {
     },
     montDays(days) {
       if (!days) return " ";
-      if (days.length === 5) return "Segunda a sexta";
       return days
         .map((el) => el.name)
         .reduce((a, b) => {

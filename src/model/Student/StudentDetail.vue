@@ -102,11 +102,10 @@ export default {
     },
     monuntDays(days) {
       if (!days) return this.student.days;
-      if (days.length == 5) return "Segunda a sexta";
       return days
         .map((el) => el.name)
         .reduce((a, b) => {
-          return a + ", " + b;
+          return a + " " + b;
         });
     },
     deleteStudent() {},

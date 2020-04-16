@@ -65,7 +65,7 @@
         <div class="row mt-3">
           <div class="col-md-12">
             <div class="shadow rounded">
-              <Chart />
+              <Chart :item="statistics" />
             </div>
           </div>
         </div>
@@ -99,14 +99,15 @@ export default {
       currentPage: 1,
       totalData: 1,
       searchEntrys: '',
+      statistics: null,
       students: [],
       attendances: [],
       isModalVisible: false,
     };
   },
   async created() {
-    this.getStudents();
-    this.getAttendance();
+    this.getStudents()
+    this.getStatistcsDay()
   },
   methods: {
     getStudents() {
@@ -119,10 +120,20 @@ export default {
           this.students = res.data.student;
         });
     },
-    getAttendance() {
-      api.get("attendances").then((res) => {
-        this.attendances = res.data;
-      });
+     getStatistcsDay() {
+      api
+        .get("/statistcsDay", {
+          params: {
+            min: 7,
+            max: 18,
+            day: "Quinta",
+            date: "2020-4-16"
+          }
+        })
+        .then((res) => {
+          console.log(res.data)
+          this.statistics = res.data;
+        });
     },
     changePage(page) {
       this.currentPage = page;

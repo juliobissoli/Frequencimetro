@@ -45,28 +45,17 @@
 import moment from "moment";
 export default {
   name: "CharHorizoltal",
+  props: ['item'],
   data() {
     return {
       today: moment().format("YYYY-MM-DD"),
-      maxTotal: 10,
-      data: [
-        {
-          total: 10,
-          subTotal: 8,
-          label: "7h",
-        },
-        {
-          total: 8,
-          subTotal: 1,
-          label: "8h",
-        },
-        {
-          total: 9,
-          subTotal: 9,
-          label: "9h",
-        },
-      ],
+      maxTotal: 0,
+      data: [],
     };
+  },
+  created(){
+    this.maxTotal = this.item.maxTotal
+    this.data = this.item.statis
   },
   methods: {
     getSizeWidth(limit, ref) {
@@ -99,22 +88,22 @@ export default {
     color: #7794cc;
   }
   .legend {
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 100;
     color: #999;
   }
 
   .chart-content {
     width: 100%;
-    height: 50px;
+    height: 30px;
     display: flex;
     align-items: center;
-    border-top: 1px solid #e0e0e0;
+    // border-top: 1px solid #e0e0e0;
     display: flex;
     justify-content: space-around;
 
     .bar-item {
-      height: 8px;
+      height: 6px;
       background-color: #ddd;
       display: flex;
       flex-direction: row;
