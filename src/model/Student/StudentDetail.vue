@@ -36,6 +36,11 @@
           </form>
         </div>
       </div>
+      <div class="col-md-6">
+        <div class="shadow rounded">
+          <Chart />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -46,11 +51,12 @@ import FormStudent from "../../components/Student/FormStudent";
 import api from "../../services/api";
 import BarTop from "../../components/BarTop";
 import ModalDelete from "../../components/Student/ModalDelit";
+import Chart from '../../components/Chart'
 
 export default {
   name: "StudentDetail",
   props: ["item"],
-  components: { BarTop, ModalDelete, FormStudent },
+  components: { BarTop, ModalDelete, FormStudent, Chart},
   data() {
     return {
       modalDeleteVisible: false,

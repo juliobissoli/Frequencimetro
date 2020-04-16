@@ -14,6 +14,7 @@
               class="mb-2"
               @button-clicked="isModalVisible = !isModalVisible"
               :input="true"
+              @get-search="getSearch"
               :btn="{
                 class: 'btn-outline-dark btn-sm',
                 label: 'Cadastrar Aluno',
@@ -30,7 +31,14 @@
               <StudentItem :item="item" @updateApi="getStudents()" />
             </div>
           </div>
-          <Pagination class="mt-3" :items="students" :perPage="perPage" :currentPage="currentPage" />
+          <Pagination
+            class="mt-3"
+            @change-page="changePage"
+            :items="students"
+            :perPage="perPage"
+            :currentPage="currentPage"
+            :total="totalData"
+          />
         </div>
       </div>
       <div class="col-md-5 ">
@@ -68,7 +76,7 @@
 
 <script>
 import BarTop from "../../components/BarTop";
-import Chart from "../../components/Chart";
+import Chart from "../../components/Statistcs/Charthorizontal";
 import api from "../..//services/api";
 import NewStudent from "../Student/NewStudent";
 import StudentItem from "../../components/Student/StudentItem";
@@ -87,8 +95,9 @@ export default {
   },
   data() {
     return {
-      perPage: 10,
+      perPage: 3,
       currentPage: 1,
+      totalData: 1,
       students: [],
       attendances: [],
       isModalVisible: false,
@@ -105,7 +114,8 @@ export default {
           params: { perPage: this.perPage, currentPage: this.currentPage },
         })
         .then((res) => {
-          this.students = res.data;
+          this.totalData = res.data.total;
+          this.students = res.data.student;
         });
     },
     getAttendance() {
@@ -113,6 +123,13 @@ export default {
         this.attendances = res.data;
       });
     },
+    changePage(page) {
+      this.currentPage = page;
+      this.getStudents();
+    },
+    getSearch(token){
+      console.log(token)
+    }
   },
 };
 </script>

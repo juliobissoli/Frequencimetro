@@ -101,6 +101,8 @@ export default {
     getPercent(limit, ref) {
       var varRelative;
       limit >= ref ? (varRelative = (ref / limit) * 100) : (varRelative = ref);
+      // console.log('--lim->' , limit , 'ref->', ref, 'var->', varRelative)
+
       return "height:" + varRelative.toFixed(0) + "%;";
     },
   },
