@@ -1,0 +1,105 @@
+<template>
+  <div>
+    <div class="row">
+      <div class="col-6 pr-1">
+        <CardEstats
+          clasIcon="fas fa-heartbeat"
+          :title="attedanties"
+          subTitle="Presentes"
+          classColor="primary"
+          :today="todayWeek"
+          class="shadow  rounded"
+        />
+      </div>
+      <div class="col-6 pl-1">
+        <CardEstats
+          clasIcon="fas fa-calendar-day"
+          :title="matriculated"
+          subTitle="Matriculasdos"
+          class="shadow  rounded"
+          :today="todayWeek"
+          classColor="secondary"
+        />
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <div class="shadow rounded">
+          {{ week() }}
+          <Chart 
+          title="Frequencia Diaria"
+          :today="today"
+          :statistics="statistics.statis"
+          :maxNunber="statistics.maxTotal"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import CardEstats from "../CartExtats";
+import Chart from "../Statistcs/Charthorizontal";
+import api from "../../services/api";
+import moment from "moment";
+
+export default {
+  name: "StatisticsPanel",
+  components: {
+    CardEstats,
+    Chart
+  },
+  data() {
+    return {
+      attedanties: 0,
+      matriculated: 0,
+      statistics: {
+        statis: [],
+        maxTotal: 0
+      },
+      dayWeek: ''
+    };
+  },
+  created() {
+    this.getStatistcsDay();
+    this.dayWeek = moment().format("dddd")
+  },
+  computed: {
+    today() {
+      const today = new Date();
+      var date =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getDate();
+      return date;
+    },
+    todayWeek() {
+      return moment().format("ddd DD/MM");
+    },
+  },
+  methods: {
+    week() {
+      return moment().format("dddd");
+    },
+    getStatistcsDay() {
+      api
+        .get("/statistcsDay", {
+          params: {
+            min: 7,
+            max: 18,
+            day: moment().format("dddd"),
+            date: this.today,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          this.attedanties = res.data.attendanties;
+          this.matriculated = res.data.matriculated;
+          this.statistics = res.data;
+        });
+    },
+  },
+};
+</script>

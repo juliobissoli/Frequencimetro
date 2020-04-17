@@ -1,67 +1,65 @@
 <template>
   <div class="chart p-3">
     <div class="title mb-3 d-flex justify-content-between">
-      <span>title</span>
+      <span>{{ title }}</span>
       <input class="input" type="date" :value="today" />
     </div>
     <div
-      v-for="(item, index) in data"
+      v-for="(item, index) in statistics"
       :key="index"
       class="row chart-content ml-1"
     >
-      <div class="col-md-1 p-0 legend">
-        <span>{{ item.label }}</span>
+      <div class="col-md-6 p-0">
+        <div class="legend">
+          <span>As {{ item.label }} horas</span>
+        </div>
       </div>
-      <div class="col-md-9 p-0 ">
+      <div class="col-md-6 p-0 d-flex justify-content-end legend">
+        <span class="value_primary mr-1">{{ item.subTotal }} Presentes</span>
+        /
+        <span class="value-danger ml-1"> {{ item.total }} Matriculados</span>
+      </div>
+
+      <div class="col-md-12 p-0">
         <div class="bar-item">
           <div
             class="bar_success"
-            :style="getSizeWidth(maxTotal, item.subTotal)"
+            :style="getSizeWidth(maxNunber, item.subTotal)"
           ></div>
           <div
             class="bar_danger"
-            :style="getSizeWidth(maxTotal, item.total - item.subTotal)"
+            :style="
+              getSizeWidth(
+                maxNunber,
+                item.total > item.subTotal
+                  ? item.total - item.subTotal
+                  : item.total
+              )
+            "
           ></div>
         </div>
-      </div>
-      <div class="col-md-2 p-0 text-right legend">
-        <span>{{ item.subTotal }}/{{ item.total }} </span>
-      </div>
-    </div>
-    <div class="row mt-2 legend">
-      <div class="col-md-5">
-        <i style="color: #7794cc" class="fas fa-circle mr-1"></i>
-        <span>Presentes</span>
-      </div>
-      <div class="col-md-5">
-        <i style="color: #e6a7b3" class="fas fa-circle mr-1"></i>
-        <span>Matriculados</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import moment from "moment";
 export default {
   name: "CharHorizoltal",
-  props: ['item'],
+  props: ["title", "today", "statistics", "maxNunber"],
   data() {
     return {
-      today: moment().format("YYYY-MM-DD"),
-      maxTotal: 0,
-      data: [],
+      data: this.statistics,
+      maxTotal: this.maxNunbe,
     };
-  },
-  created(){
-    this.maxTotal = this.item.maxTotal
-    this.data = this.item.statis
   },
   methods: {
     getSizeWidth(limit, ref) {
-      var varRelative;
-      limit >= ref ? (varRelative = (ref / limit) * 100) : (varRelative = ref);
-      //   console.log('lim->' , limit , 'ref->', ref, 'var->', varRelative)
+      var varRelative = 0;
+
+      limit >= ref
+        ? (varRelative = ((ref * 1) / limit) * 1 * 100)
+        : (varRelative = ref * 1);
       return "width:" + varRelative.toFixed(0) + "%;";
     },
   },
@@ -92,10 +90,21 @@ export default {
     font-weight: 100;
     color: #999;
   }
+  // .value_primary {
+  //   font-size: 15px;
+  //   color: #7794cc;
+  //   font-weight: 300;
+  // }
+  // .value-danger {
+  //   font-size: 12px;
+  //   color: #e6a7b3;
+  //   font-weight: 300;
+  // }
 
   .chart-content {
     width: 100%;
     height: 30px;
+    margin-top: 8px;
     display: flex;
     align-items: center;
     // border-top: 1px solid #e0e0e0;

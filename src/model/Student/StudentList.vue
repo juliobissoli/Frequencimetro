@@ -7,7 +7,7 @@
     />
     <BarTop class="mb-2" title="Alunos" :input="false" :btn="false" />
     <div class="row">
-      <div class="col-md-7">
+      <div class="col-md-8">
         <div class="shadow p-3 mb-5 bg-white rounded">
           <div>
             <BarTop
@@ -41,34 +41,8 @@
           />
         </div>
       </div>
-      <div class="col-md-5 ">
-        <div class="row">
-          <div class="col-6 pr-1">
-            <CardEstats
-              clasIcon="fas fa-heartbeat"
-              title="23"
-              subTitle="Presentes"
-              classColor="primary"
-              class="shadow  rounded"
-            />
-          </div>
-          <div class="col-6 pl-1">
-            <CardEstats
-              clasIcon="fas fa-calendar-day"
-              title="33"
-              subTitle="Matriculasdos"
-              class="shadow  rounded"
-              classColor="secondary"
-            />
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-md-12">
-            <div class="shadow rounded">
-              <Chart :item="statistics" />
-            </div>
-          </div>
-        </div>
+      <div class="col-md-4 ">
+        <StatistcsPanel />
       </div>
     </div>
   </div>
@@ -76,12 +50,11 @@
 
 <script>
 import BarTop from "../../components/BarTop";
-import Chart from "../../components/Statistcs/Charthorizontal";
 import api from "../..//services/api";
 import NewStudent from "../Student/NewStudent";
 import StudentItem from "../../components/Student/StudentItem";
 import Pagination from "../../components/Pagination";
-import CardEstats from "../../components/CartExtats";
+import StatistcsPanel from "../../components/Student/StatisticsPanel";
 
 export default {
   name: "StudemtList",
@@ -90,15 +63,16 @@ export default {
     NewStudent,
     StudentItem,
     Pagination,
-    Chart,
-    CardEstats,
+
+    StatistcsPanel,
   },
+
   data() {
     return {
-      perPage: 3,
+      perPage: 10,
       currentPage: 1,
       totalData: 1,
-      searchEntrys: '',
+      searchEntrys: "",
       statistics: null,
       students: [],
       attendances: [],
@@ -106,46 +80,32 @@ export default {
     };
   },
   async created() {
-    this.getStudents()
-    this.getStatistcsDay()
+    this.getStudents();
   },
   methods: {
     getStudents() {
-      api
-        .get("/students", {
-          params: { perPage: this.perPage, currentPage: this.currentPage, search: this.searchEntrys },
+      api.get("/students", {
+          params: {
+            perPage: this.perPage,
+            currentPage: this.currentPage,
+            search: this.searchEntrys,
+          },
         })
         .then((res) => {
           this.totalData = res.data.total;
           this.students = res.data.student;
         });
     },
-     getStatistcsDay() {
-      api
-        .get("/statistcsDay", {
-          params: {
-            min: 7,
-            max: 18,
-            day: "Quinta",
-            date: "2020-4-16"
-          }
-        })
-        .then((res) => {
-          console.log(res.data)
-          this.statistics = res.data;
-        });
-    },
     changePage(page) {
       this.currentPage = page;
       this.getStudents();
     },
-    getSearch(token){
-      this.searchEntrys = token
-      this.currentPage = 1
-      console.log(token)
+    getSearch(token) {
+      this.searchEntrys = token;
+      this.currentPage = 1;
+      console.log(token);
       this.getStudents();
-
-    }
+    },
   },
 };
 </script>

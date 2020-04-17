@@ -1,12 +1,12 @@
 <template>
   <div class="card p-1" :class="classColor">
     <div class="row ">
-      <div class="col-4    d-flex justify-content-center align-items-center">
-        <div class="side_box p-3">
+      <div class="col-5    d-flex justify-content-center align-items-center">
+        <div class="side_box">
           <i :class="clasIcon"></i>
         </div>
       </div>
-      <div class="col-8 p-1">
+      <div class="col-7 p-1">
         <div class="row">
           <strong class="col-12 describe text-right pr-5" style="color:#fff">{{today}} </strong>
           <span class="col-12 title">{{ title }}</span>
@@ -18,16 +18,10 @@
 </template>
 
 <script>
-import moment from 'moment'
 
 export default {
   name: "CardExtat",
-  props: ["classColor", "clasIcon", "title", "subTitle"],
-  computed: {
-      today(){
-          return moment().format('ddd, DD/MM')
-      }
-  }
+  props: ["classColor", "clasIcon", "title", "subTitle", "today"],
 };
 </script>
 
@@ -55,7 +49,7 @@ export default {
 }
 
 .side_box {
-  padding: 30px;
+  padding: 25% 28%;
 }
 .title {
   font-size: 30px;
