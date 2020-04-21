@@ -27,12 +27,13 @@
               v-for="(item, index) in students"
               :key="index"
               class="shadow-sm py-1 px-2 mb-2 bg-light line"
+              @hover="isHover = !isHover"
             >
               <StudentItem :item="item" @updateApi="getStudents()" />
             </div>
           </div>
           <Pagination
-            class="mt-3"
+            class="mt-3 mb-0"
             @change-page="changePage"
             :items="students"
             :perPage="perPage"
@@ -69,6 +70,7 @@ export default {
 
   data() {
     return {
+      isHover: false,
       perPage: 10,
       currentPage: 1,
       totalData: 1,
@@ -84,7 +86,8 @@ export default {
   },
   methods: {
     getStudents() {
-      api.get("/students", {
+      api
+        .get("/students", {
           params: {
             perPage: this.perPage,
             currentPage: this.currentPage,
@@ -113,6 +116,7 @@ export default {
 <style lang="scss" scoped>
 .line {
   border-radius: 0.5rem;
+  background-color: #e1ebf7;
   // background-color: #f5faff;
   font-family: "Avenir Next W01", "Lato", "Karla", "Proxima Nova W01", "Rubik",
     -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",

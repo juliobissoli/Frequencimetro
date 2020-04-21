@@ -25,12 +25,11 @@
     <div class="row mt-3">
       <div class="col-md-12">
         <div class="shadow rounded">
-          {{ week() }}
           <Chart 
           title="Frequencia Diaria"
           :today="today"
           :statistics="statistics.statis"
-          :maxNunber="statistics.maxTotal"/>
+          :maxTotal="statistics.maxTotal"/>
         </div>
       </div>
     </div>
@@ -39,7 +38,7 @@
 
 <script>
 import CardEstats from "../CartExtats";
-import Chart from "../Statistcs/Charthorizontal";
+import Chart from "../Chart";
 import api from "../../services/api";
 import moment from "moment";
 

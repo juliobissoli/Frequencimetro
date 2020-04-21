@@ -1,10 +1,17 @@
 <template>
   <div class="chart p-3">
-    <div class="title mb-3">
-      <span>{{title}}</span>
+    <div class="title mb-3 d-flex justify-content-between">
+      <span>{{ title }}</span>
+      <input
+        class="input"
+        type="number"
+        min="2020"
+        :value="yearSelected"
+        v-debounce:500ms="changeYear"
+      />
     </div>
     <div class="chart-content">
-      <div v-for="(item, index) in data" :key="index" class="bar-item">
+      <div v-for="(item, index) in statistics" :key="index" class="bar-item">
         <div class="value">
           <span>{{ item.subTotal }} / {{ item.total }}</span>
         </div>
@@ -16,7 +23,8 @@
           class="bar_success"
           :style="getPercent(maxTotal, item.subTotal)"
         ></div>
-        <div class="label">{{ item.label }}</div>
+
+        <div class="label">{{ item.label }}h</div>
       </div>
     </div>
     <div class="row mt-2 legend">
@@ -32,85 +40,53 @@
   </div>
 </template>
 <script>
+import moment from "moment";
 export default {
   name: "Chart",
+  props: ["maxTotal", "statistics", "title"],
   data() {
     return {
-      maxTotal: 20,
-      title: 'Frequencia',
-      data: [
-        {
-          total: 20,
-          subTotal: 19,
-          label: "7h",
-        },
-        {
-          total: 15,
-          subTotal: 2,
-          label: "8h",
-        },
-        {
-          total: 8,
-          subTotal: 0,
-          label: "9h",
-        },
-        {
-          total: 7,
-          subTotal: 3,
-          label: "10h",
-        },
-        {
-          total: 3,
-          subTotal: 1,
-          label: "11h",
-        },
-        {
-          total: 9,
-          subTotal: 10,
-          label: "12h",
-        },
-        {
-          total: 9,
-          subTotal: 8,
-          label: "13h",
-        },
-        {
-          total: 12,
-          subTotal: 10,
-          label: "14h",
-        },
-        {
-          total: 11,
-          subTotal: 8,
-          label: "15h",
-        },
-        {
-          total: 15,
-          subTotal: 10,
-          label: "16h",
-        },
-        {
-          total: 18,
-          subTotal: 18,
-          label: "17h",
-        },
-      ],
+      yearSelected: moment().format("YYYY"),
     };
+  },
+  watch: {
+    yearSelected: function() {
+      console.log("mudo");
+    },
   },
   methods: {
     getPercent(limit, ref) {
       var varRelative;
       limit >= ref ? (varRelative = (ref / limit) * 100) : (varRelative = ref);
-      // console.log('--lim->' , limit , 'ref->', ref, 'var->', varRelative)
+      console.log("--lim->", limit, "ref->", ref, "var->", varRelative);
 
       return "height:" + varRelative.toFixed(0) + "%;";
+    },
+    getMonth(month) {
+      var date =
+        this.yearSelected + "-" + (month > 9 ? "0" + month : month) + "-10";
+      return moment(date).format("MMM");
+    },
+    changeYear() {
+      this.$emit("chmage-year");
     },
   },
 };
 </script>
 <style lang="scss" scoped>
+.input {
+  border-radius: 0.4rem;
+  border: none;
+  background-color: #e1ebf7;
+  width: 8vw;
+  height: 30px;
+  text-align: center;
+  font-size: 15px;
+  color: #7794cc;
+}
 .chart {
-  background-color: #f5f6fd;
+  // background-color: #f5f6fd;
+  background-color: white;
   font-family: "Avenir Next W01", "Lato", "Karla", "Proxima Nova W01", "Rubik",
     -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
     Arial, sans-serif;
@@ -139,12 +115,13 @@ export default {
 
   .bar-item {
     height: 100%;
-    // width: 30px;
+    width: 2vw;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
     align-self: flex-end;
+
     // background-color: #fd2;
     .label {
       height: 20px;
@@ -154,18 +131,21 @@ export default {
     .value {
       font-size: 12px;
       color: #ccc;
+      // visibility: hidden;
+      display: none;
     }
     .bar_success {
-      width: 6px;
-      border-radius: 0 0 4rem 4rem;
-
+      // width: 20px;
+      margin: 1px 0;
+      width: 100%;
+      border-radius: 0.4rem;
       background-color: #7794cc;
-      border-radius: none;
     }
     .bar_danger {
-      // width: 4px;
-      width: 6px;
-      border-radius: 4rem 4rem 0 0;
+      // width: 20px;
+      margin: 1px 0;
+      width: 100%;
+      border-radius: 0.4rem;
       background-color: #e6a7b3;
     }
   }

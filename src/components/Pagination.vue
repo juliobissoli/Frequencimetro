@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-auto">
+  <div class="overflow-auto p-0 m-0">
     <b-pagination
       v-model="current_page"
       :total-rows="total"

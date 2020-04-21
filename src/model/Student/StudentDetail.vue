@@ -38,7 +38,12 @@
       </div>
       <div class="col-md-6">
         <div class="shadow rounded">
-          <Chart />
+          <!-- <Chart
+            :maxTotal="statis.maxTotal"
+            :statistics="statis.statistics"
+            title="Frenquencia anual"
+            @chmage-year="(getStatisticsStudent())"
+           /> -->
         </div>
       </div>
     </div>
@@ -51,16 +56,20 @@ import FormStudent from "../../components/Student/FormStudent";
 import api from "../../services/api";
 import BarTop from "../../components/BarTop";
 import ModalDelete from "../../components/Student/ModalDelit";
-import Chart from '../../components/Chart'
+// import Chart from '../../components/Chart'
 
 export default {
   name: "StudentDetail",
   props: ["item"],
-  components: { BarTop, ModalDelete, FormStudent, Chart},
+  components: { BarTop, ModalDelete, FormStudent},
   data() {
     return {
       modalDeleteVisible: false,
       isEdtiMode: false,
+      statis: {
+        maxTotal: 0,
+        staistics: []
+      },
       mensageError: "",
       student: {
         name: "",
@@ -77,6 +86,7 @@ export default {
   },
   created() {
     this.student = this.item;
+    this.getStatisticsStudent()
   },
   methods: {
     close() {
@@ -108,7 +118,6 @@ export default {
           return a + " " + b;
         });
     },
-    deleteStudent() {},
     async putStudent(body) {
       console.log(body);
       try {
@@ -118,6 +127,20 @@ export default {
         return e;
       }
     },
+
+    async getStatisticsStudent(){
+      console.log('ta aui')
+      try{
+        await api.get("/statisticsStudent/" + this.item.id)
+          .then((res) => {
+            this.statis = res.data
+          })
+      }
+      catch (err){
+        console.log(err)
+      }
+    }
   },
+
 };
 </script>
