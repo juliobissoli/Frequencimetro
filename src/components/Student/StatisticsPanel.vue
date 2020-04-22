@@ -25,11 +25,14 @@
     <div class="row mt-3">
       <div class="col-md-12">
         <div class="shadow rounded">
-          <Chart 
-          title="Frequencia Diaria"
-          :today="today"
-          :statistics="statistics.statis"
-          :maxTotal="statistics.maxTotal"/>
+          <Chart
+            title="Frequencia Diaria"
+            :today="today"
+            :statistics="statistics.statis"
+            :maxTotal="statistics.maxTotal"
+            :legend="legendChart"
+            formatValue="relative"
+          />
         </div>
       </div>
     </div>
@@ -46,22 +49,32 @@ export default {
   name: "StatisticsPanel",
   components: {
     CardEstats,
-    Chart
+    Chart,
   },
   data() {
     return {
+      legendChart: [
+        {
+          name: "Presentes",
+          color: "#7794cc",
+        },
+        {
+          name: "Matriculado",
+          color: "#e6a7b3",
+        },
+      ],
       attedanties: 0,
       matriculated: 0,
       statistics: {
         statis: [],
-        maxTotal: 0
+        maxTotal: 0,
       },
-      dayWeek: ''
+      dayWeek: "",
     };
   },
   created() {
     this.getStatistcsDay();
-    this.dayWeek = moment().format("dddd")
+    this.dayWeek = moment().format("dddd");
   },
   computed: {
     today() {
@@ -79,8 +92,12 @@ export default {
     },
   },
   methods: {
-    week() {
-      return moment().format("dddd");
+    formatLabel(statistics) {
+      if (statistics) {
+        statistics.map((el) => {
+          el.label = el.label + "h";
+        });
+      }
     },
     getStatistcsDay() {
       api
@@ -93,7 +110,8 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
+          this.formatLabel(res.data.statis);
           this.attedanties = res.data.attendanties;
           this.matriculated = res.data.matriculated;
           this.statistics = res.data;

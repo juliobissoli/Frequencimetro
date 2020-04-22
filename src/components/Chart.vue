@@ -3,6 +3,7 @@
     <div class="title mb-3 d-flex justify-content-between">
       <span>{{ title }}</span>
       <input
+        v-show="year"
         class="input"
         type="number"
         min="2020"
@@ -13,7 +14,8 @@
     <div class="chart-content">
       <div v-for="(item, index) in statistics" :key="index" class="bar-item">
         <div class="value">
-          <span>{{ item.subTotal }} / {{ item.total }}</span>
+          <span v-if="formatValue === 'relative'">{{ item.subTotal }} / {{ item.total }}</span>
+          <span v-else >{{item.subTotal}}</span>
         </div>
         <div
           class="bar_danger"
@@ -24,17 +26,13 @@
           :style="getPercent(maxTotal, item.subTotal)"
         ></div>
 
-        <div class="label">{{ item.label }}h</div>
+        <div class="label">{{ item.label }}</div>
       </div>
     </div>
     <div class="row mt-2 legend">
-      <div class="col-md-5">
-        <i style="color: #7794cc" class="fas fa-circle mr-1"></i>
-        <span>Presentes</span>
-      </div>
-      <div class="col-md-5">
-        <i style="color: #e6a7b3" class="fas fa-circle mr-1"></i>
-        <span>Matriculados</span>
+      <div v-for="(item, index) in legend" :key="index" class="col-md-5">
+        <i :style="{ color: item.color }" class="fas fa-circle mr-1"></i>
+        <span>{{ item.name }}</span>
       </div>
     </div>
   </div>
@@ -43,9 +41,10 @@
 import moment from "moment";
 export default {
   name: "Chart",
-  props: ["maxTotal", "statistics", "title"],
+  props: ["maxTotal", "statistics", "title", "year", "legend", "formatValue"],
   data() {
     return {
+      hover: false,
       yearSelected: moment().format("YYYY"),
     };
   },
@@ -58,14 +57,9 @@ export default {
     getPercent(limit, ref) {
       var varRelative;
       limit >= ref ? (varRelative = (ref / limit) * 100) : (varRelative = ref);
-      console.log("--lim->", limit, "ref->", ref, "var->", varRelative);
+      // console.log("--lim->", limit, "ref->", ref, "var->", varRelative);
 
       return "height:" + varRelative.toFixed(0) + "%;";
-    },
-    getMonth(month) {
-      var date =
-        this.yearSelected + "-" + (month > 9 ? "0" + month : month) + "-10";
-      return moment(date).format("MMM");
     },
     changeYear() {
       this.$emit("chmage-year");
@@ -103,7 +97,7 @@ export default {
   }
 }
 .chart-content {
-  height: 30vh;
+  height: 40vh;
   width: 100%;
   border-radius: 0.5rem;
   //   background-color: #f5faff;
@@ -131,8 +125,9 @@ export default {
     .value {
       font-size: 12px;
       color: #ccc;
+      display: none
       // visibility: hidden;
-      display: none;
+     
     }
     .bar_success {
       // width: 20px;
@@ -148,6 +143,11 @@ export default {
       border-radius: 0.4rem;
       background-color: #e6a7b3;
     }
+  }
+
+  .bar-item:hover .value{
+    display: block;
+    color: #444
   }
 }
 </style>

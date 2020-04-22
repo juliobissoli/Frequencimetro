@@ -5,12 +5,14 @@
       :to="{ name: 'StudentDetail', params: { item } }"
     >
       <div class="row">
-        <div class="col-md-1" style="color:#7794cc;">#{{ item.id }}</div>
+        <div class="col-md-2" style="color:#7794cc;">#{{zeroLeft(item.id) }}</div>
         <div class="col-md-6">
           {{ item.name }}
         </div>
-        <div class="col-md-5">
-          {{ (item.hour * 1).toFixed(0) }}h , {{printDays(item.days) }}
+        <div class="col-md-4 d-flex justify-content-end">
+          <div v-for="i in 5" :key="i" class="">
+            <i class="fas fa-circle mr-2 circle text-secundary"></i>
+          </div>
         </div>
       </div>
     </router-link>
@@ -92,17 +94,25 @@ export default {
     },
     printDays(days) {
       const vetDays = days.split(" ");
-      var str = ""
-      vetDays.length === 5
-        ? (str += "Segunda a sexta")
-        : (str += days);
+      var str = "";
+      vetDays.length === 5 ? (str += "Segunda a sexta") : (str += days);
       return str;
     },
+    zeroLeft(num){
+      if(num < 10)  return '000' + num
+      if (num < 100) return '00' + num 
+      if (num < 1000) return '0' + num
+      return num
+}
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.circle{
+  font-size: 12px;
+  color: #7794cc;
+}
 .line {
   color: #444;
   text-decoration: none;

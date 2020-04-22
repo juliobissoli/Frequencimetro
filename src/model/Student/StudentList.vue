@@ -7,7 +7,7 @@
     />
     <BarTop class="mb-2" title="Alunos" :input="false" :btn="false" />
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-7">
         <div class="shadow p-3 mb-5 bg-white rounded">
           <div>
             <BarTop
@@ -42,7 +42,7 @@
           />
         </div>
       </div>
-      <div class="col-md-4 ">
+      <div class="col-md-5 ">
         <StatistcsPanel />
       </div>
     </div>
@@ -106,7 +106,7 @@ export default {
     getSearch(token) {
       this.searchEntrys = token;
       this.currentPage = 1;
-      console.log(token);
+      // console.log(token);
       this.getStudents();
     },
   },
