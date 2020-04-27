@@ -2,7 +2,13 @@
   <div class="bar_top ">
     <h3 v-show="title" >{{title}}</h3>
     <div v-show="input" class="search-input mb-3">
-      <input type="text" placeholder="placeholder" class="form-control" />
+      <input 
+        v-debounce:500ms="serach"
+        type="text"
+        :placeholder="placeholder"
+        class="form-control"
+        v-model="serachTocken"
+       />
     </div>
     <button v-show="btn" @click="btnClicked()" class="btn mb-3" :class="btn.class">
       {{btn.label}}
@@ -11,13 +17,23 @@
 </template>
 
 <script>
+
 export default {
   name: "BarTop",
+
   props: ['title', 'input', 'btn', 'placeholder'],
+  data(){
+    return {
+      serachTocken: null
+    }
+  },
   methods: {
     btnClicked (){
       console.log("cnascouinsacin")
       this.$emit('button-clicked')
+    },
+    serach(){
+      this.$emit('get-search', this.serachTocken )
     }
   }
 };

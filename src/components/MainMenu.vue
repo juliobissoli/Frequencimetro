@@ -167,11 +167,12 @@ export default {
 
 .dropdown-content {
   position: absolute;
-  // background-color: #f9f9f9;
+  background-color: #f9f9f9;
   color: #777;
   right: 0;
-  top: 0;
-  left: 6vw;
+  top: 9vh;
+  border: none;
+  left: 0;
   min-width: 8vw;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 12px 16px;
