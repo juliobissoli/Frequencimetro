@@ -1,6 +1,6 @@
 <template>
   <div class="bar_top ">
-    <h3 v-show="title" >{{title}}</h3>
+    <h3 v-show="title">{{title}}</h3>
     <div v-show="input" class="search-input mb-3">
       <input 
         v-debounce:500ms="serach"
@@ -51,7 +51,10 @@ export default {
   align-items: center;
   justify-content: space-between;
   color: #555;
- 
+  
+  .title{
+    font-size: 20px;
+  }
 
   .search-input {
     position: relative;

@@ -12,6 +12,53 @@ body {
     Arial, sans-serif;
 }
 
+.shadow{
+  animation-name: startSuavized;
+  animation-duration: 500ms;
+}
+.validateError{
+  animation: nono 300ms;
+}
+
+.vanish{
+  animation: colapse 300ms;
+}
+@keyframes colapse {
+  from{
+    opacity: 1;
+  }
+  to{
+    opacity: 0;
+  }
+}
+@keyframes nono {
+  0%{
+    transform: translateX(0%);
+  }
+  35%{
+    transform: translateX(-15%);
+  }
+  75%{
+    transform: translateX(15%);
+  }
+  100%{
+    transform: translateX(0%);
+  }
+}
+
+@keyframes startSuavized {
+  from{
+    opacity: 0;
+    transform: scale(0.9);
+    // transform: translateY(35%);
+  }
+  to{
+    opacity: 1;
+    transform: scale(1);
+    // transform: translateY(0%);
+
+  }
+}
 .rounded{
   border-radius:0.8rem !important;
 }

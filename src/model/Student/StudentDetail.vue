@@ -50,7 +50,7 @@
                 />
                 <label
                   for="list"
-                  :class="{ 'button-selected': formatView === 'list' }"
+                  :class="{ 'button-selected': formatView !== 'list' }"
                 >
                   <i class="fas fa-list-ul"></i>
                 </label>
@@ -193,6 +193,7 @@ export default {
         await api
           .get("/attendances/" + this.item.id, {
             params: {
+              ////-------------Verificaaaaaaaaaa--------///////
               firstDay: "2020-04-01",
               lestDay: "2020-04-23",
             },
