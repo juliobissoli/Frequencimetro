@@ -1,43 +1,58 @@
 <template>
-  <div class="chart p-3">
-    <div class="title mb-3 d-flex justify-content-between">
-      <span>{{ title }}</span>
-      <input class="input" type="date" :value="today" />
+  <div class="chart ">
+    <div class="row  ml-1  py-1 px-2 mb-2 ">
+      <div class="col-md-3">
+        <strong class="">
+          Período
+        </strong>
+      </div>
+      <div class="col-md-4">
+        <strong class="">
+          Vencimento
+        </strong>
+      </div>
+      <div class="col-md-5">
+        <strong class="">
+          Pagamentos
+        </strong>
+      </div>
     </div>
     <div
       v-for="(item, index) in statistics"
       :key="index"
-      class="row chart-content ml-1"
+      class="row chart-content ml-1 shadow-sm py-1 px-2 mb-2 bg-light line"
     >
-      <div class="col-md-6 p-0">
-        <div class="legend">
-          <span>As {{ item.label }} horas</span>
+      <div class="col-md-3 p-0">
+        <div class="">
+          <span>{{ item.label }}</span>
         </div>
       </div>
-      <div class="col-md-6 p-0 d-flex justify-content-end legend">
-        <span class="value_primary mr-1">{{ item.subTotal }} Presentes</span>
-        /
-        <span class="value-danger ml-1"> {{ item.total }} Matriculados</span>
+      <div class="col-md-3 p-0">
+        20/02/2020
       </div>
-
-      <div class="col-md-12 p-0">
-        <div class="bar-item">
-          <div
-            class="bar_success"
-            :style="getSizeWidth(maxNunber, item.subTotal)"
-          ></div>
-          <div
-            class="bar_danger"
-            :style="
-              getSizeWidth(
-                maxNunber,
-                item.total > item.subTotal
-                  ? item.total - item.subTotal
-                  : item.total
-              )
-            "
-          ></div>
+      <div class="col-md-3 p-0 pl-1">
+        <div>
+          <div class="bar-item ">
+            <div
+              class="bar_success"
+              :style="getSizeWidth(maxNunber, item.subTotal)"
+            ></div>
+            <div
+              class="bar_danger"
+              :style="
+                getSizeWidth(
+                  maxNunber,
+                  item.total > item.subTotal
+                    ? item.total - item.subTotal
+                    : item.total
+                )
+              "
+            ></div>
+          </div>
         </div>
+      </div>
+      <div class="col-md-2 p-0 d-flex justify-content-end legend">
+        <span class="value_primary mr-1">{{ item.subTotal }}% Pago </span>
       </div>
     </div>
   </div>
@@ -66,16 +81,19 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.line {
+  border-radius: 0.5rem;
+  background-color: #e1ebf7;
+  // background-color: #f5faff;
+  font-family: "Avenir Next W01", "Lato", "Karla", "Proxima Nova W01", "Rubik",
+    -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+    Arial, sans-serif;
+}
 .chart {
   //   background-color: #f5f6fd;
   background-color: #ffffff;
-  color: #000529;
+  // color: #000529;
   border-radius: 0.4rem;
-  .title {
-    width: 100%;
-    font-size: 20px;
-    font-weight: 100;
-  }
   .input {
     border-radius: 0.4rem;
     border: none;
@@ -86,20 +104,10 @@ export default {
     color: #7794cc;
   }
   .legend {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 100;
     color: #999;
   }
-  // .value_primary {
-  //   font-size: 15px;
-  //   color: #7794cc;
-  //   font-weight: 300;
-  // }
-  // .value-danger {
-  //   font-size: 12px;
-  //   color: #e6a7b3;
-  //   font-weight: 300;
-  // }
 
   .chart-content {
     width: 100%;
@@ -122,7 +130,7 @@ export default {
         height: 100%;
         // border-radius: 0 4rem 4rem 0;
         border-radius: 4rem;
-        background-color: #7794cc;
+        background-color: #9fefc9;
       }
       .bar_danger {
         height: 100%;
