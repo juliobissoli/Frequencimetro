@@ -1,47 +1,75 @@
 <template>
   <div class="bg-white ">
+    <MakePayment v-show="modalMakepayment" @close="modalMakepayment = false" />
     <span class="title">{{ title }}</span>
     <div class="list">
       <table class="table table-striped ">
-        <thead>
-          <tr>
-            <th scope="col">Aluno</th>
-            <th scope="col">Periodo</th>
-            <th scope="col">Data pagamento</th>
-            <th scope="col">Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="p-1">Felipe Melo</td>
-            <td class="p-1">Jan 2020</td>
-            <td class="p-1">{{ date("2020-04-20") }}</td>
-            <td class="p-1">{{ (2 * 1).toFixed(0) }} horas</td>
-          </tr>
-          <tr>
-            <td class="p-1">Felipe Melo</td>
-            <td class="p-1">Jan 2020</td>
-            <td class="p-1">{{ date("2020-04-20") }}</td>
-            <td class="p-1">{{ (2 * 1).toFixed(0) }} horas</td>
-          </tr>
-          <tr>
-            <td class="p-1">Felipe Melo</td>
-            <td class="p-1">Jan 2020</td>
-            <td class="p-1">{{ date("2020-04-20") }}</td>
-            <td class="p-1">{{ (2 * 1).toFixed(0) }} horas</td>
-          </tr>
-        </tbody>
+        <slot v-if="monthly_payment">
+          <thead>
+            <tr>
+              <th scope="col">Periodo</th>
+              <th scope="col">Vencimento</th>
+              <th scope="col">Valor cobrado</th>
+              <th scope="col">Valor pago</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in payments" :key="index">
+              <td class="p-1">{{ item.period }}</td>
+              <td class="p-1">{{ date(item.date_end) }}</td>
+              <td class="p-1">{{ itsPaid(item).monthly_payment }}</td>
+              <td class="p-1">R${{ itsPaid(item).value }}</td>
+              <td class="p-1">
+                <button
+                  style="border:none"
+                  class="btn btn-sm"
+                  @click="modalMakepayment  =  !modalMakepayment"
+                  :class="itsPaid(item).btn"
+                >
+                  <i :class="itsPaid(item).icon"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </slot>
       </table>
     </div>
   </div>
 </template>
 
 <script>
+import MakePayment from '../Balance/Makepayment'
+
 import moment from "moment";
+
 export default {
-  name: "AttendancesListy",
-  props: ["attendances", "title"],
+  name: "PaymenstListy",
+  props: ["payments", "title", "monthly_payment"],
+  components: {MakePayment},
+  data(){
+    return {
+      modalMakepayment: false,
+    }
+  },
   methods: {
+    itsPaid(item) {
+      if (item.payments.length > 0) {
+        return {
+          monthly_payment: item.payments[0].charge_value,
+          value: item.payments[0].value,
+          btn: "btn-outline-success",
+          icon: "fas fa-check",
+        };
+      } else {
+        return {
+          monthly_payment: this.monthly_payment,
+          value: "0,00",
+          btn: "btn-outline-danger",
+          icon: "fas fa-money-bill",
+        };
+      }
+    },
     date(date) {
       return moment(date).format("DD/MM/YYYY");
     },

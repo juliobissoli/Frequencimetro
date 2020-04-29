@@ -3,9 +3,9 @@
     <NewBalance
       v-show="isModalVisible"
       @close="isModalVisible = false"
-      @updateApi="getCharges()"
+      @updateApi="changeData++"
       :mode="typeModal"
-      :charge="chargeItem"
+      :charge="chargeData"
     />
     <div class="row">
       <div class="col-md-6">
@@ -107,12 +107,8 @@ export default {
     return {
       isModalVisible: false,
       typeModal: "create",
+      changeData: 1,
       chargeData: null,
-      chargeItem: {
-        month: "",
-        year: "",
-        date_end: "",
-      },
       maxTotal: 22,
       currentPage: 1,
       perPage: 10,
@@ -123,12 +119,17 @@ export default {
   created() {
     this.getCharges();
   },
+  watch: {
+    changeData() {
+      console.log(this.changeData);
+      this.getCharges();
+    },
+  },
   methods: {
     getSearch() {
       return "";
     },
     getCharges() {
-      console.log("ta no ge charge");
       api
         .get("/charge", {
           params: {
@@ -137,6 +138,7 @@ export default {
           },
         })
         .then((res) => {
+          console.log("ta no ge charge");
           this.totalData = res.data.total;
           this.currentPage = res.data.page;
           this.perPage = res.data.perPage;
@@ -144,7 +146,6 @@ export default {
         });
     },
     changePage(page) {
-      console.log("muda page");
       this.currentPage = page;
       this.getCharges();
     },
@@ -168,7 +169,6 @@ export default {
         year: period[1],
         date_end: item.date_end,
       };
-      console.log(item);
     },
   },
 };

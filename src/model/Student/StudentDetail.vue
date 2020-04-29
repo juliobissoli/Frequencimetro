@@ -5,6 +5,7 @@
       :item="student"
       @close="modalDeleteVisible = false"
     />
+
     <BarTop
       class="mb-2"
       :title="'Aluno: ' + student.name"
@@ -91,7 +92,9 @@
             <h4>
               Mensalidades
             </h4>
-            <div class="p-3 shadow bg-white "></div>
+            <div class="p-3 shadow bg-white ">
+              <PaymentList  :payments="paymentList" title="Mensalidades" :monthly_payment="item.payment"/>
+            </div>
           </div>
         </div>
       </div>
@@ -107,17 +110,20 @@ import BarTop from "../../components/BarTop";
 import ModalDelete from "../../components/Student/ModalDelit";
 import Chart from "../../components/Chart";
 import AttendanceList from "../../components/Student/AttendanceList";
+import PaymentList from '../../components/Balance/PaymentList'
+
 import moment from 'moment'
 export default {
   name: "StudentDetail",
   props: ["item"],
-  components: { BarTop, ModalDelete, FormStudent, Chart, AttendanceList },
+  components: { BarTop, ModalDelete, FormStudent, Chart, AttendanceList, PaymentList},
   data() {
     return {
       attendancies: [],
       formatView: "chart",
       modalDeleteVisible: false,
       isEdtiMode: false,
+      paymentList: [],
       statis: {
         maxTotal: 0,
         staistics: [],
@@ -140,6 +146,7 @@ export default {
     this.student = this.item;
     this.getStatisticsStudent();
     this.getAttendacies();
+    this.getPayments()
   },
   methods: {
     close() {
@@ -222,6 +229,16 @@ export default {
         console.log(err);
       }
     },
+    async getPayments(){
+      try {
+        await api.get('/charge/' + this.item.id)
+              .then((res) => {
+                this.paymentList = res.data
+              })
+      } catch (error) {
+        console.log(error)
+      }
+    }
   },
 };
 </script>

@@ -3,7 +3,7 @@
     <div class="modal-backdrop">
       <div
         class="modal"
-         :class="{ validateError: mensageError  }"
+        :class="{ validateError: mensageError }"
         role="dialog"
         aria-labelledby="modalTitle"
         aria-describedby="modalDescription"
@@ -24,10 +24,43 @@
         <section class="modal-body" id="modalDescription">
           <slot name="body">
             <form>
-              <FormCharge :date_end="date_end" :year="year" :month="month" />
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label>Mês</label>
+                  <select v-model="month" class="form-control">
+                    <option v-for="i in 12" :key="i" :value="formatMonth(i)">
+                      {{ formatMonth(i) }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label>Ano</label>
+                  <div class="input-group input-group">
+                    <select v-model="year" class="form-control">
+                      <option v-for="i in 10" :key="i" :value="2019 + i">
+                        {{ 2019 + i }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group col-md-12">
+                  <label>Vencimento</label>
+                  <div class="input-group input-group">
+                    <input
+                      v-model="date_end"
+                      type="date"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </div>
             </form>
-            {{ year }}
-            <div v-show="mensageError" class="alert alert-danger mensage_danger" role="alert">
+            <div
+              v-show="mensageError"
+              class="alert alert-danger mensage_danger"
+              role="alert"
+            >
               {{ mensageError }}
             </div>
           </slot>
@@ -48,15 +81,15 @@
             <button
               type="button"
               class="btn btn-sm btn-danger"
-              @click="newCharge()"
+              @click="deleteCharge()"
               aria-label="Close modal"
             >
-              Apagar
+              Excluir
             </button>
             <button
               type="button"
               class="btn btn-sm btn-success"
-              @click="epdateCharge()"
+              @click="updateCharge()"
               aria-label="Close modal"
             >
               Salvar
@@ -69,64 +102,54 @@
 </template>
 
 <script>
-import FormCharge from "../../components/Balance/FormCharge";
-
 import api from "../../services/api";
+import moment from "moment";
 export default {
   name: "NewBalance",
   props: ["mode", "charge"],
-  components: { FormCharge },
+
   data() {
     return {
       mensageError: "",
-      data() {
-        return {
-          month: "",
-          year: "",
-          date_end: "",
-        };
-      },
+      month: "",
+      year: "",
+      date_end: "",
     };
   },
-  created() {
-    if (this.charge) {
-      console.log(this.charge);
-      this.month = this.charge.month;
-      this.year = this.charge.year;
-      this.date_end = this.charge.date_end;
-    }
-  },
-    watch: {
-      mensageError() {
-        console.log('tempo doisdooodd')
-        setTimeout(() => {
-        document.querySelector(".mensage_danger").classList.add("vanish")
-        }, 2000)
-
-        setTimeout(() => {
-        document.querySelector(".mensage_danger").classList.remove("vanish")
-        this.mensageError = ''
-        }, 2100)
-
-
-      },
+  watch: {
+    charge() {
+      if (this.mode !== "create") {
+        let date = this.charge.period.split("/");
+        this.month = date[0];
+        this.year = date[1];
+        this.date_end = this.charge.date_end;
+      } else {
+        this.month = "";
+        this.year = "";
+        this.date_end = "";
+      }
     },
-  //   computed: {
-  //     monthTrue: {
-  //       get() {
-  //         if (this.charge) {
-  //           let month = this.charge.period.split("/");
-  //           return month[0];
-  //         } else return "";
-  //       },
-  //       //   set (date) {
-  //       //     this.item.end_date = moment(date).format('YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DD')
-  //       //   }
-  //     },
-  //},
+    mensageError() {
+      setTimeout(() => {
+        document.querySelector(".mensage_danger").classList.add("vanish");
+      }, 2000);
+
+      setTimeout(() => {
+        document.querySelector(".mensage_danger").classList.remove("vanish");
+        this.mensageError = "";
+      }, 2100);
+    },
+  },
   methods: {
     close() {
       this.$emit("close");
+    },
+    formatMonth(item) {
+      if (item) {
+        var date =
+          this.yearSelected + "-" + (item > 9 ? "0" + item : item) + "-10";
+        return moment(date).format("MMM");
+      }
     },
     validate() {
       const body = {
@@ -134,14 +157,19 @@ export default {
         date_end: this.date_end,
         payment: 0,
       };
-      if (body.period != " " && body.date_end !== "") {
+      if (body.period !== " " && body.date_end !== "") {
+        let date_end_split = this.date_end.split("/");
+
+        if (date_end_split[2] < this.year) {
+          this.mensageError = "Data de vencimentro invalida";
+        }
+
         return body;
       } else {
         this.mensageError = "Preencha todos os dados";
       }
     },
     async newCharge() {
-      console.log("novo");
       const body = this.validate();
       if (body) {
         try {
@@ -153,11 +181,19 @@ export default {
         }
       }
     },
-    epdateCharge() {
-      console.log("Vai atualizar");
+    updateCharge() {
       const body = this.validate();
       try {
-        api.put("/charge", body);
+        api.put("/charge/" + this.charge.id, body);
+        this.$emit("updateApi");
+        this.close();
+      } catch (err) {
+        this.mensageError = err;
+      }
+    },
+    deleteCharge() {
+      try {
+        api.delete("/charge/" + this.charge.id);
         this.$emit("updateApi");
         this.close();
       } catch (err) {
@@ -213,7 +249,7 @@ export default {
 
 .modal-footer {
   border-top: 1px solid #eeeeee;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .modal-body {
