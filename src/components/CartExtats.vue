@@ -1,14 +1,16 @@
 <template>
   <div class="card p-1" :class="classColor">
-    <div class="row ">
-      <div class="col-5    d-flex justify-content-center align-items-center">
+    <div class="row">
+      <div class="col-5 d-flex justify-content-center align-items-center">
         <div class="side_box">
           <i :class="clasIcon"></i>
         </div>
       </div>
       <div class="col-7 p-1">
         <div class="row">
-          <strong class="col-12 describe text-right pr-5" style="color:#fff">{{today}} </strong>
+          <strong class="col-12 describe text-right pr-5" style="color: #fff;"
+            >{{ today }}
+          </strong>
           <span class="col-12 title">{{ title }}</span>
           <span class="col-12 sub_title">{{ subTitle }}</span>
         </div>
@@ -18,11 +20,10 @@
 </template>
 
 <script>
-
 export default {
-  name: "CardExtat",
-  props: ["classColor", "clasIcon", "title", "subTitle", "today"],
-};
+  name: 'CardExtat',
+  props: ['classColor', 'clasIcon', 'title', 'subTitle', 'today']
+}
 </script>
 
 <style lang="scss" scoped>
@@ -40,6 +41,17 @@ export default {
 .secondary {
   background-color: #e6a7b3;
   color: #b36089;
+
+  border: none;
+  .side_box {
+    background-color: #fff;
+    border-radius: 0.8rem;
+  }
+}
+
+.success {
+  background-color: #9fefc9;
+  color: #4ba179 ;
 
   border: none;
   .side_box {
