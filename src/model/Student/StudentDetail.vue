@@ -37,9 +37,9 @@
           </form>
         </div>
       </div>
-      <div class="col-md-6 ">
+      <div class="col-md-6">
         <div class="row">
-          <div class="col-md-12 p-3 ">
+          <div class="col-md-12 p-3">
             <div class="d-flex justify-content-between">
               <h4>Frequencia</h4>
               <div class="d-flex swith-model-vuew">
@@ -70,7 +70,7 @@
               </div>
             </div>
 
-            <div class=" shadow rounded ">
+            <div class="shadow rounded">
               <Chart
                 v-if="formatView === 'chart'"
                 :maxTotal="statis.maxTotal"
@@ -92,8 +92,14 @@
             <h4>
               Mensalidades
             </h4>
-            <div class="p-3 shadow bg-white ">
-              <PaymentList  :payments="paymentList" title="Mensalidades" :monthly_payment="item.payment"/>
+            <div class="p-3 shadow bg-white">
+              <PaymentList
+                :payments="paymentList"
+                title="Mensalidades"
+                :monthly_payment="item.payment"
+                :student_id="item.id"
+                @updateApi="getPayments()"
+              />
             </div>
           </div>
         </div>
@@ -104,143 +110,154 @@
 
 <script>
 // import Multiselect from "vue-multiselect";
-import FormStudent from "../../components/Student/FormStudent";
-import api from "../../services/api";
-import BarTop from "../../components/BarTop";
-import ModalDelete from "../../components/Student/ModalDelit";
-import Chart from "../../components/Chart";
-import AttendanceList from "../../components/Student/AttendanceList";
+import FormStudent from '../../components/Student/FormStudent'
+import api from '../../services/api'
+import BarTop from '../../components/BarTop'
+import ModalDelete from '../../components/Student/ModalDelit'
+import Chart from '../../components/Chart'
+import AttendanceList from '../../components/Student/AttendanceList'
 import PaymentList from '../../components/Balance/PaymentList'
 
 import moment from 'moment'
 export default {
-  name: "StudentDetail",
-  props: ["item"],
-  components: { BarTop, ModalDelete, FormStudent, Chart, AttendanceList, PaymentList},
+  name: 'StudentDetail',
+  props: ['item'],
+  components: {
+    BarTop,
+    ModalDelete,
+    FormStudent,
+    Chart,
+    AttendanceList,
+    PaymentList
+  },
   data() {
     return {
       attendancies: [],
-      formatView: "chart",
+      formatView: 'chart',
       modalDeleteVisible: false,
       isEdtiMode: false,
       paymentList: [],
       statis: {
         maxTotal: 0,
-        staistics: [],
+        staistics: []
       },
-      mensageError: "",
+      mensageError: '',
       student: {
-        name: "",
-        cpf: "",
-        email: "",
-        address: "",
-        telephone: "",
-        modality: "",
-        situation: "",
-        hour: "",
-        daysActvities: [],
-      },
-    };
+        name: '',
+        cpf: '',
+        email: '',
+        address: '',
+        telephone: '',
+        modality: '',
+        situation: '',
+        hour: '',
+        daysActvities: []
+      }
+    }
   },
   created() {
-    this.student = this.item;
-    this.getStatisticsStudent();
-    this.getAttendacies();
+    this.student = this.item
+    this.getStatisticsStudent()
+    this.getAttendacies()
     this.getPayments()
   },
   methods: {
     close() {
-      this.reserve = {};
-      this.amount = "";
-      this.$emit("close");
+      this.reserve = {}
+      this.amount = ''
+      this.$emit('close')
     },
     updateStudent() {
       if (this.student) {
-        const validator = require("email-validator");
-        const validarCpf = require("validar-cpf");
+        const validator = require('email-validator')
+        const validarCpf = require('validar-cpf')
 
         if (!validator.validate(this.student.email))
-          return (this.mensageError = "Emai-l errado");
+          return (this.mensageError = 'Emai-l errado')
         if (!validarCpf(this.student.cpf))
-          return (this.mensageError = "CPF errado");
+          return (this.mensageError = 'CPF errado')
         const body = {
           ...this.student,
-          days: this.monuntDays(this.student.daysActvities),
-        };
-        this.putStudent(body);
+          days: this.monuntDays(this.student.daysActvities)
+        }
+        this.putStudent(body)
       }
     },
     monuntDays(days) {
-      if (!days) return this.student.days;
+      if (!days) return this.student.days
       return days
         .map((el) => el.name)
         .reduce((a, b) => {
-          return a + " " + b;
-        });
+          return a + ' ' + b
+        })
     },
     async putStudent(body) {
-      console.log(body);
+      console.log(body)
       try {
-        await api.put("/students/" + this.item.id, body);
-        this.$router.push({ name: "Students" });
+        await api.put('/students/' + this.item.id, body)
+        this.$router.push({ name: 'Students' })
       } catch (e) {
-        return e;
+        return e
       }
     },
     formatLabel(item) {
       if (item) {
         item.map((el) => {
-          var date =  this.yearSelected + "-" + (el.label > 9 ? "0" + el.label : el.label) + "-10";
-          el.label = moment(date).format("MMM");
-        });
+          var date =
+            this.yearSelected +
+            '-' +
+            (el.label > 9 ? '0' + el.label : el.label) +
+            '-10'
+          el.label = moment(date).format('MMM')
+        })
       }
     },
     async getAttendacies() {
       try {
         await api
-          .get("/attendances/" + this.item.id, {
+          .get('/attendances/' + this.item.id, {
             params: {
               ////-------------Verificaaaaaaaaaa--------///////
-              firstDay: "2020-04-01",
-              lestDay: "2020-04-23",
-            },
+              firstDay: '2020-04-01',
+              lestDay: '2020-04-23'
+            }
           })
           .then((res) => {
-            this.attendancies =  res.data;
-          });
+            this.attendancies = res.data
+          })
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     },
     async getStatisticsStudent() {
       try {
         await api
-          .get("/statisticsStudent/" + this.item.id, {
+          .get('/statisticsStudent/' + this.item.id, {
             params: {
               min: 1,
-              max: 13,
-            },
+              max: 13
+            }
           })
           .then((res) => {
-            this.formatLabel(res.data.statistics);
-            this.statis = res.data;
-          });
+            this.formatLabel(res.data.statistics)
+            this.statis = res.data
+          })
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     },
-    async getPayments(){
+    async getPayments() {
+      console.log('vai pegar os pagamentsos')
       try {
-        await api.get('/charge/' + this.item.id)
-              .then((res) => {
-                this.paymentList = res.data
-              })
+        await api.get('/charge/' + this.item.id).then((res) => {
+          this.paymentList = res.data
+        })
       } catch (error) {
         console.log(error)
       }
-    }
-  },
-};
+    },
+  }
+}
 </script>
 
 <style lang="scss" scoped>

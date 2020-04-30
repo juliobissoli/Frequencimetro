@@ -16,34 +16,66 @@
               @click="close"
               aria-label="Close modal"
             >
-              x
+              <i class="fas fa-times"></i>
             </button>
           </slot>
         </header>
         <section class="modal-body" id="modalDescription">
           <form>
             <div class="row">
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-5">
                 <label>Periodo</label>
                 <div class="input-group input-group">
-                  <input class="form-control" placeholder="CPF" />
+                  <input
+                    class="form-control"
+                    :value="data.period"
+                    readonly="true"
+                  />
                 </div>
               </div>
 
-              <div class="form-group col-md-6">
-                <label>Valor</label>
+              <div class="form-group col-md-7">
+                <label>Valor Cobrado</label>
                 <div class="input-group input-group">
-                  <input class="form-control" placeholder="CPF" />
+                  <input
+                    class="form-control"
+                    v-model="data.charge_value"
+                    readonly="true"
+                  />
+                </div>
+              </div>
+              <div class="form-group col-md-5">
+                <label>Data Pagamento</label>
+                <div class="input-group input-group">
+                  <input
+                    class="form-control"
+                    v-model="data.date_end"
+                    type="date"
+                  />
+                </div>
+              </div>
+              <div class="form-group col-md-7">
+                <label>Valor Pago</label>
+                <div class="input-group input-group">
+                  <input
+                    class="form-control"
+                    v-model="data.value"
+                    type="number"
+                  />
                 </div>
               </div>
             </div>
           </form>
+          e isso eomcaposmn
+          <div v-show="mensageError" class="alert alert-danger" role="alert">
+            {{ mensageError }}
+          </div>
         </section>
         <footer class="modal-footer">
-          <slot name="footer">
+          <slot v-if="!data.income" name="footer">
             <button
               type="button"
-              class="btn btn-sm btn-primary"
+              class="btn btn-sm btn-outline-danger"
               aria-label="Close modal"
               @click="close"
             >
@@ -52,11 +84,31 @@
 
             <button
               type="button"
-              class="btn btn-sm btn-danger"
+              class="btn btn-sm btn-success"
+              @click="createPayment()"
+              aria-label="Close modal"
+            >
+              Receber Pagamento
+            </button>
+          </slot>
+
+          <slot v-else name="footer">
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-danger"
+              aria-label="Close modal"
+              @click="close"
+            >
+              Escluir
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
               @click="deletStudent"
               aria-label="Close modal"
             >
-              Remover
+              Salvar
             </button>
           </slot>
         </footer>
@@ -66,27 +118,59 @@
 </template>
 
 <script>
-import api from "../../services/api";
+import moment from 'moment'
+import api from '../../services/api'
 
 export default {
-  name: "MakePayment",
-  props: ["item"],
+  name: 'MakePayment',
+  props: ['paymentData'],
+  data() {
+    return {
+      mensageError: '',
+      data: {
+        period: '',
+        value: '',
+        date_end: '',
+        income: false,
+        charge_value: 0
+      }
+    }
+  },
+
+  watch: {
+    paymentData() {
+      this.data = this.paymentData
+    }
+  },
   methods: {
     close() {
-      this.reserve = {};
-      this.amount = "";
-      this.$emit("close");
+      this.$emit('close')
     },
 
     async deletStudent() {
       try {
-        await api.post("/paymenst");
+        await api.post('/paymenst')
       } catch (e) {
-        return e;
+        return e
       }
     },
-  },
-};
+    async createPayment() {
+      console.log('ta aqui')
+      let body = {
+        ...this.data,
+        date: moment().format('YYYY-MM-DD')
+      }
+      console.log(body)
+      try {
+        await api
+          .post('/payment', body)
+          .then(this.close(), this.$emit('updateApi'))
+      } catch (err) {
+        this.mensageError = err
+      }
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .modal-backdrop {
@@ -109,7 +193,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 500px;
-  max-height: 300px;
+  max-height: 400px;
   border-radius: 4px;
   left: auto;
   top: auto;
@@ -161,8 +245,8 @@ export default {
 
   margin-right: 0.5rem;
 
-  font-family: "Avenir Next W01", "Proxima Nova W01", "Rubik", -apple-system,
-    system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+  font-family: 'Avenir Next W01', 'Proxima Nova W01', 'Rubik', -apple-system,
+    system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     sans-serif;
   font-weight: 400;
   outline: none;

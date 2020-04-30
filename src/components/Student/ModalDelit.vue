@@ -16,7 +16,7 @@
               @click="close"
               aria-label="Close modal"
             >
-              x
+              <i class="fas fa-times"></i>
             </button>
           </slot>
         </header>
