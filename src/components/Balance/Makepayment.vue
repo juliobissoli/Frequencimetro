@@ -66,7 +66,7 @@
               </div>
             </div>
           </form>
-            {{id_payment}}
+          {{ id_payment }}
 
           <div v-show="mensageError" class="alert alert-danger" role="alert">
             {{ mensageError }}
@@ -124,7 +124,12 @@ import api from '../../services/api'
 
 export default {
   name: 'MakePayment',
-  props: ['paymentData', 'editiPayment', 'id_payment'],
+  props: [
+    'paymentData',
+    'editiPayment',
+    'id_payment',
+    'student_date'
+  ],
   data() {
     return {
       mensageError: '',
@@ -155,21 +160,23 @@ export default {
       try {
         await api
           .post('/payment', body)
-          .then(this.close(), this.$emit('updateApi'))
+          .then(
+            this.close(),
+            this.$emit('updateApi'),
+            this.updatePercentPayment()
+          )
       } catch (err) {
         this.mensageError = err
       }
     },
 
-    async deletPayment(){
-      console.log(this.id_payment)
+    async deletPayment() {
       try {
-        await api.delete('/payment/' + this.id_payment)
-        .then( this.close)
+        await api.delete('/payment/' + this.id_payment).then(this.close)
       } catch (err) {
-        this.mensageError = err        
+        this.mensageError = err
       }
-    }
+    },
   }
 }
 </script>

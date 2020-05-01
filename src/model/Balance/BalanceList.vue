@@ -3,7 +3,7 @@
     <NewBalance
       v-show="isModalVisible"
       @close="isModalVisible = false"
-      @updateApi="changeData++"
+      @updateApi="getCharges()"
       :mode="typeModal"
       :charge="chargeData"
     />
@@ -39,26 +39,28 @@
 
       <div class="col-md-6">
         <BarTop class="mb-2" title="Abril" :input="false" :btn="false" />
-        <div class="row">
-          <div class="col-md-4 pr-1">
+        <div class="row mb-3">
+          <div class="col-md-6 pr-1">
             <CardBalance
+              :today="today"
               clasIcon="fas fa-heartbeat"
-              title="201"
+              :title="totalPayments"
               subTitle="Pagamentos"
               classColor="primary"
               class="shadow rounded"
             />
           </div>
-          <div class="col-md-4 pl-1">
+          <div class="col-md-6 pl-1">
             <CardBalance
+              :today="today"
               clasIcon="fas fa-heartbeat"
-              title="2145"
+              :title="`R$ ${income}`"
               subTitle="Receita"
               classColor="success"
               class="shadow rounded"
             />
           </div>
-          <div class="col-md-4 pl-1 mb-3">
+          <!-- <div class="col-md-4 pl-1 mb-3">
             <CardBalance
               clasIcon="fas fa-heartbeat"
               title="21"
@@ -66,12 +68,12 @@
               classColor="warning"
               class="shadow rounded"
             />
-          </div>
+          </div> -->
         </div>
         <div class="row">
           <div class="col-md-12">
             <div class="shadow p-3 bg-white rounded">
-              <PaymentList title="Pagamentos"  :payments="payments" />
+              <PaymentList title="Pagamentos" :payments="payments" />
             </div>
           </div>
         </div>
@@ -88,6 +90,7 @@ import CardBalance from '../../components/CartExtats'
 import PaymentList from '../../components/Balance/PaymentList'
 import NewBalance from './NewBalance'
 
+import moment from 'moment'
 import api from '../../services/api'
 export default {
   name: 'BalanceList',
@@ -103,24 +106,24 @@ export default {
     return {
       isModalVisible: false,
       typeModal: 'create',
-      changeData: 1,
       chargeData: null,
       maxTotal: 22,
       currentPage: 1,
       perPage: 10,
       totalData: 10,
       charge: [],
-      payments: []
+      payments: [],
+      totalPayments: 0,
+      income: 0
     }
   },
   created() {
     this.getCharges()
     this.getPayments()
   },
-  watch: {
-    changeData() {
-      console.log(this.changeData)
-      this.getCharges()
+  computed: {
+    today() {
+      return moment().format('ddd DD/MM')
     }
   },
   methods: {
@@ -145,9 +148,10 @@ export default {
 
     getPayments() {
       try {
-        api.get('payment')
-        .then( (res) => {
+        api.get('payment').then((res) => {
+          this.totalPayments = res.data.length
           this.payments = res.data
+          this.income = this.countIncome(res.data)
         })
       } catch (error) {
         console.error(error)
@@ -177,6 +181,16 @@ export default {
         year: period[1],
         date_end: item.date_end
       }
+    },
+
+    countIncome(list) {
+      return list
+        .map((el) => {
+          return parseInt(el.value)
+        })
+        .reduce((acc, i) => {
+          return acc + i
+        })
     }
   }
 }

@@ -31,6 +31,7 @@
         title="Mensalidades"
         :monthly_payment="item.payment"
         :student_id="item.id"
+        :student_date="item.created_at"
         @updateApi="getPayments()"
       />
     </div>
@@ -48,6 +49,7 @@ export default {
   name: 'ChargeDetail',
   props: ['item'],
   components: { PaymentList, Card },
+
   data() {
     return {
       paymentList: [],

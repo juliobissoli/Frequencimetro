@@ -5,7 +5,9 @@
       @close="modalMakepayment = false"
       :paymentData="paymentData"
       :editiPayment="editMode"
-      :id_payment="payment_ad"
+      :id_payment="payment_id"
+      :charge_id="charge_id"
+      :student_date="student_date"
     />
     <span class="title">{{ title }}</span>
     <div class="list">
@@ -30,7 +32,11 @@
               <td class="p-1">{{ item.period }}</td>
               <td class="p-1">{{ date(item.date_end) }}</td>
               <td class="p-1">
-                {{ paindOut(item) ? item.payments[0].charge_value : monthly_payment }}
+                {{
+                  paindOut(item)
+                    ? item.payments[0].charge_value
+                    : monthly_payment
+                }}
               </td>
               <td class="p-1">
                 R${{ paindOut(item) ? item.payments[0].value : ' ---' }}
@@ -77,24 +83,35 @@
         </slot>
       </table>
     </div>
+    <Pagination
+      @change-page="changePage"
+      :perPage="perPage"
+      :currentPage="currentPage"
+      :total="total"
+    />
   </div>
 </template>
 
 <script>
 import MakePayment from '../Balance/Makepayment'
+import Pagination from '../Pagination'
 
 import moment from 'moment'
 
 export default {
   name: 'PaymenstListy',
-  props: ['payments', 'title', 'monthly_payment', 'student_id'],
-  components: { MakePayment },
+  props: ['payments', 'title', 'monthly_payment', 'student_id', 'student_date'],
+  components: { MakePayment, Pagination },
   data() {
     return {
       editMode: true,
       modalMakepayment: false,
       paymentData: null,
-      payment_ad: null
+      payment_id: null,
+      charge_id: null,
+      currentPage: 1,
+      perPage: 10,
+      total: 30,
     }
   },
   methods: {
@@ -108,11 +125,13 @@ export default {
 
     mekePayment(item) {
       this.modalMakepayment = !this.modalMakepayment
+      
 
       if (this.student_id) {
         this.editMode = this.paindOut(item)
         this.paymentSelecte = item.payments.id
-        this.payment_ad =  this.paindOut(item) ? item.payments.id : null
+        this.payment_id = this.paindOut(item) ? item.payments[0].id : null
+        this.charge_id = item.id
 
         this.paymentData = {
           student_id: this.student_id,
@@ -127,7 +146,9 @@ export default {
             : this.monthly_payment
         }
       } else {
-        this.payment_ad = item.id
+        this.payment_id = item.id
+        this.charge_id = item.charges.id
+
         this.paymentData = {
           period: item.charges.period,
           value: item.value,
@@ -136,7 +157,11 @@ export default {
         }
       }
 
-      // this.paymentData = item
+    },
+
+    changePage(page){
+      this.currentPage = page
+      this.$emit('updateApi', page)
     },
     date(date) {
       return moment(date).format('DD/MM/YYYY')
