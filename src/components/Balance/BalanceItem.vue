@@ -130,13 +130,13 @@ export default {
         height: 100%;
         // border-radius: 0 4rem 4rem 0;
         border-radius: 4rem;
-        background-color: #9fefc9;
+        background-color: #54b889;
       }
       .bar_danger {
         height: 100%;
         //border-radius: 4rem 0 0 4rem;
         border-radius: 4rem;
-        background-color: #e6a7b3;
+        background-color: #cf566c;
       }
     }
   }

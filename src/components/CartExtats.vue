@@ -27,37 +27,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.primary {
-  background-color: #becef7;
-  color: #7794cc;
-
+.card{
   border: none;
-  .side_box {
+   .side_box {
     background-color: #fff;
     border-radius: 0.8rem;
   }
 }
+.primary {
+  // background-color: #becef7;
+  background-color: #3f67cc;
+  // color: #7794cc;
+  color: #022069;
+}
 
 .secondary {
-  background-color: #e6a7b3;
-  color: #b36089;
-
-  border: none;
-  .side_box {
-    background-color: #fff;
-    border-radius: 0.8rem;
-  }
+  // background-color: #e6a7b3;
+  // color: #b36089;
+  background-color: #c43b55;
+  color: #800b21;
 }
 
 .success {
   background-color: #9fefc9;
   color: #4ba179 ;
+}
 
-  border: none;
-  .side_box {
-    background-color: #fff;
-    border-radius: 0.8rem;
-  }
+.danger{
+  background-color: #cf4444;
+  color: #811919;
+}
+
+.warning{
+  background-color: #f0d160;
+  color: #9c8841;
 }
 
 .side_box {

@@ -172,7 +172,6 @@ export default {
       }
     },
     changeFormatView(el) {
-      console.log(`selected  ${el}`)
       this.swithSelected = el
     }
   }

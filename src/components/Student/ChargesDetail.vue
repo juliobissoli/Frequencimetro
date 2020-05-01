@@ -17,8 +17,8 @@
           clasIcon="fas fa-calendar-day"
           subTitle="Fauras Pendentes"
           class="shadow rounded"
-          classColor="secondary"
-          title="201"
+          classColor="danger"
+          :title="chartsPandin"
         />
       </div>
     </div>
@@ -34,7 +34,6 @@
         @updateApi="getPayments()"
       />
     </div>
-    {{chartsPandin}}
   </div>
 </template>
 
@@ -45,7 +44,6 @@ import PaymentList from '../Balance/PaymentList'
 import api from '../../services/api'
 import moment from 'moment'
 
-
 export default {
   name: 'ChargeDetail',
   props: ['item'],
@@ -53,17 +51,16 @@ export default {
   data() {
     return {
       paymentList: [],
-      chartsPandin: 0,
+      chartsPandin: 0
     }
   },
-   computed: {
+  computed: {
     dateFormat() {
       return moment().format('ddd DD/MM')
     }
   },
   created() {
     this.getPayments()
-    
   },
   methods: {
     async getPayments() {
@@ -76,14 +73,16 @@ export default {
         console.log(error)
       }
     },
-    countChartsPandin(list){
-        
-        const count =  list.reduce((acc, el) =>{
-            if(el.payments.length > 0) return acc.push(1)      
+    countChartsPandin(list) {
+      const count = list
+        .map((el) => {
+          return el.payments.length > 0 ? 0 : 1
         })
-        console.log('vai contar', count)
-        return count
+        .reduce((acc, i) => {
+          return acc + i
+        })
+      return count
     }
-    }
+  }
 }
 </script>

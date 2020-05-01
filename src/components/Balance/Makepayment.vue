@@ -66,13 +66,14 @@
               </div>
             </div>
           </form>
-          e isso eomcaposmn
+            {{id_payment}}
+
           <div v-show="mensageError" class="alert alert-danger" role="alert">
             {{ mensageError }}
           </div>
         </section>
         <footer class="modal-footer">
-          <slot v-if="!data.income" name="footer">
+          <slot v-if="!editiPayment" name="footer">
             <button
               type="button"
               class="btn btn-sm btn-outline-danger"
@@ -97,7 +98,7 @@
               type="button"
               class="btn btn-sm btn-outline-danger"
               aria-label="Close modal"
-              @click="close"
+              @click="deletPayment"
             >
               Escluir
             </button>
@@ -105,7 +106,7 @@
             <button
               type="button"
               class="btn btn-sm btn-primary"
-              @click="deletStudent"
+              @click="close"
               aria-label="Close modal"
             >
               Salvar
@@ -123,7 +124,7 @@ import api from '../../services/api'
 
 export default {
   name: 'MakePayment',
-  props: ['paymentData'],
+  props: ['paymentData', 'editiPayment', 'id_payment'],
   data() {
     return {
       mensageError: '',
@@ -131,7 +132,6 @@ export default {
         period: '',
         value: '',
         date_end: '',
-        income: false,
         charge_value: 0
       }
     }
@@ -147,26 +147,27 @@ export default {
       this.$emit('close')
     },
 
-    async deletStudent() {
-      try {
-        await api.post('/paymenst')
-      } catch (e) {
-        return e
-      }
-    },
     async createPayment() {
-      console.log('ta aqui')
       let body = {
         ...this.data,
         date: moment().format('YYYY-MM-DD')
       }
-      console.log(body)
       try {
         await api
           .post('/payment', body)
           .then(this.close(), this.$emit('updateApi'))
       } catch (err) {
         this.mensageError = err
+      }
+    },
+
+    async deletPayment(){
+      console.log(this.id_payment)
+      try {
+        await api.delete('/payment/' + this.id_payment)
+        .then( this.close)
+      } catch (err) {
+        this.mensageError = err        
       }
     }
   }
