@@ -24,7 +24,11 @@
           />
 
           <div>
-            <BalanceItem :charge="charge" @charge-clicked="chargeDetail" />
+            <BalanceItem
+              :charge="charge"
+              @charge-clicked="chargeDetail"
+              @change-select-cherge="changeCharge"
+            />
           </div>
           <Pagination
             class="mt-3 mb-0"
@@ -38,9 +42,14 @@
       </div>
 
       <div class="col-md-6">
-        <BarTop class="mb-2" title="Abril" :input="false" :btn="false" />
+        <BarTop
+          class="mb-2"
+          :title="(chargeSelected ? chargeSelected.period: 'Todos')"
+          :input="false"
+          :btn="false"
+        />
         <div class="row mb-3">
-          <div class="col-md-6 pr-1">
+          <!-- <div class="col-md-4 pr-1">
             <CardBalance
               :today="today"
               clasIcon="fas fa-heartbeat"
@@ -49,10 +58,10 @@
               classColor="primary"
               class="shadow rounded"
             />
-          </div>
-          <div class="col-md-6 pl-1">
+          </div> -->
+          <div class="col-md-6 pr-1">
             <CardBalance
-              :today="today"
+              :today="dateForPeriod(chargeSelected)"
               clasIcon="fas fa-heartbeat"
               :title="`R$ ${income}`"
               subTitle="Receita"
@@ -60,15 +69,16 @@
               class="shadow rounded"
             />
           </div>
-          <!-- <div class="col-md-4 pl-1 mb-3">
+          <div class="col-md-6 pl-1">
             <CardBalance
+              :today="dateForPeriod(chargeSelected)"
               clasIcon="fas fa-heartbeat"
               title="21"
               subTitle="Pendentes"
               classColor="warning"
               class="shadow rounded"
             />
-          </div> -->
+          </div>
         </div>
         <div class="row">
           <div class="col-md-12">
@@ -114,12 +124,12 @@ export default {
       charge: [],
       payments: [],
       totalPayments: 0,
-      income: 0
+      income: 0,
+      chargeSelected: null
     }
   },
   created() {
     this.getCharges()
-    this.getPayments()
   },
   computed: {
     today() {
@@ -143,12 +153,15 @@ export default {
           this.currentPage = res.data.page
           this.perPage = res.data.perPage
           this.charge = res.data.data
+          this.getPayments(res.data.data[0].id)
+          this.chargeSelected = res.data.data[0]
         })
     },
 
-    getPayments() {
+    getPayments(charge_id) {
+      console.log(charge_id)
       try {
-        api.get('payment').then((res) => {
+        api.get('payment', { params: { charge_id } }).then((res) => {
           this.totalPayments = res.data.length
           this.payments = res.data
           this.income = this.countIncome(res.data)
@@ -191,6 +204,19 @@ export default {
         .reduce((acc, i) => {
           return acc + i
         })
+    },
+    changeCharge(item) {
+      this.chargeSelected = item
+      this.getPayments(item.id)
+    },
+    dateForPeriod(item) {
+      if (item) {
+        const startOfMonth = moment(item.date_end)
+          .startOf('month')
+          .format('DD')
+        const endOfMonth = moment(item.date_end).endOf('month').format('DD MMM/YYYY')
+        return `De ${startOfMonth} a ${endOfMonth}`
+      } else return this.today
     }
   }
 }

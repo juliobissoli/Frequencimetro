@@ -8,7 +8,7 @@
       </div>
       <div class="col-7 p-1">
         <div class="row">
-          <strong class="col-12 describe text-right pr-5" style="color: #fff;"
+          <strong class="col-12 describe text-right pr-5"
             >{{ today }}
           </strong>
           <span class="col-12 title">{{ title }}</span>
@@ -44,7 +44,7 @@ export default {
 .secondary {
   // background-color: #e6a7b3;
   // color: #b36089;
-  background-color: #c43b55;
+  background-color: #ff4f6f;
   color: #800b21;
 }
 

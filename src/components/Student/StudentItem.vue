@@ -1,5 +1,5 @@
 <template>
-  <div class="row d-flex align-items-center ">
+  <div class="row d-flex align-items-center">
     <router-link
       class="col-11 line"
       :to="{ name: 'StudentDetail', params: { item } }"

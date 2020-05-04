@@ -59,6 +59,25 @@ body {
 
   }
 }
+
+@keyframes zoonIn {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}
+
+.clikable {
+  border-radius: 0.5rem;
+  cursor: pointer;
+  :hover {
+    transform: scale(1.05);
+  }
+}
+
+
 .rounded{
   border-radius:0.8rem !important;
 }

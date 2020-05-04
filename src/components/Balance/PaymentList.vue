@@ -75,9 +75,8 @@
                 {{ (item.students ? item.students.name : '') }}
               </td>
               <td class="p-1">{{ date(item.date) }}</td>
-              <td class="p-1">{{ item.value }}</td>
+              <td class="p-1 text-center">{{ item.value }}</td>
 
-              <td class="p-1"></td>
             </tr>
           </tbody>
         </slot>
