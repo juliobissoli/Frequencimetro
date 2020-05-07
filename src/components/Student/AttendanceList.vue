@@ -45,7 +45,6 @@ export default {
   font-weight: 100;
 }
 .list {
-  max-height: 40vh;
   overflow-y: auto;
   padding: 10px;
 }
