@@ -32,9 +32,10 @@
         :monthly_payment="item.payment"
         :student_id="item.id"
         :student_date="item.created_at"
-        @updateApi="getPayments()"
+        @updateApi="changeApi()"
       />
     </div>
+    {{ paymentList }}
   </div>
 </template>
 
@@ -66,6 +67,8 @@ export default {
   },
   methods: {
     async getPayments() {
+      console.log('VAI FAZER O GET NO PAYMENT')
+
       try {
         await api.get('/charge/' + this.item.id).then((res) => {
           this.paymentList = res.data
@@ -84,6 +87,10 @@ export default {
           return acc + i
         })
       return count
+    },
+    changeApi(){
+      console.log('ta no update')
+      this.getPayments()
     }
   }
 }

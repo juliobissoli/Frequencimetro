@@ -4,7 +4,7 @@
       <input type="radio" id="frequenci" value="frequenci" v-model="selected" />
       <label
         for="frequenci"
-        class="mb-0 p-2"
+        class="mb-0 p-2 px-3"
         :class="{ 'button-selected': selected === 'frequenci' }"
       >
         <span>Frequencia</span>
@@ -14,7 +14,7 @@
       <input type="radio" id="charges" value="charges" v-model="selected" />
       <label
         for="charges"
-        class="mb-0 p-2"
+        class="mb-0 p-2 px-3"
         :class="{ 'button-selected': selected === 'charges' }"
       >
         <span>Mensalidades</span>
@@ -55,7 +55,8 @@ export default {
   background-color: #e1ebf7;
   border-radius: 0.4rem 0.4rem 0 0;
   span {
-    border-bottom: solid 3px #fff;
+    // border-bottom: solid 1px #fff;
+    // color: #022069
   }
 }
 </style>

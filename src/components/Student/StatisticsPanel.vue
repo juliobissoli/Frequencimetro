@@ -8,7 +8,7 @@
           subTitle="Presentes"
           classColor="primary"
           :today="todayWeek"
-          class="shadow  rounded"
+          class="shadow rounded"
         />
       </div>
       <div class="col-6 pl-1">
@@ -16,7 +16,7 @@
           clasIcon="fas fa-calendar-day"
           :title="matriculated"
           subTitle="Matriculasdos"
-          class="shadow  rounded"
+          class="shadow rounded"
           :today="todayWeek"
           classColor="secondary"
         />
@@ -40,83 +40,89 @@
 </template>
 
 <script>
-import CardEstats from "../CartExtats";
-import Chart from "../Chart";
-import api from "../../services/api";
-import moment from "moment";
+import CardEstats from '../CartExtats'
+import Chart from '../Chart'
+import api from '../../services/api'
+import moment from 'moment'
 
 export default {
-  name: "StatisticsPanel",
+  name: 'StatisticsPanel',
+  props: ['chekerApi'],
   components: {
     CardEstats,
-    Chart,
+    Chart
   },
   data() {
     return {
       legendChart: [
         {
-          name: "Presentes",
-          color: "#7794cc",
+          name: 'Presentes',
+          color: '#7794cc'
         },
         {
-          name: "Matriculado",
-          color: "#e6a7b3",
-        },
+          name: 'Matriculado',
+          color: '#e6a7b3'
+        }
       ],
       attedanties: 0,
       matriculated: 0,
       statistics: {
         statis: [],
-        maxTotal: 0,
+        maxTotal: 0
       },
-      dayWeek: "",
-    };
+      dayWeek: ''
+    }
+  },
+  watch: {
+    chekerApi() {
+      this.getStatistcsDay()
+    }
   },
   created() {
-    this.getStatistcsDay();
-    this.dayWeek = moment().format("dddd");
+    this.getStatistcsDay()
+    this.dayWeek = moment().format('dddd')
   },
   computed: {
     today() {
-      const today = new Date();
+      const today = new Date()
       var date =
         today.getFullYear() +
-        "-" +
+        '-' +
         (today.getMonth() + 1) +
-        "-" +
-        today.getDate();
-      return date;
+        '-' +
+        today.getDate()
+      return date
     },
     todayWeek() {
-      return moment().format("ddd DD/MM");
-    },
+      return moment().format('ddd DD/MM')
+    }
   },
   methods: {
     formatLabel(statistics) {
       if (statistics) {
         statistics.map((el) => {
-          el.label = el.label + "h";
-        });
+          el.label = el.label + 'h'
+        })
       }
     },
     getStatistcsDay() {
       api
-        .get("/statistcsDay", {
+        .get('/statistcsDay', {
           params: {
             min: 7,
             max: 18,
-            day: moment().format("dddd"),
-            date: this.today,
-          },
+            day: moment().format('dddd'),
+            date: this.today
+          }
         })
         .then((res) => {
           // console.log(res.data);
-          this.formatLabel(res.data.statis);
-          this.attedanties = res.data.attendanties;
-          this.matriculated = res.data.matriculated;
-          this.statistics = res.data;
-        });
-    },
-  },
-};
+          this.formatLabel(res.data.statis)
+          this.attedanties = res.data.attendanties
+          this.matriculated = res.data.matriculated
+          this.statistics = res.data
+        })
+    }
+  }
+}
 </script>
