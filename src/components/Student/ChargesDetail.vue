@@ -35,7 +35,6 @@
         @updateApi="changeApi()"
       />
     </div>
-    {{ paymentList }}
   </div>
 </template>
 

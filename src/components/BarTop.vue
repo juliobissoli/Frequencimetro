@@ -1,42 +1,48 @@
 <template>
-  <div class="bar_top ">
-    <h3 v-show="title">{{title}}</h3>
+  <div class="bar_top">
+    <h3 v-show="title" :style="{ fontSize: font ? font + 'px' : '26px' }">
+      {{ title }}
+    </h3>
     <div v-show="input" class="search-input mb-3">
-      <input 
+      <input
         v-debounce:500ms="serach"
         type="text"
         :placeholder="placeholder"
         class="form-control"
         v-model="serachTocken"
-       />
+      />
     </div>
-    <button v-show="btn" @click="btnClicked()" class="btn mb-3" :class="btn.class">
-      {{btn.label}}
+    <button
+      v-show="btn"
+      @click="btnClicked()"
+      class="btn mb-3"
+      :class="btn.class"
+    >
+      {{ btn.label }}
     </button>
   </div>
 </template>
 
 <script>
-
 export default {
-  name: "BarTop",
+  name: 'BarTop',
 
-  props: ['title', 'input', 'btn', 'placeholder'],
-  data(){
+  props: ['title', 'input', 'btn', 'placeholder', 'font'],
+  data() {
     return {
       serachTocken: null
     }
   },
   methods: {
-    btnClicked (){
-      console.log("cnascouinsacin")
+    btnClicked() {
+      console.log('cnascouinsacin')
       this.$emit('button-clicked')
     },
-    serach(){
-      this.$emit('get-search', this.serachTocken )
+    serach() {
+      this.$emit('get-search', this.serachTocken)
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -51,16 +57,16 @@ export default {
   align-items: center;
   justify-content: space-between;
   color: #555;
-  
-  .title{
-    font-size: 20px;
+
+  .title {
+    // font-size: 20px;
   }
 
   .search-input {
     position: relative;
     margin-bottom: 5px;
     input {
-        border: none;
+      border: none;
       //   height: 30px;
       //   padding-right: 25px;
       //   color: #f1f1f1f1;
@@ -78,8 +84,8 @@ export default {
     }
     &:after {
       position: absolute;
-      font-family: "Font Awesome 5 Free";
-      content: "\f002";
+      font-family: 'Font Awesome 5 Free';
+      content: '\f002';
       font-weight: 900;
       right: 13px;
       top: 3px;

@@ -118,7 +118,8 @@ export default {
     color: #999;
   }
   .lineSelected {
-    border: 1px solid #ccc;
+    // border: 1px solid #adcdf5;
+    background-color: #c1d7f1 !important;
     transform: scale(1.05);
   }
   .chart-content {

@@ -49,16 +49,7 @@
           :btn="false"
         />
         <div class="row mb-3">
-          <!-- <div class="col-md-4 pr-1">
-            <CardBalance
-              :today="today"
-              clasIcon="fas fa-heartbeat"
-              :title="totalPayments"
-              subTitle="Pagamentos"
-              classColor="primary"
-              class="shadow rounded"
-            />
-          </div> -->
+
           <div class="col-md-6 pr-1">
             <CardBalance
               :today="dateForPeriod(chargeSelected)"
@@ -148,9 +139,6 @@ export default {
     }
   },
   methods: {
-    teteCount () {
-      this.$store.commit('increment')
-    },
     getSearch() {
       return ''
     },

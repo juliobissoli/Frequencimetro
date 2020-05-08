@@ -13,57 +13,66 @@
         </router-link>
 
         <router-link :to="{ name: 'Balance' }" class="side_bar_item">
-          <i class="fas fa-money-bill-wave "></i>
+          <i class="fas fa-money-bill-wave"></i>
           <span>Balanço</span>
         </router-link>
-        <div class="side_bar_item dropdown" @click="isVisible = !isVisible">
-          <i class="fas fa-cog"></i>
-          <span
-            >Setings
-            <i
-              style="font-size: 11px"
-              v-bind:class="[
-                isVisible ? false : 'fas fa-angle-up',
-                'fas fa-angle-down',
-              ]"
-            ></i
-          ></span>
-          <div v-show="isVisible" class="dropdown-content">
-            <div class="line_option mb-2">
-              <i class="far fa-edit mr-2"></i>
-              <span> Editar</span>
-            </div>
-            <div class="line_option mb-2" @click="logout()">
-              <i class="fas fa-sign-out-alt mr-2" ></i>
-              <span> Sair</span>
-            </div>
-          </div>
-        </div>
+        <router-link :to="{ name: 'Dashboard' }" class="side_bar_item">
+          <i class="fas fa-th-large"></i>
+          <span>Painel</span>
+        </router-link>
       </div>
     </div>
 
-    <div class="footer dropdown"></div>
+    <div class="footer side_bar">
+      <div class="side_bar_item" @click="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span> Sair</span>
+      </div>
+      <!-- <div class="side_bar_item dropdown" @click="isVisible = !isVisible">
+        <i class="fas fa-cog"></i>
+        <span
+          >Setings
+          <i
+            style="font-size: 11px;"
+            v-bind:class="[
+              isVisible ? false : 'fas fa-angle-up',
+              'fas fa-angle-down'
+            ]"
+          ></i
+        ></span>
+        <div v-show="isVisible" class="dropdown-content">
+          <div class="line_option mb-2">
+            <i class="far fa-edit mr-2"></i>
+            <span> Editar</span>
+          </div>
+          <div class="line_option mb-2" @click="logout()">
+            <i class="fas fa-sign-out-alt mr-2"></i>
+            <span> Sair</span>
+          </div>
+        </div>
+      </div> -->
+    </div>
   </div>
 </template>
 
 <script>
 // import Avatar from "./Avatar";
-import auth from "../utils/auth";
+import auth from '../utils/auth'
 export default {
-  name: "MainMenu",
+  name: 'MainMenu',
   // components: { Avatar },
   data() {
     return {
-      isVisible: false,
-    };
+      isVisible: false
+    }
   },
   methods: {
     logout() {
-      auth.logout();
-      this.$router.push({ name: "Login" });
-    },
-  },
-};
+      auth.logout()
+      this.$router.push({ name: 'Login' })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -125,7 +134,7 @@ export default {
     color: #7794cc;
     border-radius: 1rem;
 
-    font-family: "Roboto Condensed", sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     i {
       font-size: 24px;
       border: none;
@@ -160,8 +169,8 @@ export default {
 .dropdown {
   position: relative;
   display: inline-block;
-  span{
-    font-size: 12px;;
+  span {
+    font-size: 12px;
   }
 }
 

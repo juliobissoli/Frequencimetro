@@ -154,9 +154,7 @@ export default {
       try {
         await api
           .post('/payment', body)
-          .then(
-            this.$emit('updateApi'),
-          )
+          .then(this.close, this.$emit('updateApi'))
       } catch (err) {
         this.mensageError = err
       }

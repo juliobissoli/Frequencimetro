@@ -6,15 +6,15 @@
 
 <style lang="scss" scoped>
 .avatar{
-    background-color: #eee;
-    border-radius: 50%;
+    background-color: #fff;
+    border-radius: 0.8rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 30px;
-    width: 30px;
+    height: 50px;
+    width: 50px;
     color: #aaa;
     font-size: 18px;
-    border: 2px solid #ccc 
+    // border: 2px solid #ccc 
 }
 </style>
