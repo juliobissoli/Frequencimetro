@@ -1,35 +1,54 @@
 <template>
-  <div class="login-page">
-    <div class="d-flex align-items-center justify-content-center">
-      <div class="col-md-3 login-container p-0">
-        <div class="row logo mb-3">
-          <img src="../assets/logo.svg" class="logo_img" />
-          <span class="col-12 text-center">Frequencimetro</span>
-        </div>
-        <div class="login-form p-3">
-          <form>
+  <div>
+    <div class="row login-page p-0 m-0">
+      <div class="col-lg-4">
+        <div class="left-area p-4 bg-whigt">
+          <div class="my-5">
+            <h1 class="mt-3">
+              Bem-vindo ;)
+            </h1>
+            <span>
+              Frequencímetro sua plataforma de gerenciamneto de frequencias
+              personalizadas.
+            </span>
+          </div>
+
+          <form class="mt-5">
             <div class="form-group">
-              <label for="input-email">E-mail</label>
+              <!-- <label for="input-email rounded">E-mail</label> -->
               <input
                 type="email"
                 v-model="email"
+                placeholder="Email"
                 class="form-control"
                 id="input-email"
                 aria-describedby="emailHelp"
               />
             </div>
-            <div class="form-group">
-              <label for="input-password">Senha</label>
+            <div class="form-group my-4">
+              <!-- <label for="input-password">Senha</label> -->
               <input
                 type="password"
                 v-model="password"
                 class="form-control"
+                placeholder="Senha"
                 id="input-password"
               />
             </div>
-            <button @click.prevent="login" class="btn btn-success btn-block">
+            <button @click.prevent="login" class="btn btn-block">
               Entrar
             </button>
+            <div class="row mt-3">
+              <div class="col-lg-6">
+                <input type="checkbox" />
+                <span class="ml-2">Lembrar-me</span>
+              </div>
+              <div class="col-lg-6 text-right">
+                <span class="text-danger">
+                  Esqueci a senha
+                </span>
+              </div>
+            </div>
           </form>
           <div
             v-show="mensagemError"
@@ -40,82 +59,107 @@
           </div>
         </div>
       </div>
+      <div class="col-lg-8 p-0 m-0 reght-area">
+        <div class="row p-0 mt-3 mb-5 mx-0 d-flex logo justify-content-center">
+          <img src="../assets/logo.svg" class="logo_img" />
+          <span>
+            Frequencímetro
+          </span>
+        </div>
+        <div class="m-5  p-5">
+          <AnimateArea />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import auth from "../utils/auth";
+import auth from '../utils/auth'
+import AnimateArea from '../components/AnimatedAreaLogin'
 export default {
+  components: {AnimateArea},
   data() {
     return {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       isLogged: false,
-      mensagemError: ""
-    };
+      mensagemError: ''
+    }
   },
 
   methods: {
     async login() {
-      console.log(auth.loggedIn());
-      const isLogeed = await auth.login(this.email, this.password);
+      console.log(auth.loggedIn())
+      const isLogeed = await auth.login(this.email, this.password)
       if (isLogeed) {
         if (this.$route.query && this.$route.query.redirect) {
-          this.$router.push(this.$route.query.redirect);
+          this.$router.push(this.$route.query.redirect)
         } else {
-          this.$router.push({ name: "Students" });
+          this.$router.push({ name: 'Students' })
         }
       } else {
-        this.mensagemError = "Erro na altenticação :(";
+        this.mensagemError = 'Erro na altenticação :('
       }
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 // @import "../assets/styles/bootstrap";
+.left-area {
+  padding: 0;
+  height: 100vh;
+  h1 {
+    color: #333dca;
+  }
+  span {
+    color: #3f67cc;
+    // color: #022069
+  }
+  .btn {
+    background-color: #3f67cc;
+    border-radius: 0.6rem !important;
+    color: #ffffff;
+  }
+}
+.reght-area {
+  padding: 0;
+  background-color: #333dca;
+  height: 100vh;
+}
 .login-page {
   // background-color: #f8f9fa;
   height: 100vh;
-  background-color: #282733;
-
+  width: 100vw;
+  // font-family: 'Avenir Next W01', 'Lato', 'Karla', 'Proxima Nova W01', 'Rubik',
+  //   -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue',
+  //   Arial, sans-serif;
+  .form-control {
+    border-radius: 0.6rem !important;
+    border: 1px solid #3f67cc;
+    input {
+      ::placeholder {
+        color: #333dca;
+      }
+    }
+  }
+  // background-color: #282733;
 }
 .logo {
   display: flex;
   justify-content: center;
-  color: #fff;
-  font-weight: 100;
   img {
     margin-top: 10px;
-    height: 100px;
-    width: 100px;
+    height: 80px;
+    width: 80px;
   }
   span {
-    font-size: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 35px;
+    font-weight: 300;
+    color: #7794cc;
   }
 }
 
-.login-container {
-  margin-top: 5vh;
-  background-color: #282733;
-   border-radius: 0.25rem;
-   border: 1px solid #6AD943;
-}
-.login-form {
-  width: 100%;
-  // background-color: #fff;
-  
-  label {
-    color: #fff;
-  }
-  input {
-    border-radius: 0;
-    color: #fff;
-    background-color: rgba(255, 255, 255, 0);
-  }
-  button {
-    &[type="submit"] {
-    }
-  }
-}
 </style>

@@ -10,7 +10,7 @@
       >
         <header class="modal-header" id="modalTitle">
           <slot name="header">
-            Novo Usuario
+             {{user ? 'Editar Usuario' : 'Novo Usuario'}}
             <button
               type="button"
               class="btn-close"
