@@ -5,7 +5,7 @@
       title="Ususarios"
       font="20"
       :input="false"
-      @button-clicked="isEdtiMode = !isEdtiMode"
+      @button-clicked="$emit('btn-clicked')"
       :btn="{ class: 'btn-outline-dark btn-sm', label: '+ Ususario' }"
     />
     <div class="row">
@@ -18,7 +18,7 @@
           class="shadow rounded"
         />
         <div v-for="(item, index) in listUser" :key="index">
-          <div class="col-md-12 mt-2 px-3">
+          <div class="col-md-12 mt-2 px-3" style="cursor: pointer" @click="$emit('update-user', item)">
             <CardUser
               :title="item.name"
               :subTitle="item.type"
@@ -40,6 +40,7 @@ import api from '../../services/api'
 
 export default {
   name: 'ListiUsers',
+  props: ['check_api'],
   components: {
     CardUser,
     BarTop
@@ -47,6 +48,11 @@ export default {
   data: () => ({
     listUser: []
   }),
+  watch: {
+    check_api(){
+      this.getUsers()
+    }
+  },
   created() {
     this.getUsers()
   },

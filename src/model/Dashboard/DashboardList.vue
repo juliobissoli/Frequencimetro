@@ -1,5 +1,11 @@
 <template>
   <div>
+    <NewUser
+      v-show="isModalVisible"
+      @close="isModalVisible = false"
+      :user="userSelected"
+      @updateApi="update_api++"
+    />
     <BarTop class="mb-2" title="Painel" :input="false" :btn="false" />
     <div class="row">
       <div class="col-md-8">
@@ -54,7 +60,7 @@
         </div>
       </div>
       <div class="col-md-4">
-          <ListUsers />
+        <ListUsers :check_api="update_api" @btn-clicked="createUser" @update-user="updateUser" />
         <!-- <div class="list_are rounded p-3">
           <BarTop
             class="mb-2"
@@ -92,6 +98,7 @@
 <script>
 import BarTop from '../../components/BarTop'
 import CardStatis from '../../components/CartExtats'
+import NewUser from './NewUser'
 // import CardUser from '../../components/CardUser'
 import ListUsers from '../../components/Dashboard/ListUsers'
 
@@ -100,10 +107,24 @@ export default {
   components: {
     BarTop,
     CardStatis,
-    ListUsers
+    ListUsers,
+    NewUser
   },
   data: () => ({
-    isEdtiMode: false
-  })
+    isEdtiMode: false,
+    isModalVisible: false,
+    userSelected: null,
+    update_api: 0
+  }),
+  methods: {
+    updateUser(item) {
+      this.userSelected = item
+      this.isModalVisible = true
+    },
+    createUser() {
+      this.userSelected = null
+      this.isModalVisible = true
+    }
+  }
 }
 </script>

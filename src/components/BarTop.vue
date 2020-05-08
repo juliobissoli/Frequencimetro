@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     btnClicked() {
-      console.log('cnascouinsacin')
       this.$emit('button-clicked')
     },
     serach() {
