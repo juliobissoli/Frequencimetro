@@ -7,13 +7,13 @@
             <h1 class="mt-3">
               Bem-vindo ;)
             </h1>
-            <span>
+            <span class="pb-3">
               Frequencímetro sua plataforma de gerenciamneto de frequencias
-              personalizadas.
+              personalizada.
             </span>
           </div>
 
-          <form class="mt-5">
+          <form class="mt-5 pt-4">
             <div class="form-group">
               <!-- <label for="input-email rounded">E-mail</label> -->
               <input
@@ -45,7 +45,7 @@
               </div>
               <div class="col-lg-6 text-right">
                 <span class="text-danger">
-                  Esqueci a senha
+                  Esqueci minha senha
                 </span>
               </div>
             </div>
@@ -66,7 +66,7 @@
             Frequencímetro
           </span>
         </div>
-        <div class="m-5  p-5">
+        <div class="mx-5  px-5">
           <AnimateArea />
         </div>
       </div>
@@ -114,6 +114,7 @@ export default {
   }
   span {
     color: #3f67cc;
+    font-size: 13px
     // color: #022069
   }
   .btn {

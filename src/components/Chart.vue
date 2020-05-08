@@ -1,5 +1,5 @@
 <template>
-  <div class="chart p-3">
+  <div class="chart p-3" :style="bgColor ? 'background-color:'+ bgColor : 'background-color: white'">
     <div class="title mb-3 d-flex justify-content-between">
       <span>{{ title }}</span>
       <input
@@ -41,16 +41,16 @@
 import moment from "moment";
 export default {
   name: "Chart",
-  props: ["maxTotal", "statistics", "title", "year", "legend", "formatValue"],
+  props: ["maxTotal", "statistics", "title", "year", "legend", "formatValue", 'bgColor'],
   data() {
     return {
       hover: false,
+
       yearSelected: moment().format("YYYY"),
     };
   },
   watch: {
     yearSelected: function() {
-      console.log("mudo");
     },
   },
   methods: {
@@ -80,7 +80,7 @@ export default {
 }
 .chart {
   // background-color: #f5f6fd;
-  background-color: white;
+  // background-color: white;
   font-family: "Avenir Next W01", "Lato", "Karla", "Proxima Nova W01", "Rubik",
     -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
     Arial, sans-serif;
@@ -100,10 +100,6 @@ export default {
   height: 40vh;
   width: 100%;
   border-radius: 0.5rem;
-  //   background-color: #f5faff;
-  //   background-color: #e1ebf7;
-  //   background-color: #f8f9fa !important;
-
   display: flex;
   justify-content: space-around;
 
