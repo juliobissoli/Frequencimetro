@@ -83,12 +83,14 @@
         <div class="row">
           <div class="col-md-12">
             <div class="shadow p-3 bg-white rounded">
-              <PaymentList title="Pagamentos" :payments="payments" />
+              <PaymentList @updateApi="getCharges()" title="Pagamentos" :payments="payments" />
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- {{ count }}
+    <button @click="teteCount"> teste</button> -->
   </div>
 </template>
 
@@ -99,6 +101,7 @@ import Pagination from '../../components/Pagination'
 import CardBalance from '../../components/CartExtats'
 import PaymentList from '../../components/Balance/PaymentList'
 import NewBalance from './NewBalance'
+
 
 import moment from 'moment'
 import api from '../../services/api'
@@ -128,15 +131,26 @@ export default {
       chargeSelected: null
     }
   },
+  watch: {
+    count(){
+      console.log('mudo')
+    }
+  },
   created() {
     this.getCharges()
   },
   computed: {
     today() {
       return moment().format('ddd DD/MM')
+    },
+    count() {
+      return this.$store.state.count
     }
   },
   methods: {
+    teteCount () {
+      this.$store.commit('increment')
+    },
     getSearch() {
       return ''
     },
@@ -211,10 +225,10 @@ export default {
     },
     dateForPeriod(item) {
       if (item) {
-        const startOfMonth = moment(item.date_end)
-          .startOf('month')
-          .format('DD')
-        const endOfMonth = moment(item.date_end).endOf('month').format('DD MMM/YYYY')
+        const startOfMonth = moment(item.date_end).startOf('month').format('DD')
+        const endOfMonth = moment(item.date_end)
+          .endOf('month')
+          .format('DD MMM/YYYY')
         return `De ${startOfMonth} a ${endOfMonth}`
       } else return this.today
     }

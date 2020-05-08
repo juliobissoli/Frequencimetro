@@ -3,11 +3,11 @@
     <MakePayment
       v-show="modalMakepayment"
       @close="modalMakepayment = false"
+      @updateApi="$emit('updateApi')"
       :paymentData="paymentData"
       :editiPayment="editMode"
       :id_payment="payment_id"
       :charge_id="charge_id"
-      :student_date="student_date"
     />
     <span class="title">{{ title }}</span>
     <div class="list">
@@ -124,7 +124,6 @@ export default {
 
     mekePayment(item) {
       this.modalMakepayment = !this.modalMakepayment
-      
 
       if (this.student_id) {
         this.editMode = this.paindOut(item)

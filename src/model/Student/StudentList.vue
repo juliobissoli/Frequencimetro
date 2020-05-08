@@ -3,7 +3,7 @@
     <NewStudent
       v-show="isModalVisible"
       @close="isModalVisible = false"
-      @updateApi="getStudents()"
+      @updateApi="updateApi()"
     />
     <BarTop class="mb-2" title="Alunos" :input="false" :btn="false" />
     <div class="row">
@@ -17,7 +17,7 @@
               @get-search="getSearch"
               :btn="{
                 class: 'btn-outline-dark btn-sm',
-                label: 'Cadastrar Aluno',
+                label: 'Cadastrar Aluno'
               }"
               placeholder="Buscar por nome ou id"
             />
@@ -29,7 +29,7 @@
               class="shadow-sm py-1 px-2 mb-2 bg-light line"
               @hover="isHover = !isHover"
             >
-              <StudentItem :item="item" @updateApi="getStudents()" />
+              <StudentItem :item="item" @updateApi="updateApi()" />
             </div>
           </div>
           <Pagination
@@ -42,30 +42,29 @@
           />
         </div>
       </div>
-      <div class="col-md-5 ">
-        <StatistcsPanel />
+      <div class="col-md-5">
+        <StatistcsPanel :chekerApi="chekerApi" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import BarTop from "../../components/BarTop";
-import api from "../..//services/api";
-import NewStudent from "../Student/NewStudent";
-import StudentItem from "../../components/Student/StudentItem";
-import Pagination from "../../components/Pagination";
-import StatistcsPanel from "../../components/Student/StatisticsPanel";
+import BarTop from '../../components/BarTop'
+import api from '../..//services/api'
+import NewStudent from '../Student/NewStudent'
+import StudentItem from '../../components/Student/StudentItem'
+import Pagination from '../../components/Pagination'
+import StatistcsPanel from '../../components/Student/StatisticsPanel'
 
 export default {
-  name: "StudemtList",
+  name: 'StudemtList',
   components: {
     BarTop,
     NewStudent,
     StudentItem,
     Pagination,
-
-    StatistcsPanel,
+    StatistcsPanel
   },
 
   data() {
@@ -74,43 +73,48 @@ export default {
       perPage: 10,
       currentPage: 1,
       totalData: 1,
-      searchEntrys: "",
-      statistics: null,
+      searchEntrys: '',
       students: [],
       attendances: [],
       isModalVisible: false,
-    };
+      chekerApi: 0
+    }
   },
   async created() {
-    this.getStudents();
+    this.getStudents()
   },
   methods: {
     getStudents() {
       api
-        .get("/students", {
+        .get('/students', {
           params: {
             perPage: this.perPage,
             currentPage: this.currentPage,
-            search: this.searchEntrys,
-          },
+            search: this.searchEntrys
+          }
         })
         .then((res) => {
-          this.totalData = res.data.total;
-          this.students = res.data.student;
-        });
+          this.totalData = res.data.total
+          this.students = res.data.student
+        })
     },
     changePage(page) {
-      this.currentPage = page;
-      this.getStudents();
+      this.currentPage = page
+      this.getStudents()
     },
     getSearch(token) {
-      this.searchEntrys = token;
-      this.currentPage = 1;
+      this.searchEntrys = token
+      this.currentPage = 1
       // console.log(token);
-      this.getStudents();
+      this.getStudents()
     },
-  },
-};
+
+    updateApi() {
+      this.getStudents()
+      this.chekerApi++
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -118,8 +122,8 @@ export default {
   border-radius: 0.5rem;
   background-color: #e1ebf7;
   // background-color: #f5faff;
-  font-family: "Avenir Next W01", "Lato", "Karla", "Proxima Nova W01", "Rubik",
-    -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+  font-family: 'Avenir Next W01', 'Lato', 'Karla', 'Proxima Nova W01', 'Rubik',
+    -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue',
     Arial, sans-serif;
 }
 </style>

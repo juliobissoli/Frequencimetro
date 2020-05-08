@@ -51,20 +51,6 @@
           </div>
           <div v-else class="row">
             <ChargeDetail :item="item"/>
-            <!-- <div class="col-md-12">
-              <h4>
-                Mensalidades
-              </h4>
-              <div class="p-3 shadow bg-white rounded">
-                <PaymentList
-                  :payments="paymentList"
-                  title="Mensalidades"
-                  :monthly_payment="item.payment"
-                  :student_id="item.id"
-                  @updateApi="getPayments()"
-                />
-              </div>
-            </div> -->
           </div>
         </div>
       </div>
