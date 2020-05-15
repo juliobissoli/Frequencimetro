@@ -5,9 +5,20 @@
       :to="{ name: 'StudentDetail', params: { item } }"
     >
       <div class="row">
-        <div class="col-md-2" style="color:#7794cc;">#{{zeroLeft(item.id) }}</div>
-        <div class="col-md-6">
-          {{ item.name }}
+        <div class="col-md-2" style="color: #7794cc;">
+          #{{ zeroLeft(item.id) }}
+        </div>
+        <div class="col-md-6 d-flex align-items-center">
+          <span class="mr-1">{{ item.name }}</span>
+          <Budge
+            v-show="classToday(item)"
+            style="widht: 50px;"
+            :text="(item.hour * 1).toFixed(0) + 'h'"
+            icon="fas fa-calendar-day"
+            size="10"
+            class="expand"
+            :typeClass="classToday(item)"
+          />
         </div>
         <div class="col-md-4 d-flex justify-content-end">
           <div v-for="i in 5" :key="i" class="">
@@ -19,14 +30,14 @@
     <div class="col-md-1 d-flex justify-content-end">
       <button
         v-if="item.attendances.length < 1"
-        class="btn btn-sm  primary"
+        class="btn btn-sm primary"
         @click="createAttendance()"
       >
         <i class="fas fa-heartbeat"></i>
       </button>
       <button
         v-else
-        style="border:none"
+        style="border: none;"
         class="btn btn-sm btn-outline-success"
         @click="dropdown = !dropdown"
       >
@@ -39,7 +50,7 @@
               <span>Desmarcar presensa</span>
               <button
                 @click="dropdown = !dropdown"
-                class="btn btn-sm  text-secondary mb-2"
+                class="btn btn-sm text-secondary mb-2"
               >
                 <i class="fas fa-times"></i>
               </button>
@@ -47,7 +58,7 @@
 
             <button
               @click="deletAttendace(item.attendances[0].id)"
-              style="width:100%"
+              style="width: 100%;"
               class="col-12 btn btn-sm btn-outline-secondary"
             >
               Desmarcar
@@ -60,56 +71,76 @@
 </template>
 
 <script>
-import api from "../../services/api";
+import api from '../../services/api'
+import Budge from '../Badge_outline'
+import moment from 'moment'
 export default {
-  name: "StudentItem",
-  props: ["item"],
+  name: 'StudentItem',
+  components: { Budge },
+  props: ['item'],
   data() {
     return {
-      dropdown: false,
-    };
+      dropdown: false
+    }
+  },
+  computed: {
+    today() {
+      return moment().format('dddd')
+    }
   },
   methods: {
     async createAttendance() {
       const body = {
-        student_id: this.item.id,
-      };
+        student_id: this.item.id
+      }
       try {
-        await api.post("/attendances", body);
-        console.log("new attendance");
-        this.$emit("updateApi");
+        await api.post('/attendances', body)
+        console.log('new attendance')
+        this.$emit('updateApi')
       } catch (e) {
-        return e;
+        return e
       }
     },
     async deletAttendace(id) {
-      console.log("vai remover");
+      console.log('vai remover')
       try {
-        await api.delete("/attendances/" + id);
-        this.$emit("updateApi");
-        this.dropdown = false;
+        await api.delete('/attendances/' + id)
+        this.$emit('updateApi')
+        this.dropdown = false
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
     printDays(days) {
-      const vetDays = days.split(" ");
-      var str = "";
-      vetDays.length === 5 ? (str += "Segunda a sexta") : (str += days);
-      return str;
+      const vetDays = days.split(' ')
+      var str = ''
+      vetDays.length === 5 ? (str += 'Segunda a sexta') : (str += days)
+      return str
     },
-    zeroLeft(num){
-      if(num < 10)  return '000' + num
-      if (num < 100) return '00' + num 
+    zeroLeft(num) {
+      if (num < 10) return '000' + num
+      if (num < 100) return '00' + num
       if (num < 1000) return '0' + num
       return num
+    },
+    classToday(item) {
+      const mapDays = new Map(
+        item.days.split(' ').map((el) => {
+          return [el, true]
+        })
+      )
+      if (mapDays.get(this.today.split('-')[0])){
+        if(item.attendances.length < 1) return 'secondary'
+        else return 'primary'
+      }
+      else return null
+    }
+  }
 }
-  },
-};
 </script>
 
 <style lang="scss" scoped>
-.circle{
+.circle {
   font-size: 12px;
   color: #7794cc;
 }

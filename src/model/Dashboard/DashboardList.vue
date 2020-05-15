@@ -54,13 +54,22 @@
         <div class="row mt-3">
           <div class="col-md-12">
             <div class="shadow p-3 mb-5 bg-white rounded">
-              Cardis
+              <Chart
+                title="Frequencia Media"
+                :maxTotal="maxTotal"
+                :statistics="statistics"
+                formatValue='relative'
+              />
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-4">
-        <ListUsers :check_api="update_api" @btn-clicked="createUser" @update-user="updateUser" />
+        <ListUsers
+          :check_api="update_api"
+          @btn-clicked="createUser"
+          @update-user="updateUser"
+        />
         <!-- <div class="list_are rounded p-3">
           <BarTop
             class="mb-2"
@@ -99,6 +108,7 @@
 import BarTop from '../../components/BarTop'
 import CardStatis from '../../components/CartExtats'
 import NewUser from './NewUser'
+import Chart from '../../components/Chart'
 // import CardUser from '../../components/CardUser'
 import ListUsers from '../../components/Dashboard/ListUsers'
 
@@ -108,13 +118,27 @@ export default {
     BarTop,
     CardStatis,
     ListUsers,
-    NewUser
+    NewUser,
+    Chart
   },
   data: () => ({
     isEdtiMode: false,
     isModalVisible: false,
     userSelected: null,
-    update_api: 0
+    update_api: 0,
+    maxTotal: 10,
+    statistics: [
+      { total: 10, subTotal: 8, label: '7h' },
+      { total: 10, subTotal: 7, label: '8h' },
+      { total: 6, subTotal: 4, label: '9h' },
+      { total: 4, subTotal: 3, label: '10h' },
+      { total: 3, subTotal: 3, label: '11h' },
+      { total: 10, subTotal: 7, label: '12h' },
+      { total: 10, subTotal: 9, label: '15h' },
+      { total: 8, subTotal: 5, label: '16h' },
+      { total: 4, subTotal: 2, label: '17h' },
+      { total: 5, subTotal: 4, label: '18h' }
+    ]
   }),
   methods: {
     updateUser(item) {
