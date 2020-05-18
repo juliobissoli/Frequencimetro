@@ -55,7 +55,7 @@
           <div class="col-md-12">
             <div class="shadow p-3 mb-5 bg-white rounded">
               <Chart
-                title="Frequencia Media"
+                title="Frequência Média"
                 :maxTotal="maxTotal"
                 :statistics="statistics"
                 formatValue='relative'

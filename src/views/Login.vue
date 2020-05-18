@@ -4,16 +4,16 @@
       <div class="col-lg-4">
         <div class="left-area p-4 bg-whigt">
           <div class="my-5">
-            <h1 class="mt-3">
+            <h1 class="mt-5">
               Bem-vindo ;)
             </h1>
-            <span class="pb-3">
-              Frequencímetro sua plataforma de gerenciamneto de frequencias
+            <!-- <span class="pb-3">
+              Frequencímetro, sua plataforma de gerenciamento de frequências
               personalizada.
-            </span>
+            </span> -->
           </div>
 
-          <form class="mt-5 pt-4">
+          <form class="mt-5 pt-5">
             <div class="form-group">
               <!-- <label for="input-email rounded">E-mail</label> -->
               <input
@@ -60,13 +60,19 @@
         </div>
       </div>
       <div class="col-lg-8 p-0 m-0 reght-area">
-        <div class="row p-0 mt-3 mb-5 mx-0 d-flex logo justify-content-center">
+        <div class="row p-0 mt-3 mb-3 mx-0 d-flex logo justify-content-center">
           <img src="../assets/logo.svg" class="logo_img" />
           <span>
             Frequencímetro
           </span>
         </div>
-        <div class="mx-5  px-5">
+        <div class="row logo p-0 m-0">
+          <span style="font-size: 22px;" class="col-md-12 p-3 d-flex justify-content-center">
+            Sua plataforma de gerenciamento de frequências personalizada.
+          </span>
+        </div>
+
+        <div class="mx-5 px-5">
           <AnimateArea />
         </div>
       </div>
@@ -77,7 +83,7 @@
 import auth from '../utils/auth'
 import AnimateArea from '../components/AnimatedAreaLogin'
 export default {
-  components: {AnimateArea},
+  components: { AnimateArea },
   data() {
     return {
       email: '',
@@ -98,7 +104,7 @@ export default {
           this.$router.push({ name: 'Students' })
         }
       } else {
-        this.mensagemError = 'Erro na altenticação :('
+        this.mensagemError = 'Erro na autenticação :('
       }
     }
   }
@@ -114,7 +120,7 @@ export default {
   }
   span {
     color: #3f67cc;
-    font-size: 13px
+    font-size: 13px;
     // color: #022069
   }
   .btn {
@@ -162,5 +168,4 @@ export default {
     color: #7794cc;
   }
 }
-
 </style>

@@ -84,8 +84,7 @@ export default {
         const validarCpf = require("validar-cpf");
 
         if (!validator.validate(this.student.email)) {
-           (this.mensageError = "Emai-l errado");
-           console.log('paro aqui')
+           (this.mensageError = "Email errado");
           return 0;
         }
         if (!validarCpf(this.student.cpf)) {
@@ -93,7 +92,7 @@ export default {
           return 0;
         }
         if (this.student.hour < 6 || this.student.hour > 21) {
-          this.mensageError = "Horario deve esta entre 7 e 20 horas";
+          this.mensageError = "Horário deve estar entre 7 e 20 horas";
           return 0;
         }
         if (
@@ -103,7 +102,7 @@ export default {
           !this.student.modality ||
           !this.student.telephone
         ) {
-          this.mensageError = "Preecha todos os campos";
+          this.mensageError = "Preencha todos os campos";
           return 0;
         }
         return 1
@@ -111,13 +110,11 @@ export default {
       else return 0
     },
     newStudent() {
-      console.log('vai cadatra')
       if (this.isValidate() === 1) {
         const body = {
           ...this.student,
           days: this.montDays(this.student.daysActvities),
         };
-        console.log('o body da vez->',body)
         this.createStudent(body);
       }
     },
@@ -132,8 +129,6 @@ export default {
     async createStudent(body) {
       try {
         await api.post("/students", body);
-        // this.close();
-        console.log('passa por aqui!!!')
         this.$emit('updateApi')
         this.close()
       } catch (e) {

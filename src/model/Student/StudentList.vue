@@ -17,7 +17,7 @@
               @get-search="getSearch"
               :btn="{
                 class: 'btn-outline-dark btn-sm',
-                label: 'Cadastrar Aluno'
+                label: '+ Aluno'
               }"
               placeholder="Buscar por nome ou id"
             />

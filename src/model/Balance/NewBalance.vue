@@ -10,7 +10,7 @@
       >
         <header class="modal-header" id="modalTitle">
           <slot name="header">
-            Novo Fatura
+            Nova Fatura
             <button
               type="button"
               class="btn-close"

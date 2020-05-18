@@ -7,7 +7,7 @@
         class="mb-0 p-2 px-3"
         :class="{ 'button-selected': selected === 'frequenci' }"
       >
-        <span>Frequencia</span>
+        <span>Frequência</span>
       </label>
     </div>
     <div class="">

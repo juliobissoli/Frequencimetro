@@ -24,7 +24,7 @@
           <form>
             <div class="row">
               <div class="form-group col-md-5">
-                <label>Periodo</label>
+                <label>Período</label>
                 <div class="input-group input-group">
                   <input
                     class="form-control"
@@ -99,7 +99,7 @@
               aria-label="Close modal"
               @click="deletPayment"
             >
-              Escluir
+              Excluir
             </button>
 
             <button

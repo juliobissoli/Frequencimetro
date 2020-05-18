@@ -2,11 +2,11 @@
   <div class="list_are rounded p-3">
     <BarTop
       class="mb-2"
-      title="Ususarios"
+      title="Usuários"
       font="20"
       :input="false"
       @button-clicked="$emit('btn-clicked')"
-      :btn="{ class: 'btn-outline-dark btn-sm', label: '+ Ususario' }"
+      :btn="{ class: 'btn-outline-dark btn-sm', label: '+ Usuário' }"
     />
     <div class="row">
       <div class="col-md-12 p-2">

@@ -18,7 +18,7 @@
             @get-search="getSearch"
             :btn="{
               class: 'btn-outline-dark btn-sm',
-              label: 'Add Cobrança'
+              label: '+ Cobrança'
             }"
             placeholder="Buscar data"
           />

@@ -15,7 +15,7 @@
         <Card
           :today="dateFormat"
           clasIcon="fas fa-calendar-day"
-          subTitle="Fauras Pendentes"
+          subTitle="Faturas Pendentes"
           class="shadow rounded"
           classColor="danger"
           :title="chartsPandin"
@@ -28,7 +28,7 @@
     <div class="p-3 shadow bg-white rounded">
       <PaymentList
         :payments="paymentList"
-        title="Mensalidades"
+        title="Lista de Mensalidades"
         :monthly_payment="item.payment"
         :student_id="item.id"
         :student_date="item.created_at"
