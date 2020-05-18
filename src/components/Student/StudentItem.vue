@@ -21,15 +21,22 @@
           />
         </div>
         <div class="col-md-4 d-flex justify-content-end">
-          <div v-for="i in 5" :key="i" class="">
-            <i class="fas fa-circle mr-2 circle text-secundary"></i>
+          <div v-for="d in lastFiveDays" :key="d" class="dropdown">
+            <i
+              class="fas fa-circle mr-2 circle"
+              :style="'color:' + classCicle(item, d).color"
+            ></i>
+            <div class="dropdown-content">
+              <strong>{{ classCicle(item, d).label }}</strong>
+              <span>{{ classCicle(item, d).date }}</span>
+            </div>
           </div>
         </div>
       </div>
     </router-link>
     <div class="col-md-1 d-flex justify-content-end">
       <button
-        v-if="item.attendances.length < 1"
+        v-if="!presentToday(item)"
         class="btn btn-sm primary"
         @click="createAttendance()"
       >
@@ -57,7 +64,9 @@
             </div>
 
             <button
-              @click="deletAttendace(item.attendances[0].id)"
+              @click="
+                deletAttendace(getAttedance(item.attendances, dateNow).id)
+              "
               style="width: 100%;"
               class="col-12 btn btn-sm btn-outline-secondary"
             >
@@ -86,6 +95,20 @@ export default {
   computed: {
     today() {
       return moment().format('dddd')
+    },
+    dateNow() {
+      return moment().format('YYYY-MM-DD')
+    },
+    lastFiveDays() {
+      const days = []
+      var i = 0
+      for (var j = 0; j < 5; j++) {
+        if (moment().add('day', -i).day() === 0) i += 2
+        else if (moment().add('day', -i).day() === 7) i += 1
+        days.push(moment().add('day', -i).format('YYYY-MM-DD'))
+        i++
+      }
+      return days.reverse()
     }
   },
   methods: {
@@ -123,17 +146,48 @@ export default {
       if (num < 1000) return '0' + num
       return num
     },
-    classToday(item) {
+    metchDay(days, today) {
       const mapDays = new Map(
-        item.days.split(' ').map((el) => {
+        days.split(' ').map((el) => {
           return [el, true]
         })
       )
-      if (mapDays.get(this.today.split('-')[0])){
-        if(item.attendances.length < 1) return 'secondary'
-        else return 'primary'
+      return mapDays.get(today.split('-')[0]) ? true : false
+    },
+    classToday(item) {
+      if (this.metchDay(item.days, this.today)) {
+        return !this.presentToday(item) ? 'secondary' : 'primary'
+      } else return null
+    },
+    getAttedance(list, date) {
+      const data = new Map(
+        list.map((el) => {
+          return [el.created_at, el]
+        })
+      )
+      return data.get(date)
+    },
+    presentToday(item) {
+      if (item.attendances.length > 0) {
+        const list = item.attendances
+        return this.getAttedance(list, this.dateNow) ? true : false
+      } else {
+        return false
       }
-      else return null
+    },
+    classCicle(item, day) {
+      const list = item.attendances
+      const dataFormated ={
+        date: moment(day).format('ddd DD/MMM')
+      } 
+      // const date = moment().add('day', -i).format('YYYY-MM-DD')
+      if (this.getAttedance(list, day)) {
+        return {...dataFormated, label:'Presente', color: '#4ba179'}
+      } else {
+        return this.metchDay(item.days, moment(day).format('dddd'))
+          ? {...dataFormated,label:'Falta', color: '#cf566c'}
+          : {...dataFormated, label:'', color: '#e1ebf7'}
+      }
     }
   }
 }
@@ -163,21 +217,28 @@ export default {
 .dropdown {
   position: relative;
   display: inline-block;
+  span {
+    font-size: 12px;
+  }
+  :hover ~ .dropdown-content {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .dropdown-content {
   position: absolute;
-  background-color: #f9f9f9;
-  color: #777;
-  right: 0;
-  top: 0;
-  border: none;
-  left: 10px;
-  min-width: 20vw;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  background-color: #E1EBF7;
+  border-radius: 0.6rem;
+  font-size: 15px;
+  font-weight: 500;
+  color: #444;
+  top: -14px;
+  left: 14px;
+  min-width: 100px;
   padding: 12px 16px;
   margin: 5px 5px;
-  cursor: pointer;
-  z-index: 1;
+  display: none;
+  z-index: 20;
 }
 </style>

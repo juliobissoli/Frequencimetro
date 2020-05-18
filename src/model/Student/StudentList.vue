@@ -75,7 +75,6 @@ export default {
       totalData: 1,
       searchEntrys: '',
       students: [],
-      attendances: [],
       isModalVisible: false,
       chekerApi: 0
     }

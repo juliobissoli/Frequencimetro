@@ -166,31 +166,31 @@ export default {
     font-size: 14px;
   }
 }
-.dropdown {
-  position: relative;
-  display: inline-block;
-  span {
-    font-size: 12px;
-  }
-}
+// .dropdown {
+//   position: relative;
+//   display: inline-block;
+//   span {
+//     font-size: 12px;
+//   }
+// }
 
-.dropdown-content {
-  position: absolute;
-  background-color: #f9f9f9;
-  color: #777;
-  right: 0;
-  top: 9vh;
-  border: none;
-  left: 0;
-  min-width: 8vw;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  padding: 12px 16px;
-  margin: 5px 5px;
-  cursor: pointer;
-  z-index: 1;
-  :hover {
-    // background-color: #f9f9f9;
-    color: #fff;
-  }
-}
+// .dropdown-content {
+//   position: absolute;
+//   background-color: #f9f9f9;
+//   color: #777;
+//   right: 0;
+//   top: 9vh;
+//   border: none;
+//   left: 0;
+//   min-width: 8vw;
+//   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+//   padding: 12px 16px;
+//   margin: 5px 5px;
+//   cursor: pointer;
+//   z-index: 1;
+//   :hover {
+//     // background-color: #f9f9f9;
+//     color: #fff;
+//   }
+// }
 </style>
