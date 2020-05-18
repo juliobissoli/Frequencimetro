@@ -89,9 +89,10 @@ export default {
       email: '',
       password: '',
       isLogged: false,
-      mensagemError: ''
+      mensagemError: '',
     }
   },
+
 
   methods: {
     async login() {
