@@ -6,7 +6,7 @@
       font="20"
       :input="false"
       @button-clicked="$emit('btn-clicked')"
-      :btn="{ class: 'btn-outline-dark btn-sm', label: '+ Usuário', permission: $store.state.user.isAdmin }"
+      :btn="{ class: 'btn-outline-dark btn-sm', label: '+ Usuário'}"
     />
     <div class="row">
       <div class="col-md-12 p-2">
@@ -21,7 +21,7 @@
           <div 
           class="col-md-12 mt-2 px-3"
           style="cursor: pointer"
-          @click="$emit('update-user', item)"
+          @click="$store.state.isAdmin ?  $emit('update-user', item) : ''"
           v-show="$store.state.user.uid !== item.id"
           >
             <CardUser

@@ -14,7 +14,7 @@
             <CardStatis
               today="20/20/20"
               clasIcon="fas fa-heartbeat"
-              :title="$store.state.user.uid"
+              :title="$store.state.isAdmin"
               subTitle="Receita"
               classColor="success"
               class="shadow rounded"
@@ -70,35 +70,6 @@
           @btn-clicked="createUser"
           @update-user="updateUser"
         />
-        <!-- <div class="list_are rounded p-3">
-          <BarTop
-            class="mb-2"
-            title="Ususarios"
-            font="20"
-            :input="false"
-            @button-clicked="isEdtiMode = !isEdtiMode"
-            :btn="{ class: 'btn-outline-dark btn-sm', label: '+ Ususario' }"
-          />
-          <div class="row">
-            <div class="col-md-12 p-2">
-              <CardUser
-                today="Você"
-                title="Julio Bissoli"
-                subTitle="Adm"
-                classColor="secondary"
-                class="shadow rounded"
-              />
-              <div class="col-md-12 mt-2 px-3">
-                <CardUser
-                  title="Julio Bissoli"
-                  subTitle="Adm"
-                  classColor="darck"
-                  class="rounded"
-                />
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
@@ -121,6 +92,10 @@ export default {
     NewUser,
     Chart
   },
+  created(){
+    this.$store.commit('setUser')
+  },
+
   data: () => ({
     isEdtiMode: false,
     isModalVisible: false,

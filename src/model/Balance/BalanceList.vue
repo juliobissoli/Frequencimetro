@@ -49,7 +49,6 @@
           :btn="false"
         />
         <div class="row mb-3">
-
           <div class="col-md-6 pr-1">
             <CardBalance
               :today="dateForPeriod(chargeSelected)"
@@ -74,7 +73,11 @@
         <div class="row">
           <div class="col-md-12">
             <div class="shadow p-3 bg-white rounded">
-              <PaymentList @updateApi="getCharges()" title="Pagamentos" :payments="payments" />
+              <PaymentList
+                @updateApi="getCharges()"
+                title="Pagamentos"
+                :payments="payments"
+              />
             </div>
           </div>
         </div>
@@ -92,7 +95,6 @@ import Pagination from '../../components/Pagination'
 import CardBalance from '../../components/CartExtats'
 import PaymentList from '../../components/Balance/PaymentList'
 import NewBalance from './NewBalance'
-
 
 import moment from 'moment'
 import api from '../../services/api'
@@ -123,11 +125,12 @@ export default {
     }
   },
   watch: {
-    count(){
+    count() {
       console.log('mudo')
     }
   },
   created() {
+    this.$store.commit('setUser')
     this.getCharges()
   },
   computed: {

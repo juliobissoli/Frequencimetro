@@ -12,11 +12,11 @@
         v-model="serachTocken"
       />
     </div>
-    <button
+     <button
       v-show="btn"
-      @click="btn.permission ? btnClicked() : ''"
+      @click="$store.state.user.isAdmin ? btnClicked() : ''"
       class="btn mb-3"
-      :style="'opacity:'+ (btn.permission ? '1': '0.3')"
+      :style="'opacity:'+ ($store.state.user.isAdmin ? '0.9': '0.3')"
       :class="btn.class"
     >
       {{ btn.label }}

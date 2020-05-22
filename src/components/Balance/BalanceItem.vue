@@ -17,7 +17,7 @@
         </strong>
       </div>
     </div>
-    <div class="clikable ml-4 " v-for="(item, index) in charge" :key="index">
+    <div class="clikable ml-4" v-for="(item, index) in charge" :key="index">
       <div
         class="row line chart-content bg-light mb-2 shadow-sm"
         :class="{ lineSelected: chargeSelected === index }"
@@ -54,6 +54,7 @@
         </div>
         <div class="col-md-1 pl-2 p-0 d-flex justify-content-end">
           <button
+            v-show="$store.state.user.isAdmin"
             class="btn btn-sm btn-outline-secondary p-1"
             style="border: none;"
             @click="editClick(item)"

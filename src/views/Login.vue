@@ -67,7 +67,10 @@
           </span>
         </div>
         <div class="row logo p-0 m-0">
-          <span style="font-size: 22px;" class="col-md-12 p-3 d-flex justify-content-center">
+          <span
+            style="font-size: 22px;"
+            class="col-md-12 p-3 d-flex justify-content-center"
+          >
             Sua plataforma de gerenciamento de frequências personalizada.
           </span>
         </div>
@@ -82,8 +85,6 @@
 <script>
 import auth from '../utils/auth'
 import AnimateArea from '../components/AnimatedAreaLogin'
-import jwt_decode from 'jwt-decode'
-import api from '../services/api'
 export default {
   components: { AnimateArea },
   data() {
@@ -91,10 +92,9 @@ export default {
       email: '',
       password: '',
       isLogged: false,
-      mensagemError: '',
+      mensagemError: ''
     }
   },
-
 
   methods: {
     async login() {
@@ -104,23 +104,12 @@ export default {
         if (this.$route.query && this.$route.query.redirect) {
           this.$router.push(this.$route.query.redirect)
         } else {
-          this.setUserStore()
+          this.$store.commit('setUser')
           this.$router.push({ name: 'Students' })
         }
       } else {
         this.mensagemError = 'Erro na autenticação :('
       }
-    },
-    setUserStore(){
-      const id = jwt_decode(auth.token()).uid
-       try {
-        api.get('/showUser/' + id).then( (el) => {
-          console.log(el.data),
-          this.$store.commit('setUser', el.data )
-        })
-    } catch (err) {
-      return err
-    }
     }
   }
 }

@@ -97,7 +97,8 @@
               type="button"
               class="btn btn-sm btn-outline-danger"
               aria-label="Close modal"
-              @click="deletPayment"
+              @click="isAdmin ? deletPayment : null"
+              :style="`opacity: ${isAdmin ? '0.9' : '0.3'}`"
             >
               Excluir
             </button>
@@ -105,7 +106,8 @@
             <button
               type="button"
               class="btn btn-sm btn-primary"
-              @click="close"
+              @click="isAdmin ? close : null"
+              :style="`opacity: ${isAdmin ? '0.9' : '0.3'}`"
               aria-label="Close modal"
             >
               Salvar
@@ -135,7 +137,11 @@ export default {
       }
     }
   },
-
+  computed: {
+    isAdmin() {
+      return this.$store.state.isAdmin
+    }
+  },
   watch: {
     paymentData() {
       this.data = this.paymentData

@@ -28,39 +28,14 @@
         <i class="fas fa-sign-out-alt"></i>
         <span> Sair</span>
       </div>
-      <!-- <div class="side_bar_item dropdown" @click="isVisible = !isVisible">
-        <i class="fas fa-cog"></i>
-        <span
-          >Setings
-          <i
-            style="font-size: 11px;"
-            v-bind:class="[
-              isVisible ? false : 'fas fa-angle-up',
-              'fas fa-angle-down'
-            ]"
-          ></i
-        ></span>
-        <div v-show="isVisible" class="dropdown-content">
-          <div class="line_option mb-2">
-            <i class="far fa-edit mr-2"></i>
-            <span> Editar</span>
-          </div>
-          <div class="line_option mb-2" @click="logout()">
-            <i class="fas fa-sign-out-alt mr-2"></i>
-            <span> Sair</span>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
 
 <script>
-// import Avatar from "./Avatar";
 import auth from '../utils/auth'
 export default {
   name: 'MainMenu',
-  // components: { Avatar },
   data() {
     return {
       isVisible: false
@@ -69,6 +44,7 @@ export default {
   methods: {
     logout() {
       auth.logout()
+      this.$store.commit('cleanStores')
       this.$router.push({ name: 'Login' })
     }
   }

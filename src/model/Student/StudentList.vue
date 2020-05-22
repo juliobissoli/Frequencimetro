@@ -80,6 +80,7 @@ export default {
     }
   },
   async created() {
+    this.$store.commit('setUser')
     this.getStudents()
   },
   methods: {
