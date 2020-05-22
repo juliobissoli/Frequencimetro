@@ -6,19 +6,24 @@
       font="20"
       :input="false"
       @button-clicked="$emit('btn-clicked')"
-      :btn="{ class: 'btn-outline-dark btn-sm', label: '+ Usuário' }"
+      :btn="{ class: 'btn-outline-dark btn-sm', label: '+ Usuário', permission: $store.state.user.isAdmin }"
     />
     <div class="row">
       <div class="col-md-12 p-2">
         <CardUser
           today="Você"
-          title="Julio Bissoli"
-          subTitle="Adm"
+          :title="$store.state.user.name"
+          :subTitle="$store.state.user.type"
           classColor="secondary"
           class="shadow rounded"
         />
         <div v-for="(item, index) in listUser" :key="index">
-          <div class="col-md-12 mt-2 px-3" style="cursor: pointer" @click="$emit('update-user', item)">
+          <div 
+          class="col-md-12 mt-2 px-3"
+          style="cursor: pointer"
+          @click="$emit('update-user', item)"
+          v-show="$store.state.user.uid !== item.id"
+          >
             <CardUser
               :title="item.name"
               :subTitle="item.type"

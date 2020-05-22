@@ -14,8 +14,9 @@
     </div>
     <button
       v-show="btn"
-      @click="btnClicked()"
+      @click="btn.permission ? btnClicked() : ''"
       class="btn mb-3"
+      :style="'opacity:'+ (btn.permission ? '1': '0.3')"
       :class="btn.class"
     >
       {{ btn.label }}

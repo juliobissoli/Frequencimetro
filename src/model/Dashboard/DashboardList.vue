@@ -14,7 +14,7 @@
             <CardStatis
               today="20/20/20"
               clasIcon="fas fa-heartbeat"
-              title="256"
+              :title="$store.state.user.uid"
               subTitle="Receita"
               classColor="success"
               class="shadow rounded"

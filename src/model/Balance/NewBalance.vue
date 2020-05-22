@@ -207,7 +207,7 @@ export default {
 <style lang="scss" scoped>
 .modal-backdrop {
   position: fixed;
-  background: #9bda84;
+  // background: #9bda84;
   top: 0;
   bottom: 0;
   left: 0;
@@ -270,7 +270,6 @@ export default {
 
 .btn-gold {
   color: black;
-  background: #9f9b78;
   border: 2px solid transparent;
   border-radius: 4px;
   cursor: pointer;
@@ -287,9 +286,9 @@ export default {
   vertical-align: middle;
   padding: 0.375rem 0.75rem;
   font-size: 0.9rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
-    -webkit-box-shadow 0.15s ease-in-out;
+  // transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+  //   border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+  //   -webkit-box-shadow 0.15s ease-in-out;
 }
 
 .btn-gold:hover {

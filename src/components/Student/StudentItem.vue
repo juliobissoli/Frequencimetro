@@ -50,19 +50,20 @@
       >
         <i class="fas fa-check"></i>
       </button>
-      <div v-show="dropdown" class="dropdown">
-        <div class="dropdown-content p-6">
-          <div class="row">
-            <div class="col-12 d-flex justify-content-between">
+      <div v-show="dropdown" class="dropdown-box">
+        <div class="dropdown-content-box">
+          <div class="row px-2 mb-2">
+            <div class="col-12 p-0 d-flex justify-content-between align-items-center">
               <span>Desmarcar presensa</span>
               <button
                 @click="dropdown = !dropdown"
-                class="btn btn-sm text-secondary mb-2"
+                class="btn btn-sm text-secondary d-flex align-items-center"
               >
                 <i class="fas fa-times"></i>
               </button>
             </div>
-
+          </div>
+          <div class="row px-2">
             <button
               @click="
                 deletAttendace(getAttedance(item.attendances, dateNow).id)
@@ -177,16 +178,16 @@ export default {
     },
     classCicle(item, day) {
       const list = item.attendances
-      const dataFormated ={
+      const dataFormated = {
         date: moment(day).format('ddd DD/MMM')
-      } 
+      }
       // const date = moment().add('day', -i).format('YYYY-MM-DD')
       if (this.getAttedance(list, day)) {
-        return {...dataFormated, label:'Presente', color: '#4ba179'}
+        return { ...dataFormated, label: 'Presente', color: '#4ba179' }
       } else {
         return this.metchDay(item.days, moment(day).format('dddd'))
-          ? {...dataFormated,label:'Falta', color: '#cf566c'}
-          : {...dataFormated, label:'', color: '#e1ebf7'}
+          ? { ...dataFormated, label: 'Falta', color: '#cf566c' }
+          : { ...dataFormated, label: '', color: '#e1ebf7' }
       }
     }
   }
@@ -211,6 +212,10 @@ export default {
   .primary {
     color: #7794cc;
     border: none;
+    :hover{
+     transform: scale(1.2);
+     color: #4ba179;
+    }
   }
 }
 
@@ -228,7 +233,7 @@ export default {
 
 .dropdown-content {
   position: absolute;
-  background-color: #E1EBF7;
+  background-color: #e1ebf7;
   border-radius: 0.6rem;
   font-size: 15px;
   font-weight: 500;
@@ -239,6 +244,29 @@ export default {
   padding: 12px 16px;
   margin: 5px 5px;
   display: none;
+  z-index: 20;
+}
+
+.dropdown-box {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content-box {
+  position: absolute;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 0.6rem;
+  // font-size: 15px;
+  font-weight: 400;
+  color: #444;
+  top: -14px;
+  left: 5px;
+  min-width: 250px;
+  padding: 12px 16px;
+  margin: 5px 5px;
+  // display: none;
   z-index: 20;
 }
 </style>

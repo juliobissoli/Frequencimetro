@@ -82,6 +82,8 @@
 <script>
 import auth from '../utils/auth'
 import AnimateArea from '../components/AnimatedAreaLogin'
+import jwt_decode from 'jwt-decode'
+import api from '../services/api'
 export default {
   components: { AnimateArea },
   data() {
@@ -102,11 +104,23 @@ export default {
         if (this.$route.query && this.$route.query.redirect) {
           this.$router.push(this.$route.query.redirect)
         } else {
+          this.setUserStore()
           this.$router.push({ name: 'Students' })
         }
       } else {
         this.mensagemError = 'Erro na autenticação :('
       }
+    },
+    setUserStore(){
+      const id = jwt_decode(auth.token()).uid
+       try {
+        api.get('/showUser/' + id).then( (el) => {
+          console.log(el.data),
+          this.$store.commit('setUser', el.data )
+        })
+    } catch (err) {
+      return err
+    }
     }
   }
 }
