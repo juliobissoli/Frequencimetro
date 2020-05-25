@@ -104,9 +104,9 @@ export default {
       const days = []
       var i = 0
       for (var j = 0; j < 5; j++) {
-        if (moment().add('day', -i).day() === 0) i += 2
-        else if (moment().add('day', -i).day() === 7) i += 1
-        days.push(moment().add('day', -i).format('YYYY-MM-DD'))
+        if (moment().add(-i, 'day').day() === 0) i += 2
+        else if (moment().add(-i, 'day').day() === 7) i += 1
+        days.push(moment().add(-i, 'day').format('YYYY-MM-DD'))
         i++
       }
       return days.reverse()

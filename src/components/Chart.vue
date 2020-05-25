@@ -22,15 +22,19 @@
           >
           <span v-else>{{ item.subTotal }}</span>
         </div>
-        <div
-          class="bar_danger"
-          :style="getPercent(maxTotal, item.total - item.subTotal)"
-        ></div>
-        <div
-          class="bar_success"
-          :style="getPercent(maxTotal, item.subTotal)"
-        ></div>
-
+        <transition-group  name="suavized" />
+          <div
+            class="bar_danger"
+            :style="getPercent(maxTotal, item.total - item.subTotal)"
+          ></div>
+        <transition-group />
+        <transition-group name="suavized" />
+          <div
+            class="bar_success"
+            :style="getPercent(maxTotal, item.subTotal)"
+          >
+          </div>
+        <transition-group />
         <div class="label">{{ item.label }}</div>
       </div>
     </div>
@@ -140,16 +144,19 @@ export default {
     }
     @keyframes suavizedBar {
       0% {
-        transform: translateY(0%);
+        transform:  translateX(0%);
       }
       100% {
         transform: translateX(100%);
       }
     }
+    .suavized-enter-active {
+      animation: suavizedBar 300ms ease;
+    }
+    .suavized-leave-active {
+      animation: suavizedBar 300ms reverse;
+    }
     .bar_success {
-      // width: 20px;
-      // animation: suavizedBar 300ms;
-      // height: auto;
       margin: 1px 0;
       width: 100%;
       border-radius: 0.4rem;

@@ -15,9 +15,18 @@ const store = new Vuex.Store({
       uid: null,
       isAdmin: false
     },
-    isAdmin: false
+    isAdmin: false,
+    userList: [],
+    isLoading: false
   },
   mutations: {
+    loading(state){
+      console.log('set isLoading')
+      state.isLoading = true
+    },
+    notLoading(state){
+      state.isLoading = false
+    },
     async setUser(state) {
       if (state.user.uid === null) {
         const id = jwt_decode(auth.token()).uid
@@ -27,11 +36,23 @@ const store = new Vuex.Store({
             state.isAdmin = res.data.isAdmin
             state.user = res.data
           })
-        }
-        catch (err) {
+        } catch (err) {
           console.log(err)
         }
       }
+    },
+    async setUserList(state) {
+      console.log('ta qui')
+      try {
+       await api.get('/listUser').then((res) => {
+          state.userList = res.data
+        })
+      }
+      catch (err) {
+        console.log(err)
+      }
+      console.log('set notLoading')
+      state.isLoading = false
     },
     cleanStores(state) {
       state.user = {
@@ -43,6 +64,10 @@ const store = new Vuex.Store({
       }
       state.isAdmin = false
     }
+  },
+
+  getters: {
+    user_list: state => state.userList
   }
 })
 

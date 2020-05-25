@@ -8,9 +8,11 @@
         aria-labelledby="modalTitle"
         aria-describedby="modalDescription"
       >
+        <Load v-show="isLoading" />
+
         <header class="modal-header" id="modalTitle">
           <slot name="header">
-             {{user ? 'Editar Usuário' : 'Novo Usuário'}}
+            {{ user ? 'Editar Usuário' : 'Novo Usuário' }}
             <button
               type="button"
               class="btn-close"
@@ -40,7 +42,7 @@
                   </select>
                 </div>
                 <div class="form-group col-md-8">
-                  <label>Email</label>
+                  <label>Email {{ isLoading }} </label>
                   <div class="input-group input-group">
                     <input type="email" v-model="email" class="form-control" />
                   </div>
@@ -105,11 +107,11 @@
 
 <script>
 import api from '../../services/api'
-
+import Load from '../../components/AnimateLoad'
 export default {
   name: 'NewBalance',
   props: ['user'],
-
+  components: { Load },
   data() {
     return {
       mensageError: '',
@@ -117,6 +119,11 @@ export default {
       email: '',
       type: '',
       password: ''
+    }
+  },
+  computed: {
+    isLoading() {
+      return this.$store.state.isLoading
     }
   },
   watch: {
@@ -165,34 +172,43 @@ export default {
     async newUser() {
       const body = this.validate()
       if (body) {
+        this.$store.commit('loading')
+
         try {
-          api.post('/users', body)
-          this.$emit('updateApi')
+          await api.post('/users', body)
+          await this.$store.commit('setUserList')
           this.close()
         } catch (err) {
           this.mensageError = err
         }
+        this.$store.commit('notLoading')
       }
     },
-    updateUser() {
+    async updateUser() {
       const body = this.validate()
+      this.$store.commit('loading')
       try {
-        api.put('/updateUser/' + this.charge.id, body)
-        this.$emit('updateApi')
+        await api.put('/updateUser/' + this.charge.id, body)
+        // this.$emit('updateApi')
+        this.$store.commit('setUserList')
         this.close()
       } catch (err) {
         this.mensageError = err
       }
+      this.$store.commit('notLoading')
     },
-    deleteUser() {
-        console.log(this.user.id)
+    async deleteUser() {
+      console.log(this.user.id)
+      this.$store.commit('loading')
       try {
-        api.delete('/user/' + this.user.id)
-        this.$emit('updateApi')
+        await api.delete('/user/' + this.user.id)
+        this.$store.commit('setUserList')
+        // this.$emit('updateApi')
         this.close()
       } catch (err) {
         this.mensageError = err
       }
+      this.$store.commit('notLoading')
     }
   }
 }

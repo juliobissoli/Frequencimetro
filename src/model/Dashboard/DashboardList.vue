@@ -2,9 +2,9 @@
   <div>
     <NewUser
       v-show="isModalVisible"
-      @close="isModalVisible = false"
+      @close="isModalVisible = !isModalVisible"
       :user="userSelected"
-      @updateApi="update_api++"
+      @updateApi="setParams()"
     />
     <BarTop class="mb-2" title="Painel" :input="false" :btn="false" />
     <div class="row">
@@ -123,7 +123,10 @@ export default {
     createUser() {
       this.userSelected = null
       this.isModalVisible = true
-    }
+    },
+    setParams(){
+      // this.$store.commit('notLoading')
+    },
   }
 }
 </script>
