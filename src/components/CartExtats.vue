@@ -1,7 +1,23 @@
 <template>
   <div class="card p-1" :class="classColor">
     <div class="row">
-      <div class="col-5 p-0 m-0 d-flex justify-content-center align-items-center">
+      <div class="col-md-12  d-flex justify-content-between">
+        <div class="p-0 ml-2 d-flex justify-content-center align-items-center">
+          <div class="side_box px-4 py-3 m-0">
+            <i :class="clasIcon"></i>
+          </div>
+        </div>
+        <div class="p-1 ml-2">
+          <div class="row">
+            <strong class="col-12 describe text-right pr-4"
+              >{{ today }}
+            </strong>
+            <span class="col-12 title">{{ title }}</span>
+            <span class="col-12 sub_title">{{ subTitle }}</span>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-5 p-0 m-0 d-flex justify-content-center align-items-center">
         <div class="side_box px-4 py-3 m-0">
           <i :class="clasIcon"></i>
         </div>
@@ -14,7 +30,7 @@
           <span class="col-12 title">{{ title }}</span>
           <span class="col-12 sub_title">{{ subTitle }}</span>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -27,9 +43,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card{
+.card {
   border: none;
-   .side_box {
+  .side_box {
     background-color: #fff;
     border-radius: 0.8rem;
   }
@@ -50,15 +66,15 @@ export default {
 
 .success {
   background-color: #9fefc9;
-  color: #4ba179 ;
+  color: #4ba179;
 }
 
-.danger{
+.danger {
   background-color: #cf4444;
   color: #811919;
 }
 
-.warning{
+.warning {
   background-color: #f0d160;
   color: #9c8841;
 }
