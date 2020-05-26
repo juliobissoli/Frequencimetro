@@ -93,7 +93,7 @@
             <button
               type="button"
               class="btn btn-sm btn-success"
-              @click="updateCharge()"
+              @click="updateUser()"
               aria-label="Close modal"
             >
               Salvar
@@ -188,7 +188,7 @@ export default {
       const body = this.validate()
       this.$store.commit('loading')
       try {
-        await api.put('/updateUser/' + this.charge.id, body)
+        await api.put('/user/' + this.user.id, body)
         // this.$emit('updateApi')
         this.$store.commit('setUserList')
         this.close()

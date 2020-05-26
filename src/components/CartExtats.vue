@@ -1,8 +1,8 @@
 <template>
   <div class="card p-1" :class="classColor">
     <div class="row">
-      <div class="col-5 d-flex justify-content-center align-items-center">
-        <div class="side_box">
+      <div class="col-5 p-0 m-0 d-flex justify-content-center align-items-center">
+        <div class="side_box px-4 py-3 m-0">
           <i :class="clasIcon"></i>
         </div>
       </div>
@@ -64,7 +64,7 @@ export default {
 }
 
 .side_box {
-  padding: 25% 28%;
+  // padding: 25% 28%;
 }
 .title {
   font-size: 30px;

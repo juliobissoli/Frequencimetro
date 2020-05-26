@@ -52,7 +52,7 @@
           <div class="col-md-6 pr-1">
             <CardBalance
               :today="dateForPeriod(chargeSelected)"
-              clasIcon="fas fa-heartbeat"
+              clasIcon="fas fa-thumbs-up"
               :title="`R$ ${income}`"
               subTitle="Receita"
               classColor="success"
@@ -62,7 +62,7 @@
           <div class="col-md-6 pl-1">
             <CardBalance
               :today="dateForPeriod(chargeSelected)"
-              clasIcon="fas fa-heartbeat"
+              clasIcon="fas fa-exclamation-triangle"
               title="21"
               subTitle="Pendentes"
               classColor="warning"

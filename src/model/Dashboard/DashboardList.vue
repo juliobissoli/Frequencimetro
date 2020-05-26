@@ -4,13 +4,12 @@
       v-show="isModalVisible"
       @close="isModalVisible = !isModalVisible"
       :user="userSelected"
-      @updateApi="setParams()"
     />
     <BarTop class="mb-2" title="Painel" :input="false" :btn="false" />
     <div class="row">
       <div class="col-md-8">
         <div class="row">
-          <div class="col-md-3 pr-1">
+          <div class="col-md-4 pr-1">
             <CardStatis
               today="20/20/20"
               clasIcon="fas fa-heartbeat"
@@ -20,7 +19,7 @@
               class="shadow rounded"
             />
           </div>
-          <div class="col-md-3 px-1">
+          <div class="col-md-4 px-1">
             <CardStatis
               today="20/20/20"
               clasIcon="fas fa-heartbeat"
@@ -30,17 +29,7 @@
               class="shadow rounded"
             />
           </div>
-          <div class="col-md-3 px-1">
-            <CardStatis
-              today="20/20/20"
-              clasIcon="fas fa-heartbeat"
-              title="256"
-              subTitle="Receita"
-              classColor="secondary"
-              class="shadow rounded"
-            />
-          </div>
-          <div class="col-md-3 pl-1">
+          <div class="col-md-4 pl-1">
             <CardStatis
               today="20/20/20"
               clasIcon="fas fa-heartbeat"
@@ -68,7 +57,7 @@
         <ListUsers
           :check_api="update_api"
           @btn-clicked="createUser"
-          @update-user="updateUser"
+          @card-clicked="updateUser"
         />
       </div>
     </div>
@@ -117,16 +106,14 @@ export default {
   }),
   methods: {
     updateUser(item) {
+      console.log('ta np update')
       this.userSelected = item
       this.isModalVisible = true
     },
     createUser() {
       this.userSelected = null
       this.isModalVisible = true
-    },
-    setParams(){
-      // this.$store.commit('notLoading')
-    },
+    }
   }
 }
 </script>

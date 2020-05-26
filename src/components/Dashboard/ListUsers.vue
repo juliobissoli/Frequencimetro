@@ -10,18 +10,24 @@
     />
     <div class="row">
       <div class="col-md-12 p-2">
-        <CardUser
-          today="Você"
-          :title="$store.state.user.name"
-          :subTitle="$store.state.user.type"
-          classColor="secondary"
-          class="shadow rounded"
-        />
+        <div
+          style="cursor: pointer;"
+          @click="$store.state.isAdmin ? $emit('card-clicked', item) : ''"
+        >
+          <CardUser
+            today="Você"
+            :title="$store.state.user.name"
+            :subTitle="$store.state.user.type"
+            classColor="secondary"
+            class="shadow rounded"
+          />
+        </div>
+
         <div v-for="(item, index) in userList" :key="index">
           <div
             class="col-md-12 mt-2 px-3"
             style="cursor: pointer;"
-            @click="$store.state.isAdmin ? $emit('update-user', item) : ''"
+            @click="$store.state.isAdmin ? $emit('card-clicked', item) : ''"
             v-show="$store.state.user.uid !== item.id"
           >
             <CardUser
@@ -52,7 +58,7 @@ export default {
   computed: {
     userList() {
       return this.$store.getters.user_list
-    } 
+    }
   },
   data() {
     return {
