@@ -5,49 +5,70 @@
       :to="{ name: 'StudentDetail', params: { item } }"
     >
       <div class="row">
-        <div class="col-md-2" style="color:#7794cc;">#{{zeroLeft(item.id) }}</div>
-        <div class="col-md-6">
-          {{ item.name }}
+        <div class="col-md-2" style="color: #7794cc;">
+          #{{ zeroLeft(item.id) }}
+        </div>
+        <div class="col-md-6 d-flex align-items-center">
+          <span class="mr-1">{{ item.name }}</span>
+          <Budge
+            v-show="classToday(item)"
+            style="widht: 50px;"
+            :text="(item.hour * 1).toFixed(0) + 'h'"
+            icon="fas fa-calendar-day"
+            size="10"
+            class="expand"
+            :typeClass="classToday(item)"
+          />
         </div>
         <div class="col-md-4 d-flex justify-content-end">
-          <div v-for="i in 5" :key="i" class="">
-            <i class="fas fa-circle mr-2 circle text-secundary"></i>
+          <div v-for="d in lastFiveDays" :key="d" class="dropdown">
+            <i
+              class="fas fa-circle mr-2 circle"
+              :style="'color:' + classCicle(item, d).color"
+            ></i>
+            <div class="dropdown-content">
+              <strong>{{ classCicle(item, d).label }}</strong>
+              <span>{{ classCicle(item, d).date }}</span>
+            </div>
           </div>
         </div>
       </div>
     </router-link>
     <div class="col-md-1 d-flex justify-content-end">
       <button
-        v-if="item.attendances.length < 1"
-        class="btn btn-sm  primary"
+        v-if="!presentToday(item)"
+        class="btn btn-sm primary"
         @click="createAttendance()"
       >
         <i class="fas fa-heartbeat"></i>
       </button>
       <button
         v-else
-        style="border:none"
+        style="border: none;"
         class="btn btn-sm btn-outline-success"
         @click="dropdown = !dropdown"
       >
         <i class="fas fa-check"></i>
       </button>
-      <div v-show="dropdown" class="dropdown">
-        <div class="dropdown-content p-6">
-          <div class="row">
-            <div class="col-12 d-flex justify-content-between">
+      <div v-show="dropdown" class="dropdown-box">
+        <div class="dropdown-content-box">
+          <div class="row px-2 mb-2">
+            <div class="col-12 p-0 d-flex justify-content-between align-items-center">
               <span>Desmarcar presensa</span>
               <button
                 @click="dropdown = !dropdown"
-                class="btn btn-sm  text-secondary mb-2"
+                class="btn btn-sm text-secondary d-flex align-items-center"
               >
                 <i class="fas fa-times"></i>
               </button>
             </div>
-
+          </div>
+          <div class="row px-2">
             <button
-              @click="deletAttendace(item.attendances[0].id)"
-              style="width:100%"
+              @click="
+                deletAttendace(getAttedance(item.attendances, dateNow).id)
+              "
+              style="width: 100%;"
               class="col-12 btn btn-sm btn-outline-secondary"
             >
               Desmarcar
@@ -60,56 +81,121 @@
 </template>
 
 <script>
-import api from "../../services/api";
+import api from '../../services/api'
+import Budge from '../Badge_outline'
+import moment from 'moment'
 export default {
-  name: "StudentItem",
-  props: ["item"],
+  name: 'StudentItem',
+  components: { Budge },
+  props: ['item'],
   data() {
     return {
-      dropdown: false,
-    };
+      dropdown: false
+    }
+  },
+  computed: {
+    today() {
+      return moment().format('dddd')
+    },
+    dateNow() {
+      return moment().format('YYYY-MM-DD')
+    },
+    lastFiveDays() {
+      const days = []
+      var i = 0
+      for (var j = 0; j < 5; j++) {
+        if (moment().add(-i, 'day').day() === 0) i += 2
+        else if (moment().add(-i, 'day').day() === 7) i += 1
+        days.push(moment().add(-i, 'day').format('YYYY-MM-DD'))
+        i++
+      }
+      return days.reverse()
+    }
   },
   methods: {
     async createAttendance() {
       const body = {
-        student_id: this.item.id,
-      };
+        student_id: this.item.id
+      }
       try {
-        await api.post("/attendances", body);
-        console.log("new attendance");
-        this.$emit("updateApi");
+        await api.post('/attendances', body)
+        console.log('new attendance')
+        this.$emit('updateApi')
       } catch (e) {
-        return e;
+        return e
       }
     },
     async deletAttendace(id) {
-      console.log("vai remover");
+      console.log('vai remover')
       try {
-        await api.delete("/attendances/" + id);
-        this.$emit("updateApi");
-        this.dropdown = false;
+        await api.delete('/attendances/' + id)
+        this.$emit('updateApi')
+        this.dropdown = false
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
     printDays(days) {
-      const vetDays = days.split(" ");
-      var str = "";
-      vetDays.length === 5 ? (str += "Segunda a sexta") : (str += days);
-      return str;
+      const vetDays = days.split(' ')
+      var str = ''
+      vetDays.length === 5 ? (str += 'Segunda a sexta') : (str += days)
+      return str
     },
-    zeroLeft(num){
-      if(num < 10)  return '000' + num
-      if (num < 100) return '00' + num 
+    zeroLeft(num) {
+      if (num < 10) return '000' + num
+      if (num < 100) return '00' + num
       if (num < 1000) return '0' + num
       return num
+    },
+    metchDay(days, today) {
+      const mapDays = new Map(
+        days.split(' ').map((el) => {
+          return [el, true]
+        })
+      )
+      return mapDays.get(today.split('-')[0]) ? true : false
+    },
+    classToday(item) {
+      if (this.metchDay(item.days, this.today)) {
+        return !this.presentToday(item) ? 'secondary' : 'primary'
+      } else return null
+    },
+    getAttedance(list, date) {
+      const data = new Map(
+        list.map((el) => {
+          return [el.created_at, el]
+        })
+      )
+      return data.get(date)
+    },
+    presentToday(item) {
+      if (item.attendances.length > 0) {
+        const list = item.attendances
+        return this.getAttedance(list, this.dateNow) ? true : false
+      } else {
+        return false
+      }
+    },
+    classCicle(item, day) {
+      const list = item.attendances
+      const dataFormated = {
+        date: moment(day).format('ddd DD/MMM')
+      }
+      // const date = moment().add('day', -i).format('YYYY-MM-DD')
+      if (this.getAttedance(list, day)) {
+        return { ...dataFormated, label: 'Presente', color: '#4ba179' }
+      } else {
+        return this.metchDay(item.days, moment(day).format('dddd'))
+          ? { ...dataFormated, label: 'Falta', color: '#cf566c' }
+          : { ...dataFormated, label: '', color: '#e1ebf7' }
+      }
+    }
+  }
 }
-  },
-};
 </script>
 
 <style lang="scss" scoped>
-.circle{
+.circle {
   font-size: 12px;
   color: #7794cc;
 }
@@ -126,27 +212,61 @@ export default {
   .primary {
     color: #7794cc;
     border: none;
+    :hover{
+     transform: scale(1.2);
+     color: #4ba179;
+    }
   }
 }
 
 .dropdown {
   position: relative;
   display: inline-block;
+  span {
+    font-size: 12px;
+  }
+  :hover ~ .dropdown-content {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .dropdown-content {
   position: absolute;
-  background-color: #f9f9f9;
-  color: #777;
-  right: 0;
-  top: 0;
-  border: none;
-  left: 10px;
-  min-width: 20vw;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  background-color: #e1ebf7;
+  border-radius: 0.6rem;
+  font-size: 15px;
+  font-weight: 500;
+  color: #444;
+  top: -14px;
+  left: 14px;
+  min-width: 100px;
   padding: 12px 16px;
   margin: 5px 5px;
-  cursor: pointer;
-  z-index: 1;
+  display: none;
+  z-index: 20;
+}
+
+.dropdown-box {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content-box {
+  position: absolute;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 0.6rem;
+  // font-size: 15px;
+  font-weight: 400;
+  color: #444;
+  top: -14px;
+  left: 5px;
+  min-width: 250px;
+  padding: 12px 16px;
+  margin: 5px 5px;
+  // display: none;
+  z-index: 20;
 }
 </style>

@@ -8,9 +8,11 @@
         aria-labelledby="modalTitle"
         aria-describedby="modalDescription"
       >
+        <Load v-show="isLoading" />
+
         <header class="modal-header" id="modalTitle">
           <slot name="header">
-            Nova Fatura
+            {{ user ? 'Editar Usuário' : 'Novo Usuário' }}
             <button
               type="button"
               class="btn-close"
@@ -25,31 +27,33 @@
           <slot name="body">
             <form>
               <div class="row">
-                <div class="form-group col-md-6">
-                  <label>Mês</label>
-                  <select v-model="month" class="form-control">
-                    <option v-for="i in 12" :key="i" :value="formatMonth(i)">
-                      {{ formatMonth(i) }}
-                    </option>
-                  </select>
-                </div>
-
-                <div class="form-group col-md-6">
-                  <label>Ano</label>
+                <div class="form-group col-md-8">
+                  <label>Nome</label>
                   <div class="input-group input-group">
-                    <select v-model="year" class="form-control">
-                      <option v-for="i in 10" :key="i" :value="2019 + i">
-                        {{ 2019 + i }}
-                      </option>
-                    </select>
+                    <input type="text" v-model="name" class="form-control" />
                   </div>
                 </div>
-                <div class="form-group col-md-12">
-                  <label>Vencimento</label>
+                <div class="form-group col-md-4">
+                  <label>Tipo</label>
+                  <select v-model="type" class="form-control">
+                    <option value="professor">Professor</option>
+                    <option value="servidor">Servidor</option>
+                    <option value="admin">Administrador</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-8">
+                  <label>Email {{ isLoading }} </label>
+                  <div class="input-group input-group">
+                    <input type="email" v-model="email" class="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group col-md-4">
+                  <label>Senha</label>
                   <div class="input-group input-group">
                     <input
-                      v-model="date_end"
-                      type="date"
+                      type="password"
+                      v-model="password"
                       class="form-control"
                     />
                   </div>
@@ -66,11 +70,11 @@
           </slot>
         </section>
         <footer class="modal-footer">
-          <slot v-if="mode === 'create'" name="footer">
+          <slot v-if="!user" name="footer">
             <button
               type="button"
               class="btn btn-sm btn-primary"
-              @click="newCharge()"
+              @click="newUser()"
               aria-label="Close modal"
             >
               Adicionar
@@ -81,7 +85,7 @@
             <button
               type="button"
               class="btn btn-sm btn-danger"
-              @click="deleteCharge()"
+              @click="deleteUser()"
               aria-label="Close modal"
             >
               Excluir
@@ -89,7 +93,7 @@
             <button
               type="button"
               class="btn btn-sm btn-success"
-              @click="updateCharge()"
+              @click="updateUser()"
               aria-label="Close modal"
             >
               Salvar
@@ -102,112 +106,118 @@
 </template>
 
 <script>
-import api from "../../services/api";
-import moment from "moment";
+import api from '../../services/api'
+import Load from '../../components/AnimateLoad'
 export default {
-  name: "NewBalance",
-  props: ["mode", "charge"],
-
+  name: 'NewBalance',
+  props: ['user'],
+  components: { Load },
   data() {
     return {
-      mensageError: "",
-      month: "",
-      year: "",
-      date_end: "",
-    };
+      mensageError: '',
+      name: '',
+      email: '',
+      type: '',
+      password: ''
+    }
+  },
+  computed: {
+    isLoading() {
+      return this.$store.state.isLoading
+    }
   },
   watch: {
-    charge() {
-      if (this.mode !== "create") {
-        let date = this.charge.period.split("/");
-        this.month = date[0];
-        this.year = date[1];
-        this.date_end = this.charge.date_end;
+    user() {
+      if (this.user) {
+        this.name = this.user.name
+        this.email = this.user.email
+        this.password = this.user.password
+        this.type = this.user.type
       } else {
-        this.month = "";
-        this.year = "";
-        this.date_end = "";
+        this.name = ''
+        this.email = ''
+        this.password = ''
+        this.type = ''
       }
     },
     mensageError() {
       setTimeout(() => {
-        document.querySelector(".mensage_danger").classList.add("vanish");
-      }, 2000);
+        document.querySelector('.mensage_danger').classList.add('vanish')
+      }, 2000)
 
       setTimeout(() => {
-        document.querySelector(".mensage_danger").classList.remove("vanish");
-        this.mensageError = "";
-      }, 2100);
-    },
+        document.querySelector('.mensage_danger').classList.remove('vanish')
+        this.mensageError = ''
+      }, 2100)
+    }
   },
   methods: {
     close() {
-      this.$emit("close");
-    },
-    formatMonth(item) {
-      if (item) {
-        var date =
-          this.yearSelected + "-" + (item > 9 ? "0" + item : item) + "-10";
-        return moment(date).format("MMM");
-      }
+      this.$emit('close')
     },
     validate() {
       const body = {
-        period: this.month + "/" + this.year,
-        date_end: this.date_end,
-        payment: 0,
-      };
-      if (body.period !== " " && body.date_end !== "") {
-        let date_end_split = this.date_end.split("/");
-
-        if (date_end_split[2] < this.year) {
-          this.mensageError = "Data de vencimentro invalida";
-        }
-
-        return body;
+        name: this.name,
+        email: this.email,
+        type: this.type,
+        password: this.password
+      }
+      console.log(body)
+      if (body.name !== '' && body.password.length > 5) {
+        return body
       } else {
-        this.mensageError = "Preencha todos os dados";
+        this.mensageError = 'Preencha todos os dados'
       }
     },
-    async newCharge() {
-      const body = this.validate();
+    async newUser() {
+      const body = this.validate()
       if (body) {
+        this.$store.commit('loading')
+
         try {
-          api.post("/charge", body);
-          this.$emit("updateApi");
-          this.close();
+          await api.post('/users', body)
+          await this.$store.commit('setUserList')
+          this.close()
         } catch (err) {
-          this.mensageError = err;
+          this.mensageError = err
         }
+        this.$store.commit('notLoading')
       }
     },
-    updateCharge() {
-      const body = this.validate();
+    async updateUser() {
+      const body = this.validate()
+      this.$store.commit('loading')
       try {
-        api.put("/charge/" + this.charge.id, body);
-        this.$emit("updateApi");
-        this.close();
+        await api.put('/user/' + this.user.id, body)
+        // this.$emit('updateApi')
+        this.$store.commit('setUserList')
+        this.close()
       } catch (err) {
-        this.mensageError = err;
+        this.mensageError = err
       }
+      this.$store.commit('notLoading')
     },
-    deleteCharge() {
+    async deleteUser() {
+      console.log(this.user.id)
+      this.$store.commit('loading')
       try {
-        api.delete("/charge/" + this.charge.id);
-        this.$emit("updateApi");
-        this.close();
+        await api.delete('/user/' + this.user.id)
+        this.$store.commit('setUserList')
+        // this.$emit('updateApi')
+        this.close()
       } catch (err) {
-        this.mensageError = err;
+        this.mensageError = err
       }
-    },
-  },
-};
+      this.$store.commit('notLoading')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 .modal-backdrop {
   position: fixed;
-  // background: #9bda84;
+  background: #9bda84;
   top: 0;
   bottom: 0;
   left: 0;
@@ -224,7 +234,7 @@ export default {
   box-shadow: 2px 2px 20px 1px;
   display: flex;
   flex-direction: column;
-  width: 400px;
+  width: 500px;
   max-height: 400px;
   border-radius: 4px;
   left: auto;
@@ -270,14 +280,15 @@ export default {
 
 .btn-gold {
   color: black;
+  background: #9f9b78;
   border: 2px solid transparent;
   border-radius: 4px;
   cursor: pointer;
 
   margin-right: 0.5rem;
 
-  font-family: "Avenir Next W01", "Proxima Nova W01", "Rubik", -apple-system,
-    system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+  font-family: 'Avenir Next W01', 'Proxima Nova W01', 'Rubik', -apple-system,
+    system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     sans-serif;
   font-weight: 400;
   outline: none;
@@ -286,9 +297,9 @@ export default {
   vertical-align: middle;
   padding: 0.375rem 0.75rem;
   font-size: 0.9rem;
-  // transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-  //   border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
-  //   -webkit-box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    -webkit-box-shadow 0.15s ease-in-out;
 }
 
 .btn-gold:hover {

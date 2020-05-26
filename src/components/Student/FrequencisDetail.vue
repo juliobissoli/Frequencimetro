@@ -5,7 +5,7 @@
         <Card
           clasIcon="fas fa-heartbeat"
           :today="dateFormat"
-          subTitle="Presentes Acumulada"
+          subTitle="Presença Acumulada"
           classColor="primary"
           title="201"
           class="shadow rounded"
@@ -15,7 +15,7 @@
         <Card
           :today="dateFormat"
           clasIcon="fas fa-calendar-day"
-          subTitle="Matriculasdos"
+          subTitle="Matriculados"
           class="shadow rounded"
           classColor="secondary"
           title="201"
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-between mt-4">
-      <h4>Frequencia Anual</h4>
+      <h4>Frequência Anual</h4>
       <div class="d-flex swith-model-vuew">
         <input type="radio" id="list" value="list" v-model="formatView" />
         <label for="list" :class="{ 'button-selected': formatView === 'list' }">

@@ -9,6 +9,7 @@
       <div class="col-md-6">
         <BarTop
           class="mb-2"
+          font="22"
           :title="'Aluno: ' + student.name"
           @button-clicked="isEdtiMode = !isEdtiMode"
           :btn="

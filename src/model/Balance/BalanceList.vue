@@ -18,7 +18,7 @@
             @get-search="getSearch"
             :btn="{
               class: 'btn-outline-dark btn-sm',
-              label: 'Add Cobrança'
+              label: '+ Cobrança'
             }"
             placeholder="Buscar data"
           />
@@ -49,20 +49,10 @@
           :btn="false"
         />
         <div class="row mb-3">
-          <!-- <div class="col-md-4 pr-1">
-            <CardBalance
-              :today="today"
-              clasIcon="fas fa-heartbeat"
-              :title="totalPayments"
-              subTitle="Pagamentos"
-              classColor="primary"
-              class="shadow rounded"
-            />
-          </div> -->
           <div class="col-md-6 pr-1">
             <CardBalance
               :today="dateForPeriod(chargeSelected)"
-              clasIcon="fas fa-heartbeat"
+              clasIcon="fas fa-thumbs-up"
               :title="`R$ ${income}`"
               subTitle="Receita"
               classColor="success"
@@ -72,7 +62,7 @@
           <div class="col-md-6 pl-1">
             <CardBalance
               :today="dateForPeriod(chargeSelected)"
-              clasIcon="fas fa-heartbeat"
+              clasIcon="fas fa-exclamation-triangle"
               title="21"
               subTitle="Pendentes"
               classColor="warning"
@@ -83,7 +73,11 @@
         <div class="row">
           <div class="col-md-12">
             <div class="shadow p-3 bg-white rounded">
-              <PaymentList @updateApi="getCharges()" title="Pagamentos" :payments="payments" />
+              <PaymentList
+                @updateApi="getCharges()"
+                title="Pagamentos"
+                :payments="payments"
+              />
             </div>
           </div>
         </div>
@@ -101,7 +95,6 @@ import Pagination from '../../components/Pagination'
 import CardBalance from '../../components/CartExtats'
 import PaymentList from '../../components/Balance/PaymentList'
 import NewBalance from './NewBalance'
-
 
 import moment from 'moment'
 import api from '../../services/api'
@@ -132,11 +125,12 @@ export default {
     }
   },
   watch: {
-    count(){
+    count() {
       console.log('mudo')
     }
   },
   created() {
+    this.$store.commit('setUser')
     this.getCharges()
   },
   computed: {
@@ -148,9 +142,6 @@ export default {
     }
   },
   methods: {
-    teteCount () {
-      this.$store.commit('increment')
-    },
     getSearch() {
       return ''
     },

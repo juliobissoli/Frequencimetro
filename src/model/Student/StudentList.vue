@@ -17,7 +17,7 @@
               @get-search="getSearch"
               :btn="{
                 class: 'btn-outline-dark btn-sm',
-                label: 'Cadastrar Aluno'
+                label: '+ Aluno'
               }"
               placeholder="Buscar por nome ou id"
             />
@@ -75,12 +75,12 @@ export default {
       totalData: 1,
       searchEntrys: '',
       students: [],
-      attendances: [],
       isModalVisible: false,
       chekerApi: 0
     }
   },
   async created() {
+    this.$store.commit('setUser')
     this.getStudents()
   },
   methods: {

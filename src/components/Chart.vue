@@ -1,5 +1,8 @@
 <template>
-  <div class="chart p-3">
+  <div
+    class="chart p-3"
+    :style="bgColor ? 'background-color:' + bgColor : 'background-color: white'"
+  >
     <div class="title mb-3 d-flex justify-content-between">
       <span>{{ title }}</span>
       <input
@@ -14,18 +17,24 @@
     <div class="chart-content">
       <div v-for="(item, index) in statistics" :key="index" class="bar-item">
         <div class="value">
-          <span v-if="formatValue === 'relative'">{{ item.subTotal }} / {{ item.total }}</span>
-          <span v-else >{{item.subTotal}}</span>
+          <span v-if="formatValue === 'relative'"
+            >{{ item.subTotal }} / {{ item.total }}</span
+          >
+          <span v-else>{{ item.subTotal }}</span>
         </div>
-        <div
-          class="bar_danger"
-          :style="getPercent(maxTotal, item.total - item.subTotal)"
-        ></div>
-        <div
-          class="bar_success"
-          :style="getPercent(maxTotal, item.subTotal)"
-        ></div>
-
+        <transition-group  name="suavized" />
+          <div
+            class="bar_danger"
+            :style="getPercent(maxTotal, item.total - item.subTotal)"
+          ></div>
+        <transition-group />
+        <transition-group name="suavized" />
+          <div
+            class="bar_success"
+            :style="getPercent(maxTotal, item.subTotal)"
+          >
+          </div>
+        <transition-group />
         <div class="label">{{ item.label }}</div>
       </div>
     </div>
@@ -38,34 +47,41 @@
   </div>
 </template>
 <script>
-import moment from "moment";
+import moment from 'moment'
 export default {
-  name: "Chart",
-  props: ["maxTotal", "statistics", "title", "year", "legend", "formatValue"],
+  name: 'Chart',
+  props: [
+    'maxTotal',
+    'statistics',
+    'title',
+    'year',
+    'legend',
+    'formatValue',
+    'bgColor'
+  ],
   data() {
     return {
       hover: false,
-      yearSelected: moment().format("YYYY"),
-    };
+
+      yearSelected: moment().format('YYYY')
+    }
   },
   watch: {
-    yearSelected: function() {
-      console.log("mudo");
-    },
+    yearSelected: function () {}
   },
   methods: {
     getPercent(limit, ref) {
-      var varRelative;
-      limit >= ref ? (varRelative = (ref / limit) * 100) : (varRelative = ref);
+      var varRelative
+      limit >= ref ? (varRelative = (ref / limit) * 100) : (varRelative = ref)
       // console.log("--lim->", limit, "ref->", ref, "var->", varRelative);
 
-      return "height:" + varRelative.toFixed(0) + "%;";
+      return 'height:' + varRelative.toFixed(0) + '%;'
     },
     changeYear() {
-      this.$emit("chmage-year");
-    },
-  },
-};
+      this.$emit('chmage-year')
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .input {
@@ -80,9 +96,9 @@ export default {
 }
 .chart {
   // background-color: #f5f6fd;
-  background-color: white;
-  font-family: "Avenir Next W01", "Lato", "Karla", "Proxima Nova W01", "Rubik",
-    -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+  // background-color: white;
+  font-family: 'Avenir Next W01', 'Lato', 'Karla', 'Proxima Nova W01', 'Rubik',
+    -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue',
     Arial, sans-serif;
   color: #000529;
   border-radius: 0.4rem;
@@ -100,10 +116,6 @@ export default {
   height: 40vh;
   width: 100%;
   border-radius: 0.5rem;
-  //   background-color: #f5faff;
-  //   background-color: #e1ebf7;
-  //   background-color: #f8f9fa !important;
-
   display: flex;
   justify-content: space-around;
 
@@ -115,7 +127,9 @@ export default {
     justify-content: flex-end;
     align-items: center;
     align-self: flex-end;
-
+    // transition: height 1s;
+    // overflow: hidden;
+    // height: 0;
     // background-color: #fd2;
     .label {
       height: 20px;
@@ -125,12 +139,24 @@ export default {
     .value {
       font-size: 12px;
       color: #ccc;
-      display: none
+      display: none;
       // visibility: hidden;
-     
+    }
+    @keyframes suavizedBar {
+      0% {
+        transform:  translateX(0%);
+      }
+      100% {
+        transform: translateX(100%);
+      }
+    }
+    .suavized-enter-active {
+      animation: suavizedBar 300ms ease;
+    }
+    .suavized-leave-active {
+      animation: suavizedBar 300ms reverse;
     }
     .bar_success {
-      // width: 20px;
       margin: 1px 0;
       width: 100%;
       border-radius: 0.4rem;
@@ -138,6 +164,7 @@ export default {
     }
     .bar_danger {
       // width: 20px;
+      // height: auto;
       margin: 1px 0;
       width: 100%;
       border-radius: 0.4rem;
@@ -145,9 +172,9 @@ export default {
     }
   }
 
-  .bar-item:hover .value{
+  .bar-item:hover .value {
     display: block;
-    color: #444
+    color: #444;
   }
 }
 </style>

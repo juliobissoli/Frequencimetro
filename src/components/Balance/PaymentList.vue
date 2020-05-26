@@ -15,7 +15,7 @@
         <slot v-if="student_id">
           <thead>
             <tr>
-              <th scope="col">Periodo</th>
+              <th scope="col">Período</th>
               <th scope="col">Vencimento</th>
               <th scope="col">Valor cobrado</th>
               <th scope="col">Valor pago</th>
@@ -55,7 +55,7 @@
         <slot v-else>
           <thead>
             <tr>
-              <th scope="col">Periodo</th>
+              <th scope="col">Período</th>
               <th scope="col">Aluno</th>
               <th scope="col">Data</th>
               <th scope="col">Valor pago</th>

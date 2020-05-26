@@ -3,7 +3,7 @@
     <div class="row p-0 my-2">
       <div class="col-6 pr-1">
         <Card
-          clasIcon="fas fa-heartbeat"
+          clasIcon="fas fa-donate"
           :today="dateFormat"
           subTitle="Faturas Pagas"
           classColor="success"
@@ -14,8 +14,8 @@
       <div class="col-6 pl-1">
         <Card
           :today="dateFormat"
-          clasIcon="fas fa-calendar-day"
-          subTitle="Fauras Pendentes"
+          clasIcon="fas fa-thumbs-down"
+          subTitle="Faturas Pendentes"
           class="shadow rounded"
           classColor="danger"
           :title="chartsPandin"
@@ -28,14 +28,13 @@
     <div class="p-3 shadow bg-white rounded">
       <PaymentList
         :payments="paymentList"
-        title="Mensalidades"
+        title="Lista de Mensalidades"
         :monthly_payment="item.payment"
         :student_id="item.id"
         :student_date="item.created_at"
         @updateApi="changeApi()"
       />
     </div>
-    {{ paymentList }}
   </div>
 </template>
 

@@ -15,7 +15,7 @@
         <CardEstats
           clasIcon="fas fa-calendar-day"
           :title="matriculated"
-          subTitle="Matriculasdos"
+          subTitle="Matriculados"
           class="shadow rounded"
           :today="todayWeek"
           classColor="secondary"
@@ -26,7 +26,7 @@
       <div class="col-md-12">
         <div class="shadow rounded">
           <Chart
-            title="Frequencia Diaria"
+            title="Frequência Diária"
             :today="today"
             :statistics="statistics.statis"
             :maxTotal="statistics.maxTotal"
@@ -60,7 +60,7 @@ export default {
           color: '#7794cc'
         },
         {
-          name: 'Matriculado',
+          name: 'Matriculados',
           color: '#e6a7b3'
         }
       ],
@@ -85,13 +85,7 @@ export default {
   computed: {
     today() {
       const today = new Date()
-      var date =
-        today.getFullYear() +
-        '-' +
-        (today.getMonth() + 1) +
-        '-' +
-        today.getDate()
-      return date
+      return `${today.getFullYear()}-${(today.getMonth() + 1)}-${today.getDate()}`
     },
     todayWeek() {
       return moment().format('ddd DD/MM')

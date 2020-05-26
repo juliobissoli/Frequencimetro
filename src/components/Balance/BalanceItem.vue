@@ -17,7 +17,7 @@
         </strong>
       </div>
     </div>
-    <div class="clikable ml-4 " v-for="(item, index) in charge" :key="index">
+    <div class="clikable ml-4" v-for="(item, index) in charge" :key="index">
       <div
         class="row line chart-content bg-light mb-2 shadow-sm"
         :class="{ lineSelected: chargeSelected === index }"
@@ -54,6 +54,7 @@
         </div>
         <div class="col-md-1 pl-2 p-0 d-flex justify-content-end">
           <button
+            v-show="$store.state.user.isAdmin"
             class="btn btn-sm btn-outline-secondary p-1"
             style="border: none;"
             @click="editClick(item)"
@@ -118,7 +119,8 @@ export default {
     color: #999;
   }
   .lineSelected {
-    border: 1px solid #ccc;
+    // border: 1px solid #adcdf5;
+    background-color: #c1d7f1 !important;
     transform: scale(1.05);
   }
   .chart-content {
@@ -127,6 +129,7 @@ export default {
     margin-top: 8px;
     display: flex;
     align-items: center;
+    color: #444;
     // border-top: 1px solid #e0e0e0;
     display: flex;
     justify-content: space-around;

@@ -24,7 +24,7 @@
           <form>
             <div class="row">
               <div class="form-group col-md-5">
-                <label>Periodo</label>
+                <label>Período</label>
                 <div class="input-group input-group">
                   <input
                     class="form-control"
@@ -97,15 +97,17 @@
               type="button"
               class="btn btn-sm btn-outline-danger"
               aria-label="Close modal"
-              @click="deletPayment"
+              @click="isAdmin ? deletPayment : null"
+              :style="`opacity: ${isAdmin ? '0.9' : '0.3'}`"
             >
-              Escluir
+              Excluir
             </button>
 
             <button
               type="button"
               class="btn btn-sm btn-primary"
-              @click="close"
+              @click="isAdmin ? close : null"
+              :style="`opacity: ${isAdmin ? '0.9' : '0.3'}`"
               aria-label="Close modal"
             >
               Salvar
@@ -135,7 +137,11 @@ export default {
       }
     }
   },
-
+  computed: {
+    isAdmin() {
+      return this.$store.state.isAdmin
+    }
+  },
   watch: {
     paymentData() {
       this.data = this.paymentData
@@ -154,9 +160,7 @@ export default {
       try {
         await api
           .post('/payment', body)
-          .then(
-            this.$emit('updateApi'),
-          )
+          .then(this.close, this.$emit('updateApi'))
       } catch (err) {
         this.mensageError = err
       }
