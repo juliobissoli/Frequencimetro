@@ -11,7 +11,6 @@
     "axios": "^0.19.2",
     "bootstrap-vue": "^2.1.0",
     "chart.js": "^2.9.3",
-    "core-js": "^3.6.4",
     "email-validator": "^2.0.4",
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",

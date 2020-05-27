@@ -1,21 +1,19 @@
 <template>
   <div>
     <div class="row login-page p-0 m-0">
-      <div class="col-lg-4">
+      <div class="col-lg-4 p-0">
+        <Loading v-show="isLoading" />
         <div class="left-area p-4 bg-whigt">
+          
           <div class="my-5">
             <h1 class="mt-5">
+              
               Bem-vindo ;)
             </h1>
-            <!-- <span class="pb-3">
-              Frequencímetro, sua plataforma de gerenciamento de frequências
-              personalizada.
-            </span> -->
           </div>
 
           <form class="mt-5 pt-5">
             <div class="form-group">
-              <!-- <label for="input-email rounded">E-mail</label> -->
               <input
                 type="email"
                 v-model="email"
@@ -26,7 +24,6 @@
               />
             </div>
             <div class="form-group my-4">
-              <!-- <label for="input-password">Senha</label> -->
               <input
                 type="password"
                 v-model="password"
@@ -85,8 +82,9 @@
 <script>
 import auth from '../utils/auth'
 import AnimateArea from '../components/AnimatedAreaLogin'
+import Loading from '../components/AnimateLoad'
 export default {
-  components: { AnimateArea },
+  components: { AnimateArea, Loading },
   data() {
     return {
       email: '',
@@ -95,9 +93,14 @@ export default {
       mensagemError: ''
     }
   },
-
+  computed: {
+    isLoading(){
+      return this.$store.state.isLoading
+    }
+  },
   methods: {
     async login() {
+      this.$store.commit('loading')
       console.log(auth.loggedIn())
       const isLogeed = await auth.login(this.email, this.password)
       if (isLogeed) {
@@ -105,9 +108,12 @@ export default {
           this.$router.push(this.$route.query.redirect)
         } else {
           this.$store.commit('setUser')
+          this.$store.commit('notLoading')
           this.$router.push({ name: 'Students' })
         }
-      } else {
+      } 
+      else {
+        this.$store.commit('notLoading')
         this.mensagemError = 'Erro na autenticação :('
       }
     }
