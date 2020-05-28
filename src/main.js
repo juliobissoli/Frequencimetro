@@ -14,6 +14,7 @@ import {store} from './services/states'
 
 Vue.use(vueDebounce)
 
+
 moment.locale('pt-br')
 Vue.config.productionTip = false
 Vue.use(ToggleButton)
